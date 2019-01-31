@@ -1,0 +1,9 @@
+models:
+  image: tp33/django
+  external_links:
+    - mysql:db
+  volumes:
+    - ./src:/src
+  ports:
+    - "8001:8000"
+  command: bash -c "mod_wsgi-express start-server --working-directory ./src --reload-on-changes ./src/bazaar/bazaar/wsgi.py"
