@@ -1,10 +1,9 @@
-version: '3'
-
-services:
-  web:
-    build: ./src 
-    volumes:
-      - ./src/:/code
-    ports:
-      - "8000:8000"
-    command: bash -c "mod_wsgi-express start-server --working-directory /code --reload-on-changes /code/bazaar/bazaar/wsgi.py"
+models:
+  image: tp33/django
+  external_links:
+    - mysql:db
+  volumes:
+    - ./src/bazaar:/app/bazaar
+  ports:
+    - "8001:8000"
+  command: bash -c "cd bazaar && mod_wsgi-express start-server --working-directory /app/bazaar--reload-on-changes /app/bazaar/bazaar/wsgi.py"
