@@ -10,5 +10,5 @@ class Comment(models.Model):
 	date_posted = models.DateTimeField(blank = True, null = True)
 
 	def publish(self):
-		self.date_posted = timezone.now()
+		self.date_posted = timezone.now() 
 		self.save()
