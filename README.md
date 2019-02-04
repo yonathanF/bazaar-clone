@@ -1,4 +1,4 @@
-# Class Project for Internet Scale Project (2019), Spring 2019 
+# Class Project for Internet Scale Applications, Spring 2019 
 
 # Git Workflow 
 
