@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class = "container">
+	<h1> Comment Page </h1>
+
+	<form method = "post">
+		{% csrf token %}
+		{{ form.as_p }}
+		<button type="Submit">Submit</button>
+	</form>
+</div>
+
+{% endblock %}
