@@ -1,6 +1,6 @@
 from django.db import models
 from .PostChoiceConsts import (Categories, Contact, Type)
-
+from Comment.models import Comment 
 
 class Post(models.Model):
     """
@@ -15,4 +15,3 @@ class Post(models.Model):
     zip_code = models.IntegerField()
     request_type = models.CharField(max_length=2, choices=Type)
 
-     

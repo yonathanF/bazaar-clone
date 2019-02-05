@@ -13,16 +13,17 @@ class PostCreate(View):
     """
 
     def post(self, request):
-        form = CreatePostForm()
-        new_post = form.save()
+        post_form = CreatePostForm(request.POST)
+        if post_form.is_valid():
+            new_post = post_form.save()
         
-        return JsonResponse({'a':new_post.title}) 
+            return JsonResponse({'a':new_post.zip_code, 'b': new_post.deadline})
 
-    def get(self, request):
-        return JsonResponse({'message': 'hello world'})
-
-
+        return JsonResponse({'error':post_form.errors})
+    
 class PostUpdate(View):
+    def get(self, request, post_id):
+        return JsonResponse({'a':'test'})
 
-    def post(self, request): 
+    def post(self, request, post_id): 
         pass
