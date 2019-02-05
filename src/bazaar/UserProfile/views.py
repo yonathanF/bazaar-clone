@@ -27,14 +27,17 @@ class ProfileCreate(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfileUpdate(View):
     def get(self, request, profile_id):
-        obj = Profile.objects.filter(id=profile_id)
-        if obj.count() != 0:
-            data = json.loads(serializers.serialize('json', obj))
+        getRequestProfile = Profile.objects.filter(id=profile_id)
+        if getRequestProfile.count() != 0:
+            data = json.loads(serializers.serialize('json', getRequestProfile))
             return JsonResponse({'allinfo': data[0]['fields'], 'id': data[0]['pk']})
         return JsonResponse({'Notfound': 'Requested Object is not found'})
 
     def post(self, request, profile_id): 
-        profileModel = Profile.objects.get(id=profile_id)
+        try:
+            profileModel = Profile.objects.get(id=profile_id)
+        except Profile.DoesNotExist:
+            return JsonResponse({'Notfound': 'Requested Object is not found'})
         profile_form = ProfileForm(request.POST, instance=profileModel)
         if profile_form.is_valid():
             new_profile = profile_form.save()
@@ -42,8 +45,12 @@ class ProfileUpdate(View):
             data = json.loads(serializers.serialize('json', profileset))
             return JsonResponse({'updated': data[0]['fields']})
         return JsonResponse({'error': profile_form.errors})
+        
 
 @method_decorator(csrf_exempt, name='dispatch')
 def deleting(request, profile_id):
-    Profile.objects.filter(id=profile_id).delete()
-    return JsonResponse({'deleted': 'sucessfully deleted'})
+    profileToDelete = Profile.objects.filter(id=profile_id)
+    if profileToDelete.count() != 0:
+        profileToDelete.delete()
+        return JsonResponse({'deleted': 'sucessfully deleted'})
+    return JsonResponse({'Notfound': 'Requested Object is not found'})
