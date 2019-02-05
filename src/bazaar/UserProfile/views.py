@@ -19,8 +19,9 @@ class ProfileCreate(View):
         profile_form = ProfileForm(request.POST)
         if profile_form.is_valid():
             new_profile = profile_form.save()
-        
-            return JsonResponse({'a':new_profile.first_name, 'b': new_profile.description})
+            createdProfile = Profile.objects.filter(id=new_profile.pk)
+            data = json.loads(serializers.serialize('json', createdProfile))
+            return JsonResponse({'allinfo': data[0]['fields'], 'id': data[0]['pk']})
 
         return JsonResponse({'error':profile_form.errors})
 
