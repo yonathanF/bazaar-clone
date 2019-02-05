@@ -1,5 +1,6 @@
 from django.db import models
-from .OptionConstants import (Categories, Contact, Type)
+from .PostChoiceConsts import (Categories, Contact, Type)
+
 
 class Post(models.Model):
     """
