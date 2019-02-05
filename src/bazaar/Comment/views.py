@@ -10,26 +10,31 @@ from UserProfile.models import Profile
 from Comment.models import Comment
 import json
 
-# class CommentEncoder(json.JSONEncoder):
-#     def default(self, obj):
-#         if isinstance(obj, Comment):
-#             return { "title" : obj.title,
-#                     "details" : obj.details,
-#                     "stars" : obj.get_stars_display(),
-#                     "date_posted" : obj.date_posted.isoformat()
-#                     }
-#         return json.JSONEncoder.default(self, obj)
 
-def serializable(post):
-
-	json_input = {
+def serialize_post(post):
+    """
+    Return a JSON serialized post object
+    """
+    return json.dumps({
+    	'id': post.pk,
 		'title' : post.title,
 		'details' : post.details,
 		'stars' : post.get_stars_display(),
-		'date_posted' : post.date_posted.isoformat()
-	}
+		'date_posted' : str(post.date_posted)
+	})
 
-	return json.dumps(json_input)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CommentView(View):
+
+    def get(self, request, comment_id):
+         try:
+             comment = Comment.objects.filter(id=comment_id)
+             json_comment = json.loads(serializers.serialize("json", comment))
+             return JsonResponse({'comment': json_comment[0]['fields']})
+         except:
+            return JsonResponse({'status':"Error. Couldn't find comment"})
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CommentCreate(View):
@@ -37,30 +42,43 @@ class CommentCreate(View):
     Creates a post through the Post HTTP method
     """
 
-    #def post(self, request, post_id, user_id):
-    def post(self, request):
+    def post(self, request, post_id, user_id):
+    #def post(self, request):
 
-    	return serializable(request)
+		form = CreateCommentForm(request.POST)
 
-		# form = CreateCommentForm(request.POST)
+		if form.is_valid():
+			new_comment = form.save(commit= False)
+			new_comment.post = Post.objects.get(pk=post_id)
+			new_comment.user = Profile.objects.get(pk=user_id)
+			new_comment.save()
 
-		# if form.is_valid():
-		# 	new_comment = form.save(commit= False)
-		# 	new_comment.post = Post.objects.get(pk=post_id)
-		# 	new_comment.user = Profile.objects.get(pk=user_id)
-
-		# 	new_comment.save()
-
-		# 	return JsonResponse({'a':new_comment.title}) 
-		# else:
-  #       	#return HttpResponse('Invalid header found.')
-		# 	return JsonResponse(form.errors)
-
-    def get(self, request):
-        return JsonResponse({'message': 'hello world'})
+			return JsonResponse({'created':serialize_post(new_comment)}) 
+		else:
+        	#return HttpResponse('Invalid header found.')
+			return JsonResponse({'error':form.errors})
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CommentUpdate(View):
 
-    def post(self, request): 
-        return "yeet not implemented yet fam"
+    def post(self, request, comment_id):
+        comment = Comment.objects.get(id=comment_id)
+        comment_form = CreateCommentForm(request.POST, instance=comment)
+        if comment_form.is_valid():
+            new_comment = comment_form.save()
+            return JsonResponse({'created': serialize_post(new_comment)})
+        return JsonResponse({'error':comment_form.errors})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class commentDelete(View):
+    def get(self, request, comment_id):
+         try:
+             Comment.objects.get(id=comment_id).delete()
+             return JsonResponse({'status': "deleted comment."})
+         except:
+            return JsonResponse({'status':"Error. Couldn't find comment"})
+
+
+
