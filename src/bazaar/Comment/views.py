@@ -49,7 +49,7 @@ class CommentCreate(View):
 
 		if form.is_valid():
 			new_comment = form.save(commit= False)
-			new_comment.post = Post.objects.get(pk=post_id)
+			new_comment.post = Comment.objects.get(pk=post_id)
 			new_comment.user = Profile.objects.get(pk=user_id)
 			new_comment.save()
 
