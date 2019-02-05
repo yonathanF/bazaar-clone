@@ -25,7 +25,7 @@ def serialize_post(post):
 
 
 @method_decorator(csrf_exempt, name='dispatch')
-class CommentView(View):
+class CommentViewUpdate(View):
 
     def get(self, request, comment_id):
          try:
@@ -34,33 +34,6 @@ class CommentView(View):
              return JsonResponse({'comment': json_comment[0]['fields']})
          except:
             return JsonResponse({'status':"Error. Couldn't find comment"})
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class CommentCreate(View):
-    """
-    Creates a post through the Post HTTP method
-    """
-
-    def post(self, request, post_id, user_id):
-    #def post(self, request):
-
-		form = CreateCommentForm(request.POST)
-
-		if form.is_valid():
-			new_comment = form.save(commit= False)
-			new_comment.post = Comment.objects.get(pk=post_id)
-			new_comment.user = Profile.objects.get(pk=user_id)
-			new_comment.save()
-
-			return JsonResponse({'created':serialize_post(new_comment)}) 
-		else:
-        	#return HttpResponse('Invalid header found.')
-			return JsonResponse({'error':form.errors})
-
-
-@method_decorator(csrf_exempt, name='dispatch')
-class CommentUpdate(View):
 
     def post(self, request, comment_id):
         comment = Comment.objects.get(id=comment_id)
@@ -71,8 +44,31 @@ class CommentUpdate(View):
         return JsonResponse({'error':comment_form.errors})
 
 
+
 @method_decorator(csrf_exempt, name='dispatch')
-class commentDelete(View):
+class CommentCreate(View):
+    """
+    Creates a post through the Post HTTP method
+    """
+
+    def post(self, request, post_id, user_id):
+        
+
+        form = CreateCommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit= False)
+            new_comment.post = Comment.objects.get(pk=post_id)
+            new_comment.user = Profile.objects.get(pk=user_id)
+            new_comment.save()
+
+            return JsonResponse({'created':serialize_post(new_comment)}) 
+
+        else:
+            return JsonResponse({'error':form.errors})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CommentDelete(View):
     def get(self, request, comment_id):
          try:
              Comment.objects.get(id=comment_id).delete()
