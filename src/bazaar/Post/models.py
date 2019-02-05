@@ -1,6 +1,6 @@
 from django.db import models
 from .PostChoiceConsts import (Categories, Contact, Type)
-from Comment.models import Comment 
+#from Comment.models import Comment 
 
 class Post(models.Model):
     """
