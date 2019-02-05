@@ -34,7 +34,7 @@ class PostViewUpdate(View):
     def post(self, request, post_id):
         try:
             post = Post.objects.get(id=post_id)
-        except:
+        except Post.DoesNotExist:
             return JsonResponse({'status':"Error. Couldn't find post"})
 
         post_form = CreatePostForm(request.POST, instance=post)
@@ -66,6 +66,6 @@ class PostDelete(View):
          try:
              Post.objects.get(id=post_id).delete()
              return JsonResponse({'status': "deleted post."})
-         except:
+         except Post.DoesNotExist:
             return JsonResponse({'status':"Error. Couldn't find post"})
 
