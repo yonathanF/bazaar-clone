@@ -1,4 +1,8 @@
 from django import forms
+from django.forms import ModelForm, ModelMultipleChoiceField
+from .models import Comment
 
-class CommentForm(forms.Form):
-	post = forms.CharField()
+class CreateCommentForm(ModelForm):
+	class Meta:
+		model = Comment
+		exclude = ['date_posted']
