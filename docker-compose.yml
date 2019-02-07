@@ -6,4 +6,4 @@ models:
     - ./src/bazaar:/app/bazaar
   ports:
     - "8001:8000"
-  command: bash -c "chmod 777 -R /app && python /app/bazaar/manage.py migrate && cd bazaar && mod_wsgi-express start-server --working-directory /app/bazaar --reload-on-changes /app/bazaar/bazaar/wsgi.py"
+  command: bash -c "chmod 777 -R /app && python /app/bazaar/manage.py migrate && cd bazaar && python /app/bazaar/manage.py flush --noinput &&python /app/bazaar/manage.py loaddata /app/bazaar/fixtures/db.json && mod_wsgi-express start-server --working-directory /app/bazaar --reload-on-changes /app/bazaar/bazaar/wsgi.py"
