@@ -8,3 +8,5 @@ class Comment(models.Model):
     details = models.TextField()
     stars = models.CharField(max_length=3, choices=Stars)
     date_posted = models.DateTimeField(auto_now=True)
+    post = models.ForeignKey('Post.Post', on_delete=models.CASCADE, related_name="creator")
+    user = models.ForeignKey('UserProfile.Profile', on_delete=models.CASCADE, related_name="commenter")
