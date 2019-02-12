@@ -16,7 +16,7 @@ def serialize_profile(profile_id):
     Serializes a profile object into a json string
     """
     try:
-        profile = Profile.objects.get(pk=profile_id)
+        profile = Profile.objects.filter(pk=profile_id)
         profile_json = json.loads(serializers.serialize('json', profile))
         return JsonResponse({'profile': profile_json[0]['fields'],
                              'id': profile_json[0]['pk']})
@@ -27,7 +27,7 @@ def serialize_profile(profile_id):
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfileCreate(View):
     """
-    Creates a post through the Post HTTP method
+    Creates a Profile through the Post HTTP method
     """
 
     def post(self, request):
@@ -58,7 +58,7 @@ class ProfileView(View):
         profile_form = ProfileForm(request.POST, instance=current_profile)
         if profile_form.is_valid():
             updated_profile = profile_form.save()
-            return serialize_profile(updated_profile)
+            return serialize_profile(updated_profile.pk)
         return JsonResponse({'Stats': profile_form.errors})
 
 
@@ -69,4 +69,4 @@ class ProfileDelete(View):
             Profile.objects.get(id=profile_id).delete()
             return JsonResponse({'Status': "Deleted Profile."})
         except:
-            return JsonResponse({'Notfound': 'Requested Object is not found'})
+            return JsonResponse({'Status': 'Profile is not found'})
