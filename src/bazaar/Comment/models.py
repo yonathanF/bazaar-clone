@@ -1,4 +1,5 @@
 from django.db import models
+
 from .StarConstants import Stars
 #from .models import Post, UserProfile
 from Post.models import Post
