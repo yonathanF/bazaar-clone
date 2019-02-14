@@ -17,7 +17,7 @@
                 </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-tile @click=""
+        <v-list-tile :to="info.url" 
 	  v-for="info in account_info" 
  	   :key="info.title"
 	  >
@@ -110,14 +110,17 @@ export default {
       account_info: [
         {
           title: "Profile",
+	  url: "/profile",
 	  icon: "account_circle" 
 	} ,
 	{
           title: "Posts",
+	  url: "/posts",
 	  icon: "notes"
 	},
 	{
           title: "Comments",
+	  url: "/comments",
 	  icon: "comment"
 	},
       ],
