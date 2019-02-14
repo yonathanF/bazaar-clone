@@ -58,25 +58,13 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar class="toolbar" dark fixed app>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Bazaar</v-toolbar-title>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>   
+      <v-toolbar-title><router-link class="toolbar-title" to="/">Bazaar</router-link></v-toolbar-title>
     </v-toolbar>
     <v-content>
       <v-container grid-list-lg wrap fill-height>
-        <v-layout
-          justify-start
-	  column 
-        >
-	<v-flex
-	   v-for="service in services" 
-	    :key="service.title"
-	  >
-	  <Category :category-name="service.title"></Category>
-	    </br> </br>
-	</v-flex>
-
-
-	</v-layout>
+	<!--<HomePage :service-categories=services> </HomePage>-->
+      	<router-view/>
       </v-container>
     </v-content>
     <v-footer class="footer" app>
@@ -101,17 +89,20 @@ background-color: #FFFFFF
 .toolbar{
 background-color: #880E4F 
 }
+
+.toolbar-title{
+color: #FFFFFF;
+text-decoration-color: #880E4F;
+}
 </style>
 
 <script>
-import HelloWorld from './components/HelloWorld'
-import Category from './components/Category'
+import HomePage from './components/HomePage'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    Category
+     HomePage 
   },
   data: () => ({
       drawer: null,
