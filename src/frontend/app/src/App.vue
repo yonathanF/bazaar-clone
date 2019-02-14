@@ -64,16 +64,15 @@
     <v-content>
       <v-container grid-list-lg wrap fill-height>
         <v-layout
-	  align-center
           justify-start
-	  row 
+	  column 
         >
-	<v-flex>
-	    <Category/>
+	<v-flex
+	   v-for="service in services" 
+	    :key="service.title"
+	  >
+	  <Category :category-name="service.title"></Category>
 	    </br> </br>
-	    <Category/>
-	    </br> </br>
-	    <Category/>
 	</v-flex>
 
 

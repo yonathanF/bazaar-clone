@@ -6,7 +6,7 @@
       >
       <v-flex> 
 
-      <h1> IT Consultation</h1>
+	<h1> {{ categoryName }}</h1>
      <v-layout
       align-center 
       justify-space-between 
@@ -50,6 +50,7 @@
 
   <script>
   export default {
+    props: ['categoryName'],
     data: () => ({
         posts: [
             {
