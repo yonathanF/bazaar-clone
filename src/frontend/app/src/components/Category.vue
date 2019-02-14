@@ -6,7 +6,8 @@
       >
       <v-flex> 
 
-	<h1> {{ categoryName }}</h1>
+	<h1 class="category"> {{ categoryName }}</h1>
+      
      <v-layout
       align-center 
       justify-space-between 
@@ -17,7 +18,6 @@
       v-for="post in posts"
       :key="post.id"
     >
-
     <v-card>
           <v-img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -48,6 +48,11 @@
     </v-layout>
 </template>
 
+<style scoped>
+.category{
+font:helvetica
+}
+</style>
   <script>
   export default {
     props: ['categoryName'],
