@@ -36,7 +36,7 @@
             <v-btn icon>
 	      <v-icon>bookmark_border</v-icon>
 	    </v-btn>
-            <v-btn flat color="pink darken-4">Details</v-btn>
+            <v-btn  to='/postDetail' flat color="pink darken-4">Details</v-btn>
             <v-spacer></v-spacer>
 	  </v-btn>
           </v-card-actions>

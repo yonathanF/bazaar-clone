@@ -93,6 +93,7 @@ background-color: #880E4F
 .toolbar-title{
 color: #FFFFFF;
 text-decoration-color: #880E4F;
+font-size: 1.4em;
 }
 </style>
 
