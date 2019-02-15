@@ -21,8 +21,8 @@ const routes = [
   { path: '/profile', component: UserProfile},
   { path: '/posts', component: UserPosts},
   { path: '/comments', component: UserComments},
-  { path: '/category', component: AllCategory},
-  { path: '/postDetail', component: PostDetail},
+  { path: '/category/:category_id', component: AllCategory},
+  { path: '/postDetail/:post_id', component: PostDetail},
   { path: '*', component: Error404},
 ]
 

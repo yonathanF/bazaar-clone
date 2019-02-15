@@ -42,7 +42,7 @@
         </v-list-tile>
 
 
-        <v-list-tile @click=""
+        <v-list-tile :to="service.category_url" 
 	   v-for="service in services" 
  	   :key="service.title"
 	  >
@@ -50,7 +50,7 @@
 	    <v-icon color="pink darken-2" medium>{{ service.icon }}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-	    <v-list-tile-title>{{ service.title }}</v-list-tile-title>
+	    <v-list-tile-title >{{ service.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
    </v-list-group>
@@ -95,6 +95,10 @@ color: #FFFFFF;
 text-decoration-color: #880E4F;
 font-size: 1.4em;
 }
+
+.drawer-list{
+color: #000000
+}
 </style>
 
 <script>
@@ -127,10 +131,12 @@ export default {
       services: [
            {
              title: "IT Consultation",
+	     category_url: "/category/1",
 	     icon: "desktop_mac"
 	   },
 	   {
              title: "Events",
+	     category_url: "/category/2",
 	     icon: "event"
 	   },
 	   {

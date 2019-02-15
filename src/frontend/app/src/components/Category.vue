@@ -36,7 +36,7 @@
             <v-btn icon>
 	      <v-icon>bookmark_border</v-icon>
 	    </v-btn>
-            <v-btn  to='/postDetail' flat color="pink darken-4">Details</v-btn>
+	    <v-btn  :to='post.url' flat color="pink darken-4">Details</v-btn>
             <v-spacer></v-spacer>
 	  </v-btn>
           </v-card-actions>
@@ -61,19 +61,23 @@ font:helvetica
         posts: [
             {
 	     id: 1,
+             url: '/postDetail/1',
 	     title: "Title 1"
 	    },
             {
 	      id: 2,
+             url: '/postDetail/2',
 	      title: "Title 2"
 	    },
 	    {
 	      id: 3,
+             url: '/postDetail/3',
 	      title: "Title 3"
 	    },
             {
 	      id: 4,
-	      title: "Title 4"
+	      title: "Title 4",
+              url: '/postDetail/4',
 	    },
             
 	],
