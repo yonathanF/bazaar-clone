@@ -50,7 +50,8 @@
 
 <style scoped>
 .category{
-font:helvetica
+font:helvetica;
+color: #880E4F 
 }
 </style>
   <script>
