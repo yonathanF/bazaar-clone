@@ -4,7 +4,7 @@
       column 
    >
      <v-flex >
-	<Category category-name="service.title"></Category>
+	<Category></Category>
      </v-flex>
 
 

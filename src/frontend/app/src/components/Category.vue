@@ -5,10 +5,8 @@
       row 
       >
       <v-flex> 
-
-	<h1 class="category"> {{ categoryName }}</h1>
-      
-     <v-layout
+	<h1 class="category"> {{categoryName}}</h1> 
+    <v-layout
       align-center 
       justify-space-between 
       row 
@@ -36,7 +34,7 @@
             <v-btn icon>
 	      <v-icon>bookmark_border</v-icon>
 	    </v-btn>
-	    <v-btn  :to='post.url' flat color="pink darken-4">Details</v-btn>
+	    <v-btn  :to='post.url' flat color="pink darken-2">Details</v-btn>
             <v-spacer></v-spacer>
 	  </v-btn>
           </v-card-actions>
@@ -51,7 +49,8 @@
 <style scoped>
 .category{
 font:helvetica;
-color: #880E4F 
+font-size: 1.7em;
+color: #AD1457
 }
 </style>
   <script>
