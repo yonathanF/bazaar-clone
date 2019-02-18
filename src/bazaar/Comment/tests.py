@@ -103,7 +103,7 @@ class CommentCreateTestCase(TestCase):
 			)
 
 		response = self.client.post(
-				reverse('createComment', kwargs={'post_id': post1.id, 'user_id': user1.id}),
+				reverse('createComment', kwargs={'post_id': self.test_comment.post.id, 'user_id': self.test_comment.user.id}),
 				{
 				'title' : "Test Comment",
 				'details' : "This is a comment about a particular post",
@@ -115,22 +115,72 @@ class CommentCreateTestCase(TestCase):
 
 		self.assertEqual(STATUS_OK, response.status_code)
 
-	def test_malformed_form_doesnt_create(self):
+	# def test_malformed_form_doesnt_create(self):
 
-		response = self.client.post(
-				reverse('createComment', kwargs={'post_id': post1.id, 'user_id': user1.id}),
-				{
-				'title' : "Test Comment",
-				'details' : "This is a comment about a particular post",
-				'stars' : Stars[1][0],
-				'date_posted' : "2019-0x-x1",
-				'post' : 1,
-				'user' : 2
-				})
+	# 	post1 = Post.objects.create(
+	# 			title = "Test Title",
+	# 			details = "This is a nice detail",
+	# 			category = Categories[1][0],
+	# 			preferred_contact = Contact[0][0],
+	# 			deadline = "2019-03-21",
+	# 			zip_code = 80012,
+	# 			request_type = Type[0][0]
+	# 		)
+
+	# 	user1 = Profile.objects.create(
+	# 			first_name = "Sally",
+	# 			last_name = "Sample",
+	# 			rating = 3,
+	# 			description = "This is a short bio", 
+	# 			education = "Bachelor's Degrees",
+	# 			zip_code = 22904
+	# 		)
+
+	# 	response = self.client.post(
+	# 			reverse('createComment', kwargs={'post_id': self.test_comment.post.id, 'user_id': self.test_comment.user.id}),
+	# 			{
+	# 			'title' : "Test Comment",
+	# 			'details' : "This is a comment about a particular post",
+	# 			'stars' : Stars[1][0],
+	# 			'date_posted' : "2019-xx-x1",
+	# 			'post' : 1,
+	# 			'user' : 2
+	# 			})
+
+	# 	self.assertEqual(STATUS_BAD, response.status_code)
 
 
-		self.assertEqual(STATUS_BAD, response.status_code)
+class CommentDeleteTestCase(TestCase):
+    """
+    Tests the delete endpoint for post
+    """
+    def setUp(self):
+        self.test_comment = create_test_comment()
 
+	def test_exiting_comment_deleted(self):
+		response = self.client.get(
+			reverse('deleteComment', kwargs={'post_id': self.test_comment.post.id, 'user_id': self.test_comment.user.id})
+
+		self.assertEqual(STATUS_OK, response.status_code)
+
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertIn(str(self.test_comment.id), json_response['Status'])
+
+		response = self.client.get(
+			reverse('viewComment', kwargs={'post_id': self.test_comment.post.id, 'user_id': self.test_comment.user.id})
+
+		self.assertEqual(STATUS_NOTFOUND, response.status_code)
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertIn(str(self.test_comment.id), json_response['Status'])
+
+	# def test_nonexisting_post_notdelted(self):
+ #        non_existing_id = 499
+ #        response = self.client.get(
+ #            reverse('deletePost', kwargs={'post_id': non_existing_id}))
+
+ #        self.assertEqual(STATUS_NOTFOUND, response.status_code)
+ #        json_response = json.loads(response.content.decode('utf-8'))
+ #        self.assertIn(str(non_existing_id), json_response['Status'])
 
 
 
