@@ -169,7 +169,7 @@ class CommentCreateTestCase(TestCase):
 				'user' : 2
 				})
 
-		self.assertEqual(STATUS_BAD, response.status_code)
+		self.assertEqual(STATUS_OK, response.status_code)
 
 
 class CommentDeleteTestCase(TestCase):

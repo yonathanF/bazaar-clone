@@ -23,7 +23,7 @@ def serialize_post(comment_id):
                              'id': comment_json[0]['pk']})
     except:
         return JsonResponse(
-            {'Status': "Couldn't find Comment ID %d." % (comment_id)},
+            {'Status': "Couldn't find Comment ID" % (comment_id)},
             status=404)
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -39,7 +39,7 @@ class CommentView(View):
             comment = Comment.objects.get(id=comment_id)
         except Comment.DoesNotExist:
             return JsonResponse(
-            {'Status': "Couldn't find Comment ID %d." % (comment_id)},
+            {'Status': "Couldn't find Comment ID " % (comment_id)},
             status=404)
         comment_form = CreateCommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
@@ -87,7 +87,7 @@ class CommentDelete(View):
     def get(self, request, comment_id):
         try:
             Comment.objects.get(id=comment_id).delete()
-            return JsonResponse({'Status': "Deleted comment ID %d." % (comment_id)})
+            return JsonResponse({'Status': "Deleted comment ID" % (comment_id)})
         except Comment.DoesNotExist:
-            return JsonResponse({'Status': "Couldn't find comment ID %d." % (comment_id)},
+            return JsonResponse({'Status': "Couldn't find comment ID" % (comment_id)},
                 status=404)
