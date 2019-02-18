@@ -21,8 +21,27 @@ def serialize_post(post_id):
             {'post': json_post[0]['fields'], 'id': json_post[0]['pk']})
     except:
         return JsonResponse(
-            {'Status': "Couldn't find Post ID %d." % (post_id)},
+            {"Status": "Couldn't find Post ID %d." % (post_id)},
             status=404)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PostPerCategory(View):
+    """
+    Gets the most recent <num_posts> for the specified category
+    """
+    def get(self, request, num_posts, category):
+
+        try:
+            posts = Post.objects.filter(
+                category=category).order_by('date_posted')[:num_posts]
+
+            json_post = json.loads(serializers.serialize("json", posts))
+            return JsonResponse({'Posts': json_post})
+
+        except:
+            return JsonResponse(
+                {"Status": "Couldn't process request."})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
