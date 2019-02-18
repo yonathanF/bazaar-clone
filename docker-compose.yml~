@@ -1,9 +1,0 @@
-models:
-  image: tp33/django
-  external_links:
-    - mysql:db
-  volumes:
-    - ./src/bazaar:/app/bazaar
-  ports:
-    - "8001:8000"
-  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
