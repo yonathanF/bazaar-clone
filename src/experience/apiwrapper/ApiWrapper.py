@@ -21,12 +21,25 @@ class API(object):
         url = self.base_url+endpoint
         try:
             response = requests.post(url, data=data)
-            return response.json()
-        except:
-            return json.dumps({'Status': 'Failed to process request'})
-
+            return response.status_code, response.json()
+        except Exception as e:
+            return json.dumps(
+                {'Status': 'Failed to process request.[ %s ]' % (str(e))})
 
     def get(self, endpoint, data):
         url = self.base_url+endpoint
-        response = requests.get(url)
-        return response.json()
+        try:
+            response = requests.get(url)
+            return response.status_code, response.json()
+
+        except Exception as e:
+            return json.dumps(
+                {'Status': 'Failed to process request.[ %s ]' % (str(e))})
+
+
+class APIV1(API):
+    """
+    A more concrete implementation that is aware of the v1
+    endpoints. Avoids coupling with the exact urls such as /posts
+    """
+    pass
