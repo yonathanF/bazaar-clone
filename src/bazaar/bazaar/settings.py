@@ -129,3 +129,4 @@ STATIC_URL = '/static/'
 
 # this is very insecure, whitelist instead
 CORS_ORIGIN_ALLOW_ALL = True
+
