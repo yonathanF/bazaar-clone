@@ -11,7 +11,7 @@
 	    </br> </br>
 	</v-flex>
 
-
+	<h1> {{ posts }} </h1>
 	</v-layout>
 
 </template>
@@ -19,6 +19,7 @@
 
 <script>
 import Category from './Category'
+import {HTTP} from '../ApiServices';
 
 export default {
   name: 'HomePage',
@@ -28,6 +29,7 @@ export default {
   },
 
   data: () =>({
+    posts: null,
   services: [
            {
              title: "IT Consultation",
@@ -70,6 +72,15 @@ export default {
       ]
 
   }),
+ created() {
+    HTTP.get(`posts`)
+    .then(response => {
+      this.posts = response.data
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+  },
   methods: {
     goBack () {
       window.history.length > 1
