@@ -283,7 +283,7 @@ class CommentUpdateTestCase(TestCase):
         self.assertEquals(updated_deadline,
                           json_response['comment']['details'])
 
-    def test_nonexisting_post_doesnt_update(self):
+    def test_nonexisting_comment_doesnt_update(self):
         updated_title = "Here's a third new title"
         updated_details = "here's a third revised description"
 
@@ -307,16 +307,18 @@ class PostSerializationTestCase(TestCase):
     Tests that posts are seralized as expected
     """
     def setUp(self):
+        self.test_comment = create_test_comment()
         self.test_post = create_test_post()
+        self.test_user = create_test_user()
 
-    def test_nonexisting_post(self):
+    def test_nonexisting_comment(self):
         response = serialize_post(400)
         self.assertEqual(STATUS_NOTFOUND, response.status_code)
 
         json_response = json.loads(response.content.decode('utf-8'))
         self.assertIn('400', json_response['Status'])
 
-    def test_valid_post_serializes(self):
+    def test_valid_comment_serializes(self):
         response = serialize_post(self.test_post.pk)
         self.assertEqual(STATUS_OK, response.status_code)
 
