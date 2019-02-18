@@ -81,7 +81,7 @@ class CommentCreateTestCase(TestCase):
 		self.test_comment = create_test_comment()
 
 
-	def test_wellFormatted_form_creates(self):
+	def test_well_formatted_form_creates(self):
 
 		post1 = Post.objects.create(
 				title = "Test Title",
@@ -115,7 +115,21 @@ class CommentCreateTestCase(TestCase):
 
 		self.assertEqual(STATUS_OK, response.status_code)
 
-		
+	def test_malformed_form_doesnt_create(self):
+
+		response = self.client.post(
+				reverse('createComment', kwargs={'post_id': post1.id, 'user_id': user1.id}),
+				{
+				'title' : "Test Comment",
+				'details' : "This is a comment about a particular post",
+				'stars' : Stars[1][0],
+				'date_posted' : "2019-0x-x1",
+				'post' : 1,
+				'user' : 2
+				})
+
+
+		self.assertEqual(STATUS_BAD, response.status_code)
 
 
 
