@@ -22,7 +22,9 @@ def serialize_post(comment_id):
         return JsonResponse({'comment': comment_json[0]['fields'],
                              'id': comment_json[0]['pk']})
     except:
-        return JsonResponse({'status': "Error. Couldn't find Comment."})
+        return JsonResponse(
+            {'Status': "Couldn't find Comment ID %d." % (comment_id)},
+            status=404)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class CommentView(View):
@@ -36,12 +38,14 @@ class CommentView(View):
         try:
             comment = Comment.objects.get(id=comment_id)
         except Comment.DoesNotExist:
-            return JsonResponse({'status': "Error. Couldn't find Comment."})
+            return JsonResponse(
+            {'Status': "Couldn't find Comment ID %d." % (comment_id)},
+            status=404)        
         comment_form = CreateCommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
             new_comment = comment_form.save()
-            return JsonResponse({'created': serialize_post(new_comment)})
-        return JsonResponse({'error': comment_form.errors})
+            return serialize_post(new_comment.id)
+        return JsonResponse({'Status': comment_form.errors}, status=400)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -59,17 +63,20 @@ class CommentCreate(View):
             try:
                 new_comment.post = Post.objects.get(pk=post_id)
             except Post.DoesNotExist:
-                return JsonResponse({'status': "Error. Couldn't find Post."})
+                return JsonResponse({'Status': comment_form.errors},
+                    status=400)
             try:
                 new_comment.user = Profile.objects.get(pk=user_id)
             except Profile.DoesNotExist:
-                return JsonResponse({'status': "Error. Couldn't find Profile."})
+                return JsonResponse({'Status': comment_form.errors},
+                                    status=400)
 
             new_comment.save()
 
             return serialize_post(new_comment.pk)
         else:
-            return JsonResponse({'error': form.errors})
+            return JsonResponse({'Status': comment_form.errors},
+                            status=400)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -80,6 +87,7 @@ class CommentDelete(View):
     def get(self, request, comment_id):
         try:
             Comment.objects.get(id=comment_id).delete()
-            return JsonResponse({'status': "deleted comment."})
+            return JsonResponse({'Status': "Deleted comment ID %d." % (comment_id)})
         except Comment.DoesNotExist:
-            return JsonResponse({'status': "Error. Couldn't find comment"})
+            return JsonResponse({'Status': "Couldn't find comment ID %d." % (comment_id)},
+                status=404)
