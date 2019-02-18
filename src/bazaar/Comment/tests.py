@@ -54,22 +54,22 @@ def comment_equals_form(comment, json_response):
     Checks if the posts object is equal to the json object
     """
 
-    if coment.title != json_response['title']:
+    if comment.title != json_response['title']:
         return False
 
-    if coment.deadline != json_response['details']:
+    if comment.details != json_response['details']:
         return False
 
-    if coment.details != json_response['stars']:
+    if comment.stars != json_response['stars']:
         return False
 
-    if coment.category != json_response['date_posted']:
+    if comment.date_posted != json_response['date_posted']:
         return False
 
-    if coment.preferred_contact != json_response['post']:
+    if comment.post != json_response['post']:
         return False
 
-    if coment.zip_code != json_response['user']:
+    if comment.user != json_response['user']:
         return False
 
     return True
@@ -181,6 +181,49 @@ class CommentDeleteTestCase(TestCase):
 		self.assertEqual(STATUS_NOTFOUND, response.status_code)
 		json_response = json.loads(response.content.decode('utf-8'))
 		self.assertIn(str(non_existing_id), json_response['Status'])
+
+class CommentGetTestCase(TestCase):
+    """
+    Tests the get endpoint for Post
+    """
+    def setUp(self):
+        self.test_comment = create_test_comment()
+
+    def test_existing_comment_returns(self):
+        response = self.client.get(
+            reverse('viewComment', kwargs={'comment_id': self.test_comment.id}))
+
+        self.assertEqual(STATUS_OK, response.status_code)
+
+        json_response = json.loads(response.content.decode('utf-8'))
+        self.assertTrue(comment_equals_form(
+                self.test_comment, json_response['comment']))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
