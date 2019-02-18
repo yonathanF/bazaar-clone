@@ -13,9 +13,9 @@ import VueRouter from 'vue-router'
 
 Vue.config.productionTip = false
 
+//Route setup
 Vue.use(VueRouter)
 
-//Route setup
 const routes = [
   { path: '/', component: HomePage},
   { path: '/profile', component: UserProfile},
@@ -29,7 +29,6 @@ const routes = [
 const router = new VueRouter({
   routes 
 })
-
 
 
 new Vue({

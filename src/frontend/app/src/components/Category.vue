@@ -13,7 +13,7 @@
       >
 
     <v-flex
-      v-for="post in posts"
+      v-for="post in categoryList"
       :key="post.id"
     >
     <v-card>
@@ -25,7 +25,7 @@
   
           <v-card-title primary-title>
             <div>
-	      <div class="headline">{{ post.title }}</div>
+	      <div class="headline">{{ post.post.title }}</div>
               <span class="grey--text">1,000 miles of wonder</span>
             </div>
           </v-card-title>
@@ -53,36 +53,12 @@ font-size: 1.7em;
 color: #AD1457
 }
 </style>
-  <script>
+
+<script>
+
   export default {
     name: 'Category',
-    props: ['categoryName'],
-    data: () => ({
-        posts: [
-            {
-	     id: 1,
-             url: '/postDetail/1',
-	     title: "Title 1"
-	    },
-            {
-	      id: 2,
-             url: '/postDetail/2',
-	      title: "Title 2"
-	    },
-	    {
-	      id: 3,
-             url: '/postDetail/3',
-	      title: "Title 3"
-	    },
-            {
-	      id: 4,
-	      title: "Title 4",
-              url: '/postDetail/4',
-	    },
-            
-	],
-    })
-
+    props: ['categoryName', 'categoryList'],
    }
 
   </script>

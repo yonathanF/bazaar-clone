@@ -7,10 +7,10 @@
 	   v-for="service in services" 
 	    :key="service.title"
 	  >
-	  <Category :category-name="service.title"></Category>
+	  <Category :category-list="posts" :category-name="service.title">
+	  </Category>
 	    </br> </br>
 	</v-flex>
-
 
 	</v-layout>
 
@@ -19,6 +19,7 @@
 
 <script>
 import Category from './Category'
+import {HTTP} from '../APIBase';
 
 export default {
   name: 'HomePage',
@@ -28,6 +29,8 @@ export default {
   },
 
   data: () =>({
+      posts: [],
+      errors: [],
   services: [
            {
              title: "IT Consultation",
@@ -70,7 +73,18 @@ export default {
       ]
 
   }),
-  methods: {
+
+  created() {
+      HTTP.get(`post/2`)
+      .then(response => {
+	this.posts.push(response.data)
+      })
+      .catch(e => {
+	this.errors.push(e)
+      })
+    },
+
+   methods: {
     goBack () {
       window.history.length > 1
         ? this.$router.go(-1)
