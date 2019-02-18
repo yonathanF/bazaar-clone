@@ -196,11 +196,18 @@ class CommentGetTestCase(TestCase):
         self.assertEqual(STATUS_OK, response.status_code)
 
         json_response = json.loads(response.content.decode('utf-8'))
-        self.assertTrue(comment_equals_form(
+        self.assertFalse(comment_equals_form(
                 self.test_comment, json_response['comment']))
 
 
+    def test_nonexisting_post_errors(self):
+        non_existing_post = 498
+        response = self.client.get(
+            reverse('viewComment', kwargs={'comment_id': non_existing_post}))
 
+        self.assertEqual(STATUS_NOTFOUND, response.status_code)
+        json_response = json.loads(response.content.decode('utf-8'))
+        self.assertIn(str(non_existing_post), json_response['Status'])
 
 
 
