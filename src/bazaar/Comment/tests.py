@@ -210,6 +210,51 @@ class CommentGetTestCase(TestCase):
         self.assertIn(str(non_existing_post), json_response['Status'])
 
 
+class CommentUpdateTestCase(TestCase):
+    """
+    Tests the update endpoint for Post
+    """
+
+    def setUp(self):
+        self.test_comment = create_test_post()
+
+ 	def test_malformed_input_doesnt_update(self):
+        updated_deadline = "2014x09x02"
+
+        post1 = Post.objects.create(
+				title = "Test Title",
+				details = "This is a nice detail",
+				category = Categories[1][0],
+				preferred_contact = Contact[0][0],
+				deadline = "2019-03-21",
+				zip_code = 80012,
+				request_type = Type[0][0]
+			)
+
+		user1 = Profile.objects.create(
+				first_name = "Sally",
+				last_name = "Sample",
+				rating = 3,
+				description = "This is a short bio", 
+				education = "Bachelor's Degrees",
+				zip_code = 22904
+			)
+
+        # a post to this endpoint is an update
+        response = self.client.post(
+                reverse('viewComment', kwargs={'comment_id': self.test_comment.id}),
+                {
+                    'title': self.test_comment.title,
+                    'details': self.test_comment.details,
+                    'stars': self.test_comment.stars,
+                    'date_posted': updated_deadline,
+                    'post': self.test_post.zip_code,
+                    'request_type': self.test_post.request_type
+                })
+
+        self.assertEqual(STATUS_BAD, response.status_code)
+
+
 
 
 
