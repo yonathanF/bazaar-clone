@@ -7,3 +7,7 @@ models:
   ports:
     - "8001:8000"
   command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
+exp:
+  image: tp33/django
+  links:
+    - models:models-api
