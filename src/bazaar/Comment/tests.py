@@ -48,27 +48,6 @@ def create_test_comment():
 			user = user1
 		)
 
-def create_test_post():
-	return Post.objects.create(
-			title = "Test Title",
-			details = "This is a nice detail",
-			category = Categories[1][0],
-			preferred_contact = Contact[0][0],
-			deadline = "2019-03-21",
-			zip_code = 80012,
-			request_type = Type[0][0]
-		)
-
-def create_test_user():
-	return Profile.objects.create(
-				first_name = "Sally",
-				last_name = "Sample",
-				rating = 3,
-				description = "This is a short bio", 
-				education = "Bachelor's Degrees",
-				zip_code = 22904
-			)
-
 
 def comment_equals_form(comment, json_response):
     """
@@ -238,8 +217,6 @@ class CommentUpdateTestCase(TestCase):
 
 	def setUp(self):
 		self.test_comment = create_test_comment()
-		self.test_post = create_test_post()
-		self.test_user = create_test_user()
 
 	def test_malformed_input_doesnt_update(self):
 		updated_deadline = "200014x09x02"
@@ -309,8 +286,6 @@ class PostSerializationTestCase(TestCase):
 	"""
 	def setUp(self):
 		self.test_comment = create_test_comment()
-		self.test_post = create_test_post()
-		self.test_user = create_test_user()
 
 	def test_nonexisting_comment(self):
 		response = serialize_post(400)
