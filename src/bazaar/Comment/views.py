@@ -40,7 +40,7 @@ class CommentView(View):
         except Comment.DoesNotExist:
             return JsonResponse(
             {'Status': "Couldn't find Comment ID %d." % (comment_id)},
-            status=404)        
+            status=404)
         comment_form = CreateCommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
             new_comment = comment_form.save()

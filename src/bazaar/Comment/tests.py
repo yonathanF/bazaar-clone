@@ -164,7 +164,7 @@ class CommentCreateTestCase(TestCase):
 				'title' : "Test Comment",
 				'details' : "This is a comment about a particular post",
 				'stars' : Stars[1][0],
-				'date_posted' : "2019-xx-x1",
+				'date_posted' : "2019-xx-xx",
 				'post' : 1,
 				'user' : 2
 				})
@@ -292,12 +292,12 @@ class CommentUpdateTestCase(TestCase):
 		response = self.client.post(
 				reverse('viewComment', kwargs={'comment_id': 400}),
  				{
-					'title': self.test_comment.title,
-					'details': self.test_comment.details,
+					'title': updated_title,
+					'details': updated_details,
 					'stars': self.test_comment.stars,
-					'date_posted': updated_deadline,
-					'post': test_post.id,
-					'user': test_user.id
+					'date_posted': self.test_comment.date_posted,
+					'post': self.test_comment.post.id,
+					'user': self.test_comment.user.id
 				})
 
 		self.assertEqual(STATUS_NOTFOUND, response.status_code)
