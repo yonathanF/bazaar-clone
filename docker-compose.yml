@@ -18,3 +18,13 @@ exp:
   volumes:
     - ./src/experience:/app/experience
   command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
+
+web:
+  build: ./src/frontend/app
+  container_name: web
+  links:
+    - exp:exp-api
+  ports:
+    - "8003:80"
+  volumes:
+    - ./src/frontend/app:/app/
