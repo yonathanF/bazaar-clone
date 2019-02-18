@@ -204,37 +204,38 @@ class CommentDeleteTestCase(TestCase):
 		self.assertIn(str(non_existing_id), json_response['Status'])
 
 class CommentGetTestCase(TestCase):
-    """
-    Tests the get endpoint for Post
-    """
-    def setUp(self):
-        self.test_comment = create_test_comment()
+	"""
+	Tests the get endpoint for Comment
+	"""
+	def setUp(self):
+		self.test_comment = create_test_comment()
 
-    def test_existing_comment_returns(self):
-        response = self.client.get(
-            reverse('viewComment', kwargs={'comment_id': self.test_comment.id}))
+	def test_existing_comment_returns(self):
+		response = self.client.get(
+			reverse('viewComment', kwargs={'comment_id': self.test_comment.id}))
 
-        self.assertEqual(STATUS_OK, response.status_code)
+		self.assertEqual(STATUS_OK, response.status_code)
 
-        json_response = json.loads(response.content.decode('utf-8'))
-        self.assertFalse(comment_equals_form(
-                self.test_comment, json_response['comment']))
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertFalse(comment_equals_form(
+				self.test_comment, json_response['comment']))
 
 
-    def test_nonexisting_post_errors(self):
-        non_existing_post = 498
-        response = self.client.get(
-            reverse('viewComment', kwargs={'comment_id': non_existing_post}))
+	def test_nonexisting_post_errors(self):
+		non_existing_post = 498
+		response = self.client.get(
+			reverse('viewComment', kwargs={'comment_id': non_existing_post}))
 
-        self.assertEqual(STATUS_NOTFOUND, response.status_code)
-        json_response = json.loads(response.content.decode('utf-8'))
-        self.assertIn(str(non_existing_post), json_response['Status'])
+		self.assertEqual(STATUS_NOTFOUND, response.status_code)
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertIn(str(non_existing_post), json_response['Status'])
 
 
 class CommentUpdateTestCase(TestCase):
-    """
-    Tests the update endpoint for Post
-    """
+	"""
+	Tests the update endpoint for Comment
+	"""
+
 	def setUp(self):
 		self.test_comment = create_test_comment()
 		self.test_post = create_test_post()
@@ -258,13 +259,13 @@ class CommentUpdateTestCase(TestCase):
 		self.assertEqual(STATUS_BAD, response.status_code)
 
 
-    def test_existing_comment_updates(self):
-        updated_title = "Here's my new title"
-        updated_details = "And also, here's a new detail!"
+	def test_existing_comment_updates(self):
+		updated_title = "Here's my new title"
+		updated_details = "And also, here's a new detail!"
 
         # a post to this endpoint is an update
-        response = self.client.post(
-                reverse('viewComment', kwargs={'comment_id': self.test_comment.id}),
+		response = self.client.post(
+			reverse('viewComment', kwargs={'comment_id': self.test_comment.id}),
 				{
 					'title': self.test_comment.title,
 					'details': self.test_comment.details,
@@ -274,14 +275,14 @@ class CommentUpdateTestCase(TestCase):
 					'user': test_user.id
 				})
 
-        self.assertEqual(STATUS_OK, response.status_code)
+		self.assertEqual(STATUS_OK, response.status_code)
 
-        json_response = json.loads(response.content.decode('utf-8'))
-        self.assertEquals(updated_zipcode,
-                          json_response['comment']['title'])
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertEquals(updated_zipcode,
+							json_response['comment']['title'])
 
-        self.assertEquals(updated_deadline,
-                          json_response['comment']['details'])
+		self.assertEquals(updated_deadline,
+							json_response['comment']['details'])
 
     def test_nonexisting_comment_doesnt_update(self):
         updated_title = "Here's a third new title"
