@@ -1,17 +1,20 @@
 models:
   image: tp33/django
+  container_name: models
   external_links:
     - mysql:db
-  volumes:
-    - ./src/bazaar:/app/bazaar
   ports:
     - "8001:8000"
+  volumes:
+    - ./src/bazaar:/app/bazaar
   command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
 exp:
   image: tp33/django
+  container_name: exp
   links:
     - models:models-api
-web:
-  image: tp33/django
-  links:
-    - exp:exp-api
+  ports:
+    - "8002:8000"
+  volumes:
+    - ./src/bazaar:/app/bazaar
+  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh"

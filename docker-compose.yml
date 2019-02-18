@@ -16,15 +16,5 @@ exp:
   ports:
     - "8002:8000"
   volumes:
-    - ./src/bazaar:/app/bazaar
-  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh"
-web:
-  image: tp33/django
-  container_name: web
-  links:
-    - exp:exp-api
-  ports:
-    - "8000:8000"
-  volumes:
-    - ./src/bazaar:/app/bazaar
-  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh"
+    - ./src/experience:/app/experience
+  command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
