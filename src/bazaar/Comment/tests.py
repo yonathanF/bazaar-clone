@@ -103,7 +103,7 @@ class CommentCreateTestCase(TestCase):
 			)
 
 		response = self.client.post(
-				reverse('createComment'),
+				reverse('createComment', kwargs={'post_id': post1.id, 'user_id': user1.id}),
 				{
 				'title' : "Test Comment",
 				'details' : "This is a comment about a particular post",
@@ -115,18 +115,7 @@ class CommentCreateTestCase(TestCase):
 
 		self.assertEqual(STATUS_OK, response.status_code)
 
-	# def test_comments_different_names(self):
-	# 	comment1 = Comment.objects.get(title="comment1")
-	# 	comment2 = Comment.objects.get(title="comment2")
-	# 	self.assertNotEqual(comment1, comment2)
-
-	# def test_comments_same_date(self):
-	# 	comment1 = Comment.objects.filter(date_posted= datetime.date[1998, 3, 21])
-	# 	print(comment1.count())
-	# 	comment2 = Comment.objects.filter(date_posted = datetime.date[1998, 3, 21])
-	# 	self.assertEqual(comment1, comment2)
-
-
+		
 
 
 
