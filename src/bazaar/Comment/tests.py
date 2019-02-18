@@ -317,7 +317,7 @@ class PostSerializationTestCase(TestCase):
 		self.assertEqual(STATUS_NOTFOUND, response.status_code)
 
 		json_response = json.loads(response.content.decode('utf-8'))
-		self.assertIn('400', json_response['Status'])
+		self.assertIn('404', json_response['Status'])
 
 	def test_valid_comment_serializes(self):
 		response = serialize_post(self.test_comment.pk)
