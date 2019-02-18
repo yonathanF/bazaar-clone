@@ -289,16 +289,15 @@ class CommentUpdateTestCase(TestCase):
 
         # a post to this endpoint is an update
         response = self.client.post(
-                reverse('viewPost', kwargs={'post_id': 400}),
-                {
-                    'title': self.test_post.title,
-                    'details': self.test_post.details,
-                    'category': self.test_post.category,
-                    'preferred_contact': self.test_post.preferred_contact,
-                    'deadline': updated_deadline,
-                    'zip_code': updated_zipcode,
-                    'request_type': self.test_post.request_type
-                })
+                reverse('viewComment', kwargs={'comment_id': 400}),
+ 				{
+					'title': self.test_comment.title,
+					'details': self.test_comment.details,
+					'stars': self.test_comment.stars,
+					'date_posted': updated_deadline,
+					'post': test_post.id,
+					'user': test_user.id
+				})
 
         self.assertEqual(STATUS_NOTFOUND, response.status_code)
 
