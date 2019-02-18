@@ -242,7 +242,7 @@ class CommentUpdateTestCase(TestCase):
 		self.test_user = create_test_user()
 
 	def test_malformed_input_doesnt_update(self):
-		updated_deadline = "2014x09x02"
+		updated_deadline = "200014x09x02"
 
         # a post to this endpoint is an update
 		response = self.client.post(
@@ -250,8 +250,8 @@ class CommentUpdateTestCase(TestCase):
 				{
 					'title': self.test_comment.title,
 					'details': self.test_comment.details,
-					'stars': self.test_comment.stars,
-					'date_posted': updated_deadline,
+					'stars': updated_deadline,
+					'date_posted': self.test_comment.date_posted,
 					'post': self.test_comment.post.id,
 					'user': self.test_comment.user.id
 				})
