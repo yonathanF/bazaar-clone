@@ -41,7 +41,7 @@ class CommentView(View):
             return JsonResponse(
             {'Status': "Couldn't find Comment ID %d." % (comment_id)},
             status=404)        
-            comment_form = CreateCommentForm(request.POST, instance=comment)
+        comment_form = CreateCommentForm(request.POST, instance=comment)
         if comment_form.is_valid():
             new_comment = comment_form.save()
             return JsonResponse({'created': serialize_post(new_comment)})

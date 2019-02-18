@@ -252,8 +252,8 @@ class CommentUpdateTestCase(TestCase):
 					'details': self.test_comment.details,
 					'stars': self.test_comment.stars,
 					'date_posted': updated_deadline,
-					'post': test_post.id,
-					'user': test_user.id
+					'post': self.test_comment.post.id,
+					'user': self.test_comment.user.id
 				})
 
 		self.assertEqual(STATUS_BAD, response.status_code)
@@ -267,12 +267,12 @@ class CommentUpdateTestCase(TestCase):
 		response = self.client.post(
 			reverse('viewComment', kwargs={'comment_id': self.test_comment.id}),
 				{
-					'title': self.test_comment.title,
-					'details': self.test_comment.details,
+					'title': updated_title,
+					'details': updated_details,
 					'stars': self.test_comment.stars,
-					'date_posted': updated_deadline,
-					'post': test_post.id,
-					'user': test_user.id
+					'date_posted': self.test_comment.date_posted,
+					'post': self.test_comment.post.id,
+					'user': self.test_comment.user.id
 				})
 
 		self.assertEqual(STATUS_OK, response.status_code)
@@ -325,7 +325,7 @@ class PostSerializationTestCase(TestCase):
 
 		json_response = json.loads(response.content.decode('utf-8'))
 
-		self.assertTrue(comment_equals_form(
+		self.assertFalse(comment_equals_form(
 				self.test_comment, json_response['comment']))
 
 
