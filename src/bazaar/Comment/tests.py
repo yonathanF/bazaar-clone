@@ -163,24 +163,24 @@ class CommentDeleteTestCase(TestCase):
 
 		self.assertEqual(STATUS_OK, response.status_code)
 
-		# json_response = json.loads(response.content.decode('utf-8'))
-		# self.assertIn(str(self.test_comment.id), json_response['status'])
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertIn(str(self.test_comment.id), json_response['Status'])
 
-		#response = self.client.get(
-		# 	reverse('viewComment', kwargs={'comment_id': self.test_comment.id}))
+		response = self.client.get(
+			reverse('viewComment', kwargs={'comment_id': self.test_comment.id}))
 
-		#self.assertEqual(STATUS_NOTFOUND, response.status_code)
-		# json_response = json.loads(response.content.decode('utf-8'))
-		# self.assertIn(str(self.test_comment.id), json_response['Status'])
+		self.assertEqual(STATUS_NOTFOUND, response.status_code)
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertIn(str(self.test_comment.id), json_response['Status'])
 
-	# def test_nonexisting_post_notdelted(self):
- #        non_existing_id = 499
- #        response = self.client.get(
- #            reverse('deletePost', kwargs={'post_id': non_existing_id}))
+	def test_nonexisting_post_not_deleted(self):
+		non_existing_id = 499
+		response = self.client.get(
+			reverse('deleteComment', kwargs={'comment_id': non_existing_id}))
 
- #        self.assertEqual(STATUS_NOTFOUND, response.status_code)
- #        json_response = json.loads(response.content.decode('utf-8'))
- #        self.assertIn(str(non_existing_id), json_response['Status'])
+		self.assertEqual(STATUS_NOTFOUND, response.status_code)
+		json_response = json.loads(response.content.decode('utf-8'))
+		self.assertIn(str(non_existing_id), json_response['Status'])
 
 
 
