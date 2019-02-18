@@ -235,7 +235,6 @@ class CommentUpdateTestCase(TestCase):
     """
     Tests the update endpoint for Post
     """
-
 	def setUp(self):
 		self.test_comment = create_test_comment()
 		self.test_post = create_test_post()
@@ -243,25 +242,6 @@ class CommentUpdateTestCase(TestCase):
 
 	def test_malformed_input_doesnt_update(self):
 		updated_deadline = "2014x09x02"
-
-		post1 = Post.objects.create(
-				title = "Test Title",
-				details = "This is a nice detail",
-				category = Categories[1][0],
-				preferred_contact = Contact[0][0],
-				deadline = "2019-03-21",
-				zip_code = 80012,
-				request_type = Type[0][0]
-			)
-
-		user1 = Profile.objects.create(
-				first_name = "Sally",
-				last_name = "Sample",
-				rating = 3,
-				description = "This is a short bio", 
-				education = "Bachelor's Degrees",
-				zip_code = 22904
-			)
 
         # a post to this endpoint is an update
 		response = self.client.post(
@@ -271,8 +251,8 @@ class CommentUpdateTestCase(TestCase):
 					'details': self.test_comment.details,
 					'stars': self.test_comment.stars,
 					'date_posted': updated_deadline,
-					'post': post1,
-					'user': user1
+					'post': test_post.id,
+					'user': test_user.id
 				})
 
 		self.assertEqual(STATUS_BAD, response.status_code)
@@ -290,22 +270,22 @@ class CommentUpdateTestCase(TestCase):
 					'details': self.test_comment.details,
 					'stars': self.test_comment.stars,
 					'date_posted': updated_deadline,
-					'post': post1,
-					'user': user1
+					'post': test_post.id,
+					'user': test_user.id
 				})
 
         self.assertEqual(STATUS_OK, response.status_code)
 
         json_response = json.loads(response.content.decode('utf-8'))
         self.assertEquals(updated_zipcode,
-                          json_response['post']['zip_code'])
+                          json_response['comment']['title'])
 
         self.assertEquals(updated_deadline,
-                          json_response['post']['deadline'])
+                          json_response['comment']['details'])
 
     def test_nonexisting_post_doesnt_update(self):
-        updated_zipcode = 90421
-        updated_deadline = "2014-09-02"
+        updated_title = "Here's a third new title"
+        updated_details = "here's a third revised description"
 
         # a post to this endpoint is an update
         response = self.client.post(
