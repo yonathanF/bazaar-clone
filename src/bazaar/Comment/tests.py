@@ -278,10 +278,10 @@ class CommentUpdateTestCase(TestCase):
 		self.assertEqual(STATUS_OK, response.status_code)
 
 		json_response = json.loads(response.content.decode('utf-8'))
-		self.assertEquals(updated_zipcode,
+		self.assertEquals(updated_title,
 							json_response['comment']['title'])
 
-		self.assertEquals(updated_deadline,
+		self.assertEquals(updated_details,
 							json_response['comment']['details'])
 
 	def test_nonexisting_comment_doesnt_update(self):
@@ -317,7 +317,7 @@ class PostSerializationTestCase(TestCase):
 		self.assertEqual(STATUS_NOTFOUND, response.status_code)
 
 		json_response = json.loads(response.content.decode('utf-8'))
-		self.assertIn('404', json_response['Status'])
+		self.assertIn('400', json_response['Status'])
 
 	def test_valid_comment_serializes(self):
 		response = serialize_post(self.test_comment.pk)
