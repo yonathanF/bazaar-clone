@@ -19,15 +19,6 @@ STATUS_BAD = 400
 # Create your tests here.
 
 def create_test_comment():
-	post1 = Post.objects.create(
-			title = "Test Title",
-			details = "This is a nice detail",
-			category = Categories[1][0],
-			preferred_contact = Contact[0][0],
-			deadline = "2019-03-21",
-			zip_code = 80012,
-			request_type = Type[0][0]
-		)
 
 	user1 = Profile.objects.create(
 			first_name = "Sally",
@@ -38,6 +29,16 @@ def create_test_comment():
 			zip_code = 22904
 		)
 
+	post1 = Post.objects.create(
+			title = "Test Title",
+			details = "This is a nice detail",
+			category = Categories[1][0],
+			preferred_contact = Contact[0][0],
+			deadline = "2019-03-21",
+			zip_code = 80012,
+			request_type = Type[0][0],
+			user=user1
+		)
 
 	return Comment.objects.create(
 			title = "Test Comment",
@@ -83,16 +84,6 @@ class CommentCreateTestCase(TestCase):
 
 	def test_well_formatted_form_creates(self):
 
-		post1 = Post.objects.create(
-				title = "Test Title",
-				details = "This is a nice detail",
-				category = Categories[1][0],
-				preferred_contact = Contact[0][0],
-				deadline = "2019-03-21",
-				zip_code = 80012,
-				request_type = Type[0][0]
-			)
-
 		user1 = Profile.objects.create(
 				first_name = "Sally",
 				last_name = "Sample",
@@ -100,6 +91,17 @@ class CommentCreateTestCase(TestCase):
 				description = "This is a short bio", 
 				education = "Bachelor's Degrees",
 				zip_code = 22904
+			)
+
+		post1 = Post.objects.create(
+				title = "Test Title",
+				details = "This is a nice detail",
+				category = Categories[1][0],
+				preferred_contact = Contact[0][0],
+				deadline = "2019-03-21",
+				zip_code = 80012,
+				request_type = Type[0][0],
+				user=user1
 			)
 
 		response = self.client.post(
@@ -118,16 +120,6 @@ class CommentCreateTestCase(TestCase):
 
 	def test_malformed_form_doesnt_create(self):
 
-		post1 = Post.objects.create(
-				title = "Test Title",
-				details = "This is a nice detail",
-				category = Categories[1][0],
-				preferred_contact = Contact[0][0],
-				deadline = "2019-03-21",
-				zip_code = 80012,
-				request_type = Type[0][0]
-			)
-
 		user1 = Profile.objects.create(
 				first_name = "Sally",
 				last_name = "Sample",
@@ -135,6 +127,17 @@ class CommentCreateTestCase(TestCase):
 				description = "This is a short bio", 
 				education = "Bachelor's Degrees",
 				zip_code = 22904
+			)
+
+		post1 = Post.objects.create(
+				title = "Test Title",
+				details = "This is a nice detail",
+				category = Categories[1][0],
+				preferred_contact = Contact[0][0],
+				deadline = "2019-03-21",
+				zip_code = 80012,
+				request_type = Type[0][0],
+				user=user1
 			)
 
 		response = self.client.post(
@@ -280,7 +283,7 @@ class CommentUpdateTestCase(TestCase):
 		self.assertEqual(STATUS_NOTFOUND, response.status_code)
 
 
-class PostSerializationTestCase(TestCase):
+class CommentSerializationTestCase(TestCase):
 	"""
 	Tests that posts are seralized as expected
 	"""
@@ -302,31 +305,5 @@ class PostSerializationTestCase(TestCase):
 
 		self.assertFalse(comment_equals_form(
 				self.test_comment, json_response['comment']))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
