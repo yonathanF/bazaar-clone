@@ -1,5 +1,5 @@
 chmod 777 -R /app 
-pip install -r requirements.txt 
+pip install -r /app/bazaar/requirements.txt 
 python /app/bazaar/manage.py migrate 
 cd bazaar 
 python /app/bazaar/manage.py flush --noinput 
