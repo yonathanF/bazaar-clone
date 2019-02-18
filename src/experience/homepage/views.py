@@ -5,4 +5,9 @@ from django.views.generic import View
 
 @method_decorator(csrf_exempt, name='dispatch')
 class TopPostsPerCategory(View):
-    pass
+    """
+    Returns the top <num_per_cat> from each
+    category of posts
+    """
+    def get(self, request, num_posts):
+        pass
