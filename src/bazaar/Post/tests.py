@@ -1,7 +1,8 @@
 import json
 
-from django.test import Client, TestCase
+from django.test import TestCase
 from django.urls import reverse
+from UserProfile.models import Profile
 
 from .models import Post
 from .PostChoiceConsts import Categories, Contact, Type
@@ -13,15 +14,25 @@ STATUS_BAD = 400
 
 
 def create_test_post():
-    return Post.objects.create(
+    profile = Profile.objects.create(
+              first_name="Yonathan",
+              last_name="Fisseha",
+              rating=4.0,
+              description="Test description",
+              education="University of Virginia",
+              zip_code=80012)
+
+    post = Post.objects.create(
             title="Test Title",
             details="This is a nice detail",
             category=Categories[1][0],
             preferred_contact=Contact[0][0],
             deadline="2019-03-21",
             zip_code=80012,
-            request_type=Type[0][0]
+            request_type=Type[0][0],
+            user=profile
         )
+    return post, profile
 
 
 def post_equals_form(post, json_response):
@@ -49,12 +60,13 @@ def post_equals_form(post, json_response):
 
     return True
 
+
 class PostCreateTestCase(TestCase):
     """
     Tests the create endpoint for post
     """
     def setUp(self):
-        self.test_post = create_test_post()
+        self.test_post, self.test_profile = create_test_post()
 
     def test_wellFormatted_form_creates(self):
         response = self.client.post(
@@ -64,9 +76,10 @@ class PostCreateTestCase(TestCase):
                     'details': "Nice details",
                     'category': Categories[1][0],
                     'preferred_contact': Contact[0][0],
-                    'deadline': "1999-03-21" ,
+                    'deadline': "1999-03-21",
                     'zip_code': 82912,
-                    'request_type': Type[0][0]
+                    'request_type': Type[0][0],
+                    'user':self.test_profile.id
                 })
 
         self.assertEqual(STATUS_OK, response.status_code)
@@ -92,7 +105,7 @@ class PostDeleteTestCase(TestCase):
     Tests the delete endpoint for post
     """
     def setUp(self):
-        self.test_post = create_test_post()
+        self.test_post, _ = create_test_post()
 
     def test_exiting_post_deleted(self):
         response = self.client.get(
@@ -125,7 +138,7 @@ class PostGetTestCase(TestCase):
     Tests the get endpoint for Post
     """
     def setUp(self):
-        self.test_post = create_test_post()
+        self.test_post, _ = create_test_post()
 
     def test_existing_post_returns(self):
         response = self.client.get(
@@ -137,7 +150,6 @@ class PostGetTestCase(TestCase):
         self.assertTrue(post_equals_form(
                 self.test_post, json_response['post']))
 
-
     def test_nonexisting_post_errors(self):
         non_existing_post = 498
         response = self.client.get(
@@ -147,13 +159,14 @@ class PostGetTestCase(TestCase):
         json_response = json.loads(response.content.decode('utf-8'))
         self.assertIn(str(non_existing_post), json_response['Status'])
 
+
 class PostUpdateTestCase(TestCase):
     """
     Tests the update endpoint for Post
     """
 
     def setUp(self):
-        self.test_post = create_test_post()
+        self.test_post, self.test_profile = create_test_post()
 
     def test_malformed_input_doesnt_update(self):
         updated_deadline = "2014x09x02"
@@ -168,7 +181,8 @@ class PostUpdateTestCase(TestCase):
                     'preferred_contact': self.test_post.preferred_contact,
                     'deadline': updated_deadline,
                     'zip_code': self.test_post.zip_code,
-                    'request_type': self.test_post.request_type
+                    'request_type': self.test_post.request_type,
+                    'user': self.test_profile.id
                 })
 
         self.assertEqual(STATUS_BAD, response.status_code)
@@ -187,7 +201,8 @@ class PostUpdateTestCase(TestCase):
                     'preferred_contact': self.test_post.preferred_contact,
                     'deadline': updated_deadline,
                     'zip_code': updated_zipcode,
-                    'request_type': self.test_post.request_type
+                    'request_type': self.test_post.request_type,
+                    'user': self.test_profile.id
                 })
 
         self.assertEqual(STATUS_OK, response.status_code)
@@ -224,7 +239,7 @@ class PostSerializationTestCase(TestCase):
     Tests that posts are seralized as expected
     """
     def setUp(self):
-        self.test_post = create_test_post()
+        self.test_post, _ = create_test_post()
 
     def test_nonexisting_post(self):
         response = serialize_post(400)
