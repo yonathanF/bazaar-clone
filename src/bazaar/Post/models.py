@@ -16,3 +16,6 @@ class Post(models.Model):
     deadline = models.DateField()
     zip_code = models.IntegerField()
     request_type = models.CharField(max_length=2, choices=Type)
+    user = models.ForeignKey('UserProfile.Profile',
+                             on_delete=models.CASCADE,
+                             related_name="creator")
