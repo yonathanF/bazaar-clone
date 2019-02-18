@@ -319,13 +319,13 @@ class PostSerializationTestCase(TestCase):
         self.assertIn('400', json_response['Status'])
 
     def test_valid_comment_serializes(self):
-        response = serialize_post(self.test_post.pk)
+        response = serialize_post(self.test_comment.pk)
         self.assertEqual(STATUS_OK, response.status_code)
 
         json_response = json.loads(response.content.decode('utf-8'))
 
-        self.assertTrue(post_equals_form(
-                self.test_post, json_response['post']))
+        self.assertTrue(comment_equals_form(
+                self.test_comment, json_response['comment']))
 
 
 
