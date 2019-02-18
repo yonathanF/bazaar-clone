@@ -219,9 +219,9 @@ class CommentUpdateTestCase(TestCase):
         self.test_comment = create_test_post()
 
  	def test_malformed_input_doesnt_update(self):
-        updated_deadline = "2014x09x02"
+		updated_deadline = "2014x09x02"
 
-        post1 = Post.objects.create(
+		post1 = Post.objects.create(
 				title = "Test Title",
 				details = "This is a nice detail",
 				category = Categories[1][0],
@@ -241,15 +241,15 @@ class CommentUpdateTestCase(TestCase):
 			)
 
         # a post to this endpoint is an update
-        response = self.client.post(
-                reverse('viewComment', kwargs={'comment_id': self.test_comment.id}),
-                {
-                    'title': self.test_comment.title,
-                    'details': self.test_comment.details,
-                    'stars': self.test_comment.stars,
+		response = self.client.post(
+			reverse('viewComment', kwargs={'comment_id': self.test_comment.id}),
+				{
+					'title': self.test_comment.title,
+					'details': self.test_comment.details,
+					'stars': self.test_comment.stars,
                     'date_posted': updated_deadline,
-                    'post': self.test_post.zip_code,
-                    'request_type': self.test_post.request_type
+                    'post': post1,
+                    'user': self.user1
                 })
 
         self.assertEqual(STATUS_BAD, response.status_code)
