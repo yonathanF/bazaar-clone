@@ -79,14 +79,21 @@ WSGI_APPLICATION = 'bazaar.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
+development_database = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'database',
+    }
+
+production_database = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'cs4501',
         'USER': 'www',
         'PASSWORD': '$3cureUS',
         'HOST': 'db',
     }
+
+DATABASES = {
+    'default': production_database 
 }
 
 # Password validation
