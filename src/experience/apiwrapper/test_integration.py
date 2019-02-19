@@ -39,7 +39,7 @@ class ApiWrapperTestCase(TestCase):
 
       comment_data = {'title': 'comment1',
                      'details': 'this is a comment',
-                     'stars': 3,
+                     'stars': "3",
                      'date_posted': '1998-03-21',
                      'post': 2,
                      'user': 11}
@@ -52,7 +52,6 @@ class ApiWrapperTestCase(TestCase):
 
       self.assertEquals(response['comment']['details'],
                         comment_data['details'])
-
 
 
 

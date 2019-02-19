@@ -22,6 +22,7 @@ class API(object):
         url = self.base_url+endpoint
         try:
             response = requests.post(url, data=data)
+            print(response.content)
             return response.status_code, response.json()
         except Exception as e:
             return self.STATUS_FAIL, json.dumps(
