@@ -38,11 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'homepage',
-<<<<<<< HEAD
     'postdetails',
-=======
     'corsheaders',
->>>>>>> 692500e0048aceb0fbb81db5234f5ef8e689cbc3
 ]
 
 MIDDLEWARE = [
