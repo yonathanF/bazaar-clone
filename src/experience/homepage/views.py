@@ -51,5 +51,7 @@ class TopPostsPerCategory(View):
 
 
             posts[category[1]] = posts_in_category
-
-        return JsonResponse(posts)
+        resp = JsonResponse(posts)
+        # resp['Access-Control-Allow-Methods']= 'GET'
+        # resp['Access-Control-Allow-Origin'] = '*'
+        return resp
