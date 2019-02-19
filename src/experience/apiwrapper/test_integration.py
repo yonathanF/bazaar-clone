@@ -35,7 +35,7 @@ class ApiWrapperTestCase(TestCase):
         self.api = API()
 
     def test_comment_with_basic_args(self):
-      url = '/comments/create/'
+      url = '/comments/create/2/11'
 
       comment_data = {'title': 'comment1',
                      'details': 'this is a comment',
@@ -44,18 +44,14 @@ class ApiWrapperTestCase(TestCase):
                      'post': 2,
                      'user': 11}
       status_code, response = self.api.post(url, comment_data)
-      print(response)
 
       self.assertEquals(STATUS_OK, status_code)
 
-      self.assertEquals(response['comments']['title'],
+      self.assertEquals(response['comment']['title'],
                         comment_data['title'])
 
-      self.assertEquals(response['comments']['details'],
+      self.assertEquals(response['comment']['details'],
                         comment_data['details'])
-
-      self.assertEquals(response['comments']['date_posted'],
-                        comment_data['date_posted'])
 
 
 

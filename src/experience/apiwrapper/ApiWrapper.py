@@ -22,7 +22,6 @@ class API(object):
         url = self.base_url+endpoint
         try:
             response = requests.post(url, data=data)
-            print(response.content)
             return response.status_code, response.json()
         except Exception as e:
             return self.STATUS_FAIL, json.dumps(
@@ -100,7 +99,7 @@ class APIV1(object):
 
         print("POST ID", post_id)
         print("THE USER ID IS", user_id)
-        url = self.comment_endpoint+"createComment/"+int(post_id)+"/"+int(user_id)
+        url = self.comment_endpoint+"createComment/"+str(post_id)+"/"+str(user_id)
         _, response = self.server.post(url, data)
         return response
 
