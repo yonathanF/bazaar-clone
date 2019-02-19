@@ -103,3 +103,11 @@ class APIV1(object):
         url = self.post_endpoint+"create/"
         _, response = self.server.post(url, data)
         return response
+
+    def post_top_n(self, category, num_posts):
+        url = self.post_endpoint + "byCategory/" + str(category)\
+                    + "/" + str(num_posts)+"/"
+
+        _, response = self.server.get(url)
+
+        return response
