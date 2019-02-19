@@ -8,3 +8,4 @@ class Profile(models.Model):
     description = models.TextField(default='')
     education = models.CharField(max_length=200, default='')
     zip_code = models.IntegerField()
+    
