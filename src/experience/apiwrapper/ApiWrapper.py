@@ -51,6 +51,25 @@ class APIV1(object):
             self.server = server
 
         self.post_endpoint = '/post/'
+        self.comment_endpoint = '/comment/'
+
+    def comment_get(self, post_id, user_id):
+        """
+        Gets the post specified by post_id
+        """
+        url = self.comment_endpoint+str(post_id)+'/'+str(user_id)
+        response = self.server.get(url)
+        return response
+
+    def comment_delete(self, comment_id):
+        """
+        Deletes the post specified by the post_id
+        """
+        url = self.post_endpoint+"delete/"+str(comment_id)
+        _, response = self.server.get(url)
+
+        return response
+
 
     def post_get(self, post_id):
         """
