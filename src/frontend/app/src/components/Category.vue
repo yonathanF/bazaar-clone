@@ -16,6 +16,7 @@
       v-for="post in categoryList"
       :key="post.id"
     >
+
     <v-card>
           <v-img
             src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
@@ -25,8 +26,10 @@
   
           <v-card-title primary-title>
             <div>
-	      <div class="headline">{{ post.post.title }}</div>
-              <span class="grey--text">1,000 miles of wonder</span>
+	      <div class="headline">{{ post.title }}</div>
+	      <span> {{ post.deadline }}</span>
+	      <span> {{ post.zip_code}}</span>
+	      <span> {{ post.request_type}}</span>
             </div>
           </v-card-title>
   
@@ -34,7 +37,7 @@
             <v-btn icon>
 	      <v-icon>bookmark_border</v-icon>
 	    </v-btn>
-	    <v-btn  :to='post.url' flat color="pink darken-2">Details</v-btn>
+	    <v-btn  :to="{name:'postDetail', params: {post_id: post.id }}" flat color="pink darken-2">Details</v-btn>
             <v-spacer></v-spacer>
 	  </v-btn>
           </v-card-actions>

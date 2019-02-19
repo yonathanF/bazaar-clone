@@ -4,11 +4,12 @@
 	  column 
         >
 	<v-flex
-	   v-for="service in services" 
-	    :key="service.title"
+	   v-for="(post, category) in posts" 
+	    :key="post.id"
 	  >
-	  <Category :category-list="posts" :category-name="service.title">
-	  </Category>
+
+
+	  <Category :category-list="post" :category-name="category"> </Category>
 	    </br> </br>
 	</v-flex>
 
@@ -75,9 +76,9 @@ export default {
   }),
 
   created() {
-      HTTP.get(`post/2`)
+      HTTP.get('homepage/4/')
       .then(response => {
-	this.posts.push(response.data)
+	this.posts= response.data
       })
       .catch(e => {
 	this.errors.push(e)

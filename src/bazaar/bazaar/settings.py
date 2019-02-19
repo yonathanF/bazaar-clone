@@ -14,8 +14,7 @@ SECRET_KEY = 'hkv(b=evtvct4(d%8@b*#i_@#u@t7)0n_o+b7q(=fz9yi8lsqr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", 'testserver']
-
+ALLOWED_HOSTS = ["models-api", "localhost", "127.0.0.1", 'testserver']
 
 # Application definition
 
@@ -82,7 +81,7 @@ production_database = {
     }
 
 DATABASES = {
-    'default': production_database 
+    'default': production_database
 }
 
 # Password validation
@@ -129,4 +128,3 @@ STATIC_URL = '/static/'
 
 # this is very insecure, whitelist instead
 CORS_ORIGIN_ALLOW_ALL = True
-
