@@ -22,7 +22,6 @@ class API(object):
         url = self.base_url+endpoint
         try:
             response = requests.post(url, data=data)
-            print(response.content)
             return response.status_code, response.json()
         except Exception as e:
             return self.STATUS_FAIL, json.dumps(
@@ -52,7 +51,7 @@ class APIV1(object):
             self.server = server
 
         self.post_endpoint = '/post/'
-        self.comment_endpoint = '/comments/'
+        self.comment_endpoint = '/comment/'
 
     def comment_get(self, comment_id):
         """

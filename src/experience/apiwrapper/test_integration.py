@@ -35,14 +35,15 @@ class ApiWrapperTestCase(TestCase):
         self.api = API()
 
     def test_comment_with_basic_args(self):
-      url = '/comments/create/2/11'
+      url = '/comment/create/3/125'
 
       comment_data = {'title': 'comment1',
                      'details': 'this is a comment',
                      'stars': "3",
                      'date_posted': '1998-03-21',
-                     'post': 2,
-                     'user': 11}
+                     'post': 3,
+                     'user': 125}
+
       status_code, response = self.api.post(url, comment_data)
 
       self.assertEquals(STATUS_OK, status_code)
