@@ -22,6 +22,7 @@ class API(object):
         url = self.base_url+endpoint
         try:
             response = requests.post(url, data=data)
+            print(response.content)
             return response.status_code, response.json()
         except Exception as e:
             return self.STATUS_FAIL, json.dumps(
@@ -51,7 +52,7 @@ class APIV1(object):
             self.server = server
 
         self.post_endpoint = '/post/'
-        self.comment_endpoint = '/comment/'
+        self.comment_endpoint = '/comments/'
 
     def comment_get(self, post_id, user_id):
         """
@@ -86,8 +87,7 @@ class APIV1(object):
         _, response = self.server.post(url, data)
         return response
 
-    def comment_create(self, comment_id, post_id, user_id, title, details, stars,
-                    date_posted): 
+    def comment_create(self, comment_id, title, details, stars, date_posted, post_id, user_id, ): 
 
         data = {
                 'title': title, 
@@ -98,7 +98,9 @@ class APIV1(object):
                 'user': user_id
         }
 
-        url = self.comment_endpoint+"create/"
+        print("POST ID", post_id)
+        print("THE USER ID IS", user_id)
+        url = self.comment_endpoint+"createComment/"+int(post_id)+"/"+int(user_id)
         _, response = self.server.post(url, data)
         return response
 
