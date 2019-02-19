@@ -65,10 +65,45 @@ class APIV1(object):
         """
         Deletes the post specified by the post_id
         """
-        url = self.post_endpoint+"delete/"+str(comment_id)
+        url = self.comment_endpoint+"delete/"+str(comment_id)
         _, response = self.server.get(url)
 
         return response
+
+    def comment_update(self, comment_id, post_id, user_id, title, details, stars,
+                    date_posted): 
+
+        data = {
+                'title': title, 
+                'details': details,
+                'stars': stars,
+                'date_posted': date_posted,
+                'post': post_id,
+                'user': user_id
+        }
+
+        url = self.comment_endpoint+str(comment_id)+"/"
+        _, response = self.server.post(url, data)
+        return response
+
+    def comment_create(self, comment_id, post_id, user_id, title, details, stars,
+                    date_posted): 
+
+        data = {
+                'title': title, 
+                'details': details,
+                'stars': stars,
+                'date_posted': date_posted,
+                'post': post_id,
+                'user': user_id
+        }
+
+        url = self.comment_endpoint+"create/"
+        _, response = self.server.post(url, data)
+        return response
+
+
+
 
 
     def post_get(self, post_id):
