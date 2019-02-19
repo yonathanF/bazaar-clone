@@ -26,3 +26,9 @@ class TopPostsPerCategory(View):
 
         api = APIV1()
         return JsonResponse(api.post_top_n("LI", num_posts))
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class TopCommentsPerPost(View):
+
+

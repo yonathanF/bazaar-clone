@@ -102,8 +102,13 @@ class APIV1(object):
         _, response = self.server.post(url, data)
         return response
 
+    # def comment_top_n(self, category, num_comments):
+    #     url = self.comment_endpoint + "byCategory/" + str(category)\
+    #                 + "/" + str(num_posts)+"/"
 
+    #     _, response = self.server.get(url)
 
+    #     return response
 
 
     def post_get(self, post_id):
