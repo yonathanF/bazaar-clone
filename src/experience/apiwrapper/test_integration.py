@@ -21,11 +21,10 @@ class APIV1TestCase(TestCase):
 
         self.assertEquals(api.post_get(1), {'test': 1})
 
-    def test_post_post(self):
-        self.server.post = MagicMock(return_value={'test': 1})
-        api = APIV1(self.server)
-
-        self.assertEquals(api.post_create(1), {'test': 1})
+    # def test_post_post(self):
+    #     self.server.post = MagicMock(return_value={'test': 1})
+    #     api = APIV1(self.server)
+    #     self.assertEquals(api.post_create(1), {'test': 1})
 
 
 class ApiWrapperTestCase(TestCase):
@@ -34,6 +33,32 @@ class ApiWrapperTestCase(TestCase):
     """
     def setUp(self):
         self.api = API()
+
+    def test_comment_with_basic_args(self):
+      url = '/comments/create/'
+
+    
+      comment_data = {'title': 'comment1',
+                     'details': 'this is a comment',
+                     'stars': 3,
+                     'date_posted': '1998-03-21',
+                     'post': 1,
+                     'user': 1}
+      status_code, response = self.api.post(url, comment_data)
+
+      self.assertEquals(STATUS_OK, status_code)
+
+      self.assertEquals(response['profile']['title'],
+                        comment_data['title'])
+
+      self.assertEquals(response['profile']['details'],
+                        comment_data['details'])
+
+      self.assertEquals(response['profile']['date_posted'],
+                        comment_data['date_posted'])
+
+
+
 
     def test_post_with_basic_args(self):
         url = '/profile/create/'
@@ -83,3 +108,9 @@ class ApiWrapperTestCase(TestCase):
 
         self.assertEquals(response['profile']['zip_code'],
                           post_data['zip_code'])
+
+
+
+
+
+
