@@ -21,10 +21,6 @@ class APIV1TestCase(TestCase):
 
         self.assertEquals(api.post_get(1), {'test': 1})
 
-    # def test_post_post(self):
-    #     self.server.post = MagicMock(return_value={'test': 1})
-    #     api = APIV1(self.server)
-    #     self.assertEquals(api.post_create(1), {'test': 1})
     def test_post_post(self):
         self.server.post = MagicMock(return_value={'test': 1})
         api = APIV1(self.server)
