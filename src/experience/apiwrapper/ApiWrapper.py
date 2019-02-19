@@ -53,11 +53,11 @@ class APIV1(object):
         self.post_endpoint = '/post/'
         self.comment_endpoint = '/comments/'
 
-    def comment_get(self, post_id, user_id):
+    def comment_get(self, comment_id):
         """
         Gets the post specified by post_id
         """
-        url = self.comment_endpoint+str(post_id)+'/'+str(user_id)
+        url = self.comment_endpoint+str(comment_id)
         response = self.server.get(url)
         return response
 
@@ -97,9 +97,7 @@ class APIV1(object):
                 'user': user_id
         }
 
-        print("POST ID", post_id)
-        print("THE USER ID IS", user_id)
-        url = self.comment_endpoint+"createComment/"+str(post_id)+"/"+str(user_id)
+        url = self.comment_endpoint+"create/"+str(post_id)+"/"+str(user_id)
         _, response = self.server.post(url, data)
         return response
 
