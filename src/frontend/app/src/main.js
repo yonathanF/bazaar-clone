@@ -22,7 +22,7 @@ const routes = [
   { path: '/posts', component: UserPosts},
   { path: '/comments', component: UserComments},
   { path: '/category/:category_id', component: AllCategory},
-  { path: '/postDetail/:post_id', component: PostDetail},
+  { path: '/postDetail/:post_id', name:'postDetail', component: PostDetail},
   { path: '*', component: Error404},
 ]
 

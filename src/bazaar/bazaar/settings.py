@@ -16,7 +16,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["models-api", "localhost", "127.0.0.1", 'testserver']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -129,4 +128,3 @@ STATIC_URL = '/static/'
 
 # this is very insecure, whitelist instead
 CORS_ORIGIN_ALLOW_ALL = True
-

@@ -25,6 +25,11 @@ class APIV1TestCase(TestCase):
     #     self.server.post = MagicMock(return_value={'test': 1})
     #     api = APIV1(self.server)
     #     self.assertEquals(api.post_create(1), {'test': 1})
+    def test_post_post(self):
+        self.server.post = MagicMock(return_value={'test': 1})
+        api = APIV1(self.server)
+
+        self.assertEquals(api.post_create(1), {'test': 1})
 
 
 class ApiWrapperTestCase(TestCase):
@@ -104,9 +109,4 @@ class ApiWrapperTestCase(TestCase):
 
         self.assertEquals(response['profile']['zip_code'],
                           post_data['zip_code'])
-
-
-
-
-
 
