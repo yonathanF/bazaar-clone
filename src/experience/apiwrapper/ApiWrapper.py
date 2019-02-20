@@ -51,6 +51,63 @@ class APIV1(object):
             self.server = server
 
         self.post_endpoint = '/post/'
+        self.comment_endpoint = '/comment/'
+
+    def comment_get(self, comment_id):
+        """
+        Gets the post specified by post_id
+        """
+        url = self.comment_endpoint+str(comment_id)
+        response = self.server.get(url)
+        return response
+
+    def comment_delete(self, comment_id):
+        """
+        Deletes the post specified by the post_id
+        """
+        url = self.comment_endpoint+"delete/"+str(comment_id)
+        _, response = self.server.get(url)
+
+        return response
+
+    def comment_update(self, comment_id, post_id, user_id, title, details, stars,
+                    date_posted): 
+
+        data = {
+                'title': title, 
+                'details': details,
+                'stars': stars,
+                'date_posted': date_posted,
+                'post': post_id,
+                'user': user_id
+        }
+
+        url = self.comment_endpoint+str(comment_id)+"/"
+        _, response = self.server.post(url, data)
+        return response
+
+    def comment_create(self, comment_id, title, details, stars, date_posted, post_id, user_id, ): 
+
+        data = {
+                'title': title, 
+                'details': details,
+                'stars': stars,
+                'date_posted': date_posted,
+                'post': post_id,
+                'user': user_id
+        }
+
+        url = self.comment_endpoint+"create/"+str(post_id)+"/"+str(user_id)
+        _, response = self.server.post(url, data)
+        return response
+
+    # def comment_top_n(self, category, num_comments):
+    #     url = self.comment_endpoint + "byCategory/" + str(category)\
+    #                 + "/" + str(num_posts)+"/"
+
+    #     _, response = self.server.get(url)
+
+    #     return response
 
     def post_get(self, post_id):
         """

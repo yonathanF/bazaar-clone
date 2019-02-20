@@ -25,7 +25,6 @@ SECRET_KEY = 'k)r-jgc#5kbgiu$6x_(rb))feawgwpcx0e4*l*rk#y5=+m&ffh'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
 ALLOWED_HOSTS = ["exp-api", "localhost", "127.0.0.1", 'testserver']
 
 # Application definition
@@ -37,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'homepage',
+    'postdetails',
     'corsheaders',
 ]
 

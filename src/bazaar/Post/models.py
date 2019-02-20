@@ -19,3 +19,4 @@ class Post(models.Model):
     user = models.ForeignKey('UserProfile.Profile',
                              on_delete=models.CASCADE,
                              related_name="creator")
+    

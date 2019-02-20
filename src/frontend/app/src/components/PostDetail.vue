@@ -100,8 +100,10 @@
 </style>
 
 
-
 <script>
+
+import { HTTP } from "../APIBase.js";
+
 export default {
   data: () => ({
     info: null, // To hold the data from our API call
@@ -123,10 +125,10 @@ export default {
       }
     ]
 
-  })
-  // mounted(){
-  //   axios.get(`https://localhost:8000/api/v1/post/${route.params.post_id}`)
-  //   .then(response => (this.info = response))
-  // }
+  }),
+  mounted(){
+    HTTP.get(`postdetails/${route.params.post_id}`)
+    .then(response => (this.info = response))
+  }
 }
 </script>
