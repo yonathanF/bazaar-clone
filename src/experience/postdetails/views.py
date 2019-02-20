@@ -20,4 +20,4 @@ class ShowPostDetails(View):
 
     def get(self, request, post_id):
         api = APIV1()
-        return JsonResponse(api.post_get(post_id))
+        return JsonResponse(api.post_get(post_id), safe=False)

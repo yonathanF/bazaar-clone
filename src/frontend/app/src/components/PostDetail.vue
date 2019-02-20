@@ -6,7 +6,7 @@
         <h1 class="title"> {{ title }}</h1>
         <h4 class ="deadline">Deadline: {{ deadline }}</h4>
         
-        <v-btn flat class="white--text" to='profile' color="pink darken-2" right=true>User Profile</v-btn>
+        <v-btn flat class="white--text" to='profile' color="pink darken-2" right>User Profile</v-btn>
 
 
         
@@ -17,7 +17,8 @@
         <p>A bunch of description things that make it look cool what else can you put in here </p>
         <p>A bunch of description things that make it look cool what else can you put in here </p>
         <p>A bunch of description things that make it look cool what else can you put in here </p>
-
+        <p>{{ info }}</p>
+        <p> {{errors}}</p>
       </v-flex>
 
          <v-flex lg6>
@@ -102,11 +103,14 @@
 
 <script>
 
-import { HTTP } from "../APIBase.js";
+
+import { HTTP } from "../APIBase";
 
 export default {
+  name: 'PostDetail',
   data: () => ({
     info: null, // To hold the data from our API call
+    errors: null,
     title: "Some Title",
     details: "Details",
     deadline: "2/29/19",
@@ -126,9 +130,12 @@ export default {
     ]
 
   }),
-  mounted(){
-    HTTP.get(`postdetails/${route.params.post_id}`)
+  created(){
+    HTTP.get(`postdetails/1`)
     .then(response => (this.info = response))
+    .catch(e =>{
+      this.errors.push(e)
+    })
   }
 }
 </script>
