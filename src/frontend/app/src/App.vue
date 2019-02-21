@@ -103,11 +103,13 @@ color: #000000
 
 <script>
 import HomePage from './components/HomePage'
+import PostDetail from './components/PostDetail'
 
 export default {
   name: 'App',
   components: {
-     HomePage 
+     HomePage,
+     PostDetail
   },
   data: () => ({
       drawer: null,

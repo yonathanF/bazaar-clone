@@ -5,6 +5,8 @@ from django.views.generic import View
 
 from apiwrapper.ApiWrapper import APIV1
 
+import logging
+
 import json
 
 import urllib.request
@@ -13,11 +15,14 @@ import urllib.parse
 from django.core import serializers
 from django.http import JsonResponse
 
+logger = logging.getLogger('APPNAME')
+
 # Create your views here.
 @method_decorator(csrf_exempt, name='dispatch')
 class ShowPostDetails(View):
-    
+     
 
-    def get(self, request, post_id):
+    def get(self, request, post_id): 
         api = APIV1()
-        return JsonResponse(api.post_get(post_id))
+        logger.info(post_id)
+        return JsonResponse(api.post_get(post_id), safe=False)
