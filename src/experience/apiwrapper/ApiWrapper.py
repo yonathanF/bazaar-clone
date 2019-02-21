@@ -112,11 +112,11 @@ class APIV1(object):
     def post_get(self, post_id):
         """
         Gets the post specified by post_id
-        """
+        """  
         url = self.post_endpoint+str(post_id)
-        response = self.server.get(url)
+        response = self.server.get(url) 
         return response
-
+ 
     def post_delete(self, post_id):
         """
         Deletes the post specified by the post_id
