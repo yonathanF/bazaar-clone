@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import os.path
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -28,9 +28,9 @@ DEBUG = True
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", 'testserver']
+ALLOWED_HOSTS = ["exp-api", "localhost", "127.0.0.1", 'testserver']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

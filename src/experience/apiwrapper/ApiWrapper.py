@@ -22,7 +22,6 @@ class API(object):
         url = self.base_url+endpoint
         try:
             response = requests.post(url, data=data)
-            print(response.content)
             return response.status_code, response.json()
         except Exception as e:
             return self.STATUS_FAIL, json.dumps(
@@ -52,13 +51,13 @@ class APIV1(object):
             self.server = server
 
         self.post_endpoint = '/post/'
-        self.comment_endpoint = '/comments/'
+        self.comment_endpoint = '/comment/'
 
-    def comment_get(self, post_id, user_id):
+    def comment_get(self, comment_id):
         """
         Gets the post specified by post_id
         """
-        url = self.comment_endpoint+str(post_id)+'/'+str(user_id)
+        url = self.comment_endpoint+str(comment_id)
         response = self.server.get(url)
         return response
 
@@ -98,9 +97,7 @@ class APIV1(object):
                 'user': user_id
         }
 
-        print("POST ID", post_id)
-        print("THE USER ID IS", user_id)
-        url = self.comment_endpoint+"createComment/"+int(post_id)+"/"+int(user_id)
+        url = self.comment_endpoint+"create/"+str(post_id)+"/"+str(user_id)
         _, response = self.server.post(url, data)
         return response
 
@@ -111,7 +108,6 @@ class APIV1(object):
     #     _, response = self.server.get(url)
 
     #     return response
-
 
     def post_get(self, post_id):
         """
