@@ -1,24 +1,20 @@
 <template>
-  <v-container grid-list-md fill-height>
+  <v-container grid-list-md fill-height v-if="errors == null">
     <v-layout row wrap>
       
       <v-flex lg6>
         <h1 class="title"> {{ title }}</h1>
+        {{this.$route.params.post_id}}
         <h4 class ="deadline">Deadline: {{ deadline }}</h4>
         
-        <v-btn flat class="white--text" to='profile' color="pink darken-2" right>User Profile</v-btn>
+        <v-btn flat class="white--text" :to="{path: `/profile/${user}`}" color="pink darken-2" right>User Profile</v-btn>
 
+        <h3> {{ details }} </h3>
+        <h3> {{ request_type }} </h3>
+        <h3> {{ preferred_contact }} </h3>
+        <h3> {{ zipcode }} </h3>
+        <h3> {{ category }} </h3>
 
-        
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>A bunch of description things that make it look cool what else can you put in here </p>
-        <p>{{ info }}</p>
-        <p> {{errors}}</p>
       </v-flex>
 
          <v-flex lg6>
@@ -59,6 +55,8 @@
      
     </v-layout>
   </v-container>
+
+  <h1 v-else>{{ errors }} </h1>
   
 <!-- 
   
@@ -106,35 +104,58 @@
 
 import { HTTP } from "../APIBase";
 
+var Categories = {
+        "LI": "Lifestyle",
+        "IT": "IT Consultation",
+        "EV": "Events",
+        "TU": "Tutoring",
+        "AR": "Art",
+        "HO": "Household",
+        "LB": "Labor",
+        "OT": "Other",
+}
+
+var Type = {
+  "OF": "Offering",
+  "AS": "Asking",
+}  
+
 export default {
   name: 'PostDetail',
   data: () => ({
-    info: null, // To hold the data from our API call
+    info: [], // To hold the data from our API call
     errors: null,
-    title: "Some Title",
-    details: "Details",
-    deadline: "2/29/19",
-    images:[ 
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
-      }
-    ]
-
+    title: "",
+    details: "",
+    deadline: "",
+    user: "",
+    request_type: "",
+    date_posted: "",
+    zipcode: "",
+    category: "",
+    images:[]
   }),
   created(){
-    HTTP.get(`postdetails/1`)
-    .then(response => (this.info = response))
+    HTTP.get(`postdetails/${this.$route.params.post_id}`)
+    .then(response => {
+      this.info = response
+    })
+    .then(response => {
+      this.details = this.info['data'][1]['post']['details']
+      this.title = this.info['data'][1]['post']['title']
+      this.deadline = this.info['data'][1]['post']['deadline']
+      this.user = String(this.info['data'][1]['post']['user'])
+      this.request_type = this.info['data'][1]['post']['request_type']
+      this.date_posted = this.info['data'][1]['post']['date_posted']
+      this.zipcode = this.info['data'][1]['post']['zip_code']
+      this.category = this.info['data'][1]['post']['category']
+    })
+    .then(response => {
+      this.request_type = Type[this.request_type]
+      this.category = Categories[this.category]
+    })
     .catch(e =>{
-      this.errors.push(e)
+      this.errors = "That post does not exist"
     })
   }
 }
