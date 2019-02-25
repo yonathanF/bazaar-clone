@@ -1,0 +1,21 @@
+services: 
+  - docker
+  - mysql
+
+before_install:
+  - docker -v
+  # Stop the postgres instance travis sets up automatically
+  - sudo /etc/init.d/postgresql stop
+  - mysql -e 'CREATE DATABASE myapp_test;'
+  - mysql -e "create user 'www'@'%' identified by '$3cureUS"
+  - mysql -e "create database cs4501 character set utf8;" 
+  - mysql -e "grant all on test_cs4501.* to 'www'@'%';"
+install:
+  # Start the docker stuff
+  - docker-compose build 
+  - docker-compose up -d
+  - sleep 10
+script:
+  # Run tests
+  - docker-compose exec models sh -c "/app/bazaar/manage.py test"
+  - docker-compose exec exp sh -c "/app/experience/manage.py test"
