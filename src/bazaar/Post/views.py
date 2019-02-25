@@ -17,12 +17,14 @@ def serialize_post(post_id):
     try:
         post = Post.objects.filter(id=post_id)
         json_post = json.loads(serializers.serialize("json", post))
-        return JsonResponse(
-            {'post': json_post[0]['fields'], 'id': json_post[0]['pk']})
+        post.pk = 1
+        return JsonResponse({
+            'post': json_post[0]['fields'],
+            'id': json_post[0]['pk']
+        })
     except:
         return JsonResponse(
-            {"Status": "Couldn't find Post ID %d." % (post_id)},
-            status=404)
+            {"Status": "Couldn't find Post ID %d." % (post_id)}, status=404)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -30,6 +32,7 @@ class PostPerCategory(View):
     """
     Gets the most recent <num_posts> for the specified category
     """
+
     def get(self, request, num_posts, category):
 
         try:
@@ -40,8 +43,7 @@ class PostPerCategory(View):
             return JsonResponse({'Posts': json_post})
 
         except:
-            return JsonResponse(
-                {"Status": "Couldn't process request."})
+            return JsonResponse({"Status": "Couldn't process request."})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -82,8 +84,7 @@ class PostCreate(View):
             new_post = post_form.save()
             return serialize_post(new_post.pk)
 
-        return JsonResponse({'Status': post_form.errors},
-                            status=400)
+        return JsonResponse({'Status': post_form.errors}, status=400)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
