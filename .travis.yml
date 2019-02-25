@@ -7,7 +7,7 @@ before_install:
   # Stop the postgres instance travis sets up automatically
   - sudo /etc/init.d/postgresql stop
   - mysql -e 'CREATE DATABASE myapp_test;'
-  - mysql -e "create user 'www'@'%' identified by '$3cureUS"
+  - mysql -e "create user 'www'@'%' identified by '$3cureUS'"
   - mysql -e "create database cs4501 character set utf8;" 
   - mysql -e "grant all on test_cs4501.* to 'www'@'%';"
 install:
