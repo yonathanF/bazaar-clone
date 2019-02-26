@@ -1,9 +1,6 @@
 services: 
   - docker
 
-env:
-  - DB=dev
-
 before_install:
   - docker -v
   # Stop the postgres instance travis sets up automatically

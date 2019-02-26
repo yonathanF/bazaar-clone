@@ -76,15 +76,8 @@ production_database = {
     'HOST': 'db',
 }
 
-# Travis will control this using env vars
-if "DB" in os.environ:
-    db_name = os.environ.get('DATABASE_NAME')
-    if db_name == "dev":
-        DATABASES = {'default': development_database}
-else:
-    DATABASES = {'default': production_database}
 
-# DATABASES = {'default': production_database}
+DATABASES = {'default': production_database}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
