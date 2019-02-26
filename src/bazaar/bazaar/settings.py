@@ -1,9 +1,7 @@
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -62,46 +60,53 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bazaar.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-
 development_database = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'database',
-    }
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': 'database',
+}
 
 production_database = {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cs4501',
-        'USER': 'www',
-        'PASSWORD': '$3cureUS',
-        'HOST': 'db',
-    }
-
-DATABASES = {
-    'default': production_database
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'cs4501',
+    'USER': 'www',
+    'PASSWORD': '$3cureUS',
+    'HOST': 'db',
 }
+
+# Travis will control this using env vars
+if "DB" in os.environ:
+    db_name = os.environ.get('DATABASE_NAME')
+    if db_name == "dev":
+        DATABASES = {'default': development_database}
+else:
+    DATABASES = {'default': production_database}
+
+# DATABASES = {'default': production_database}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
@@ -116,13 +121,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATICFILES_DIRS = [
     os.path.abspath(os.path.join(BASE_DIR, "static")),
 ]
-
 
 STATIC_URL = '/static/'
 
