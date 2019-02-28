@@ -60,13 +60,15 @@
         <v-flex lg12>
 	       <v-overflow-btn
 		:items="dropdown_icon"
-		label="Request Type"
+		label="Category"
 		target="#dropdown-example"
 		solo
 	      ></v-overflow-btn>
        </v-flex>
 
     </v-layout>
+    </v-flex>
+
         <v-flex lg12>
           <v-textarea
             solo
@@ -75,14 +77,22 @@
             label="Type your post's details..."
           ></v-textarea>
         </v-flex>
-	</v-flex>
+      
+        <v-flex lg12>
+	<v-layout align-end justify-end>
+	     <v-btn color="#880E4F" flat large>Cancel</v-btn>
+	     <v-btn class="#880E4F" raised large>Create</v-btn>
+	  </v-layout>
+        </v-flex>
+
+
+
 	</v-card-text>
 	</v-card>
 
 	</v-flex>
 
-
-     
+	     
     </v-layout>
   </v-container>
 
