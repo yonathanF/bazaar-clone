@@ -2,7 +2,7 @@
   <v-container fill-height v-if="errors == null">
     <v-layout justify-center>
 
-      <v-flex xs12 sm10 lg8>
+      <v-flex xs12 sm10 lg9>
 
       <v-card>
 	<v-card-title>
@@ -52,6 +52,15 @@
 	</v-flex>
 
         <v-flex lg12>
+	   <v-text-field
+              label="Zip Code"
+	      v-model="zipcode"
+              single-line
+              solo
+            ></v-text-field>
+	</v-flex>
+
+        <v-flex lg12>
 	     <v-overflow-btn
 		:items="contact_options"
 	        v-model="preferred_contact"
@@ -60,6 +69,7 @@
 		required
 	      ></v-overflow-btn>
 	</v-flex>
+
 
         <v-flex lg12>
 	       <v-overflow-btn
@@ -160,6 +170,10 @@ export default {
 
       if(this.request_type == "Request Type")
 	return true;
+
+      if(this.zipcode== "")
+	return true;
+
 
       return false;
     }
