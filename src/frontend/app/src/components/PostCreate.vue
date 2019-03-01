@@ -2,7 +2,7 @@
   <v-container fill-height v-if="errors == null">
     <v-layout justify-center>
 
-      <v-flex xs12 sm10 md8 lg6>
+      <v-flex xs12 sm10 lg8>
 
       <v-card>
 	<v-card-title>
@@ -34,7 +34,7 @@
 	    >
 	      <v-text-field
 		slot="activator"
-		v-model="date"
+		v-model="deadline"
 		label="Deadline"
 		append-icon="event"
 		readonly
@@ -66,6 +66,16 @@
 	      ></v-overflow-btn>
        </v-flex>
 
+        <v-flex lg12>
+	       <v-overflow-btn
+		:items="dropdown_icon"
+		label="Request Type"
+		target="#dropdown-example"
+		solo
+	      ></v-overflow-btn>
+       </v-flex>
+
+
     </v-layout>
     </v-flex>
 
@@ -81,7 +91,7 @@
         <v-flex lg12>
 	<v-layout align-end justify-end>
 	     <v-btn color="#880E4F" flat large>Cancel</v-btn>
-	     <v-btn class="#880E4F" raised large>Create</v-btn>
+	     <v-btn disabled color="#880E4F" class="white--text" raised large>Create</v-btn>
 	  </v-layout>
         </v-flex>
 
@@ -111,7 +121,6 @@ import { HTTP } from "../APIBase";
 export default {
   name: 'PostCreate',
   data: () => ({
-    date: new Date().toISOString().substr(0, 10),
     menu: false,
     title: "",
     details: "",
