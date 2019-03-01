@@ -17,13 +17,13 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', component: HomePage},
-  { path: '/profile', component: UserProfile},
-  { path: '/posts', component: UserPosts},
-  { path: '/postCreate', component: PostCreate},
-  { path: '/comments', component: UserComments},
-  { path: '/category/:category_id', component: AllCategory},
-  { path: '/postDetail/:post_id', name:'postDetail', component: PostDetail},
+  { path: '/', component: HomePage, meta: {title: 'Your Homepage'}},
+  { path: '/profile', component: UserProfile, meta: {title: 'Your Profile'}},
+  { path: '/posts', component: UserPosts, meta: {title: 'Your Posts'}},
+  { path: '/postCreate', component: PostCreate, meta: {title: 'Create Post'}},
+  { path: '/comments', component: UserComments, meta: {title: 'Your Comments'}},
+  { path: '/category/:category_id', component: AllCategory, meta: {title: 'Posts'}},
+  { path: '/postDetail/:post_id', name:'postDetail', component: PostDetail, meta: {title: 'Post Detail'}},
   { path: '*', component: Error404},
 ]
 
@@ -31,6 +31,10 @@ const router = new VueRouter({
   routes 
 })
 
+router.beforeEach((to, from, next) => { 
+  document.title = to.meta.title
+  next()
+})
 
 new Vue({
   router,
