@@ -11,7 +11,6 @@ import PostCreate from './components/PostCreate'
 import Error404 from './components/Error404'
 import VueRouter from 'vue-router'
 
-
 Vue.config.productionTip = false
 
 //Route setup

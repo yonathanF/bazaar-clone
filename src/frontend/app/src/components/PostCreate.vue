@@ -12,6 +12,7 @@
 
             <v-text-field
               label="Post title"
+	      v-model="title"
               single-line
               solo
             ></v-text-field>
@@ -25,12 +26,13 @@
 	      v-model="menu"
 	      :close-on-content-click="false"
 	      :nudge-right="40"
-	      :return-value.sync="date"
+	      :return-value.sync="deadline"
 	      lazy
 	      transition="scale-transition"
 	      offset-y
 	      full-width
 	      min-width="290px"
+	      color= #880E4F
 	    >
 	      <v-text-field
 		slot="activator"
@@ -40,10 +42,10 @@
 		readonly
 		solo
 	      ></v-text-field>
-	      <v-date-picker v-model="date" color="#880E4F" scrollable>
+	      <v-date-picker v-model="deadline" color="#880E4F" scrollable>
 		<v-spacer></v-spacer>
 		<v-btn flat color="#880E4F" @click="menu = false">Cancel</v-btn>
-		<v-btn flat color="#880E4F" @click="$refs.menu.save(date)">OK</v-btn>
+		<v-btn flat color="#880E4F" @click="$refs.menu.save(deadline)">OK</v-btn>
 	      </v-date-picker>
 	    </v-menu>
 	</v-flex>
@@ -120,6 +122,7 @@ color: #880E4F;
 <script>
 
 import { HTTP } from "../APIBase";
+import { required, minLength, between } from 'vuelidate/lib/validators'
 
 export default {
   name: 'PostCreate',
@@ -132,7 +135,8 @@ export default {
     zipcode: "",
     category: "",
     preferred_contact: "",
-  })
+  }),
+  
   
 }
 </script>
