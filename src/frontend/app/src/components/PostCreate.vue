@@ -6,7 +6,7 @@
 
       <v-card>
 	<v-card-title>
-	    <h1> New Post </h1>
+	    <h1 class="new-post"> Create a New Post </h1>
 	  </v-card-title>
 	  <v-card-text>
 
@@ -110,7 +110,10 @@
 
 
 <style scoped>
-
+.new-post{
+font-size: 2.3em;
+color: #880E4F;
+}
 </style>
 
 
