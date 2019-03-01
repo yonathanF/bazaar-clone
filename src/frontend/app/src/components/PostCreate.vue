@@ -15,6 +15,7 @@
 	      v-model="title"
               single-line
               solo
+	      required
             ></v-text-field>
 
       <v-flex lg12>
@@ -52,28 +53,30 @@
 
         <v-flex lg12>
 	     <v-overflow-btn
-		:items="dropdown_icon"
+		:items="contact_options"
+	        v-model="preferred_contact"
 		label="Preferred Contact"
-		target="#dropdown-example"
 		solo
+		required
 	      ></v-overflow-btn>
 	</v-flex>
 
         <v-flex lg12>
 	       <v-overflow-btn
-		:items="dropdown_icon"
+		:items="categories"
 		label="Category"
-		target="#dropdown-example"
+		v-model="category"
 		solo
+		required	
 	      ></v-overflow-btn>
        </v-flex>
 
         <v-flex lg12>
 	       <v-overflow-btn
-		:items="dropdown_icon"
-		label="Request Type"
-		target="#dropdown-example"
+		:items="request_options"
+		v-model="request_type"
 		solo
+		required
 	      ></v-overflow-btn>
        </v-flex>
 
@@ -85,6 +88,7 @@
           <v-textarea
             solo
 	    counter=500
+	    v-model="details"
             name="input-7-4"
             label="Type your post's details..."
           ></v-textarea>
@@ -93,7 +97,7 @@
         <v-flex lg12>
 	<v-layout align-end justify-end>
 	     <v-btn color="#880E4F" flat large>Cancel</v-btn>
-	     <v-btn disabled color="#880E4F" class="white--text" raised large>Create</v-btn>
+	     <v-btn :disabled=invalid_form color="#880E4F" class="white--text" raised large>Create</v-btn>
 	  </v-layout>
         </v-flex>
 
@@ -122,7 +126,6 @@ color: #880E4F;
 <script>
 
 import { HTTP } from "../APIBase";
-import { required, minLength, between } from 'vuelidate/lib/validators'
 
 export default {
   name: 'PostCreate',
@@ -131,12 +134,37 @@ export default {
     title: "",
     details: "",
     deadline: "",
-    request_type: "",
+    request_type: "Request Type",
     zipcode: "",
-    category: "",
-    preferred_contact: "",
+    category: "Category",
+    preferred_contact: "Contact",
+    contact_options: ["Phone" , "Email"],
+    request_options: ["Offering", "Requesting"],
+    categories: ["IT", "Events", "Tutoring", "Lifestyle", "Art", "Household", "Labor", "Pets", "Automotives"]
   }),
   
+  computed: {
+    invalid_form() {
+    
+      if(this.title.length < 1)
+	return true;
+
+      if(this.details.length < 1)
+	return true;
+      
+      if(this.deadline == "")
+	return true;
+
+      if(this.category == "Category")
+	return true;
+
+      if(this.request_type == "Request Type")
+	return true;
+
+      return false;
+    }
+  
+  }
   
 }
 </script>
