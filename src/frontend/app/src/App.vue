@@ -1,5 +1,7 @@
 <template>
-  <v-app id="inspire">
+  <v-app v-if="!loggedIn">
+  </v-app>
+  <v-app v-else-if="loggedIn" id="inspire">
     <v-navigation-drawer
       class="drawer"
       v-model="drawer"
@@ -113,6 +115,7 @@ export default {
   },
   data: () => ({
       drawer: null,
+      loggedIn: true,
       account_info: [
         {
           title: "Profile",

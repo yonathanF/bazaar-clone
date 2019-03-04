@@ -9,6 +9,7 @@ import AllCategory from './components/CategoryAll'
 import PostDetail from './components/PostDetail'
 import PostCreate from './components/PostCreate'
 import Error404 from './components/Error404'
+import LoginPage from './components/LoginPage'
 import VueRouter from 'vue-router'
 
 Vue.config.productionTip = false
@@ -24,6 +25,7 @@ const routes = [
   { path: '/comments', component: UserComments, meta: {title: 'Your Comments'}},
   { path: '/category/:category_id', component: AllCategory, meta: {title: 'Posts'}},
   { path: '/postDetail/:post_id', name:'postDetail', component: PostDetail, meta: {title: 'Post Detail'}},
+  { path: '/login/', name: 'login', component: LoginPage},
   { path: '*', component: Error404},
 ]
 
