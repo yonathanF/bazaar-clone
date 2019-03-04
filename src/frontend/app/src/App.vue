@@ -1,5 +1,6 @@
 <template>
   <v-app v-if="!loggedIn">
+    <router-view/>
   </v-app>
   <v-app v-else-if="loggedIn" id="inspire">
     <v-navigation-drawer

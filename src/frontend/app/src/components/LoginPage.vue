@@ -1,7 +1,7 @@
 <template>
   <v-container fill-height v-if="errors == null">
-<v-layout align-center justify-center row fill-height/>
-      <v-flex xs12 sm10 lg5>
+<v-layout align-center justify-center row>
+      <v-flex xs12 lg4>
 
       <v-card>
 	<v-card-title>
@@ -36,12 +36,8 @@
 
 
         <v-flex lg12>
-	<v-layout align-end justify-end>
 	     <v-btn :disabled=invalid_form color="#880E4F" class="white--text" block large>Login</v-btn>
-	  </v-layout>
         </v-flex>
-
-	     <span> Don't have an account? Register here. </span>
 
 	</v-card-text>
 	</v-card>
