@@ -115,7 +115,7 @@ export default {
   },
   data: () => ({
       drawer: null,
-      loggedIn: true,
+      loggedIn: false,
       account_info: [
         {
           title: "Profile",
