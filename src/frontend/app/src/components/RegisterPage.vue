@@ -9,6 +9,28 @@
           <v-card-text>
             <v-flex lg12>
               <v-text-field
+                label="First name"
+                v-model="firstname"
+                single-line
+                solo
+                required
+                :rules="[rules.required]"
+              ></v-text-field>
+            </v-flex>
+
+            <v-flex lg12>
+              <v-text-field
+                label="Last name"
+                v-model="lastname"
+                single-line
+                solo
+                required
+                :rules="[rules.required]"
+              ></v-text-field>
+            </v-flex>
+
+            <v-flex lg12>
+              <v-text-field
                 label="Email"
                 v-model="email"
                 single-line
@@ -39,7 +61,7 @@
                 class="white--text"
                 block
                 large
-                >Login</v-btn
+                >Register</v-btn
               >
             </v-flex>
           </v-card-text>
@@ -63,6 +85,8 @@ export default {
     show1: false,
     password: "",
     email: "",
+    firstname: "",
+    lastname: "",
     rules: {
       required: value => !!value || "Required.",
       min: v => v.length >= 8 || "Min 8 characters",
