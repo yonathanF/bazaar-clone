@@ -10,6 +10,7 @@ import PostDetail from "./components/PostDetail";
 import PostCreate from "./components/PostCreate";
 import Error404 from "./components/Error404";
 import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 import VueRouter from "vue-router";
 
 Vue.config.productionTip = false;
@@ -18,41 +19,49 @@ Vue.config.productionTip = false;
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/", component: HomePage, meta: { title: "Your Homepage" } },
-  { path: "/profile", component: UserProfile, meta: { title: "Your Profile" } },
-  { path: "/posts", component: UserPosts, meta: { title: "Your Posts" } },
+  { path: "/", component: HomePage, meta: { title: "Bazaar | Your Homepage" } },
+  {
+    path: "/profile",
+    component: UserProfile,
+    meta: { title: "Bazaar | Your Profile" }
+  },
+  {
+    path: "/posts",
+    component: UserPosts,
+    meta: { title: "Bazaar | Your Posts" }
+  },
   {
     path: "/postCreate",
     component: PostCreate,
-    meta: { title: "Create Post" }
+    meta: { title: "Bazaar | Create Post" }
   },
   {
     path: "/comments",
     component: UserComments,
-    meta: { title: "Your Comments" }
+    meta: { title: "Bazaar | Your Comments" }
   },
   {
     path: "/category/:category_id",
     component: AllCategory,
-    meta: { title: "Posts" }
+    meta: { title: "Bazaar | Posts" }
   },
   {
     path: "/postDetail/:post_id",
     name: "postDetail",
     component: PostDetail,
-    meta: { title: "Post Detail" }
+    meta: { title: "Bazaar | Post Detail" }
   },
   {
     path: "/login/",
     name: "login",
     component: LoginPage,
-    meta: { title: "Login" }
+    meta: { title: "Bazaar | Login" }
   },
   {
     path: "/register/",
     name: "register",
-    component: LoginPage,
-    meta: { title: "register" }
+    component: RegisterPage,
+    meta: { title: "Bazaar | Register" }
   },
   { path: "*", component: Error404 }
 ];
