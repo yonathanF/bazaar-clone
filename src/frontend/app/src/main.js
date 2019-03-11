@@ -48,6 +48,12 @@ const routes = [
     component: LoginPage,
     meta: { title: "Login" }
   },
+  {
+    path: "/register/",
+    name: "register",
+    component: LoginPage,
+    meta: { title: "register" }
+  },
   { path: "*", component: Error404 }
 ];
 
