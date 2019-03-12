@@ -20,7 +20,7 @@ function handleResponse(response) {
   });
 }
 
-function isAuthenticated() {
+export function isAuthenticated() {
   const token = localStorage.getItem("token");
-  return !token || token.length === 0;
+  return !(!token || token.length === 0);
 }

@@ -9,6 +9,7 @@ import Error404 from "../components/Error404";
 import LoginPage from "../components/LoginPage";
 import RegisterPage from "../components/RegisterPage";
 import VueRouter from "vue-router";
+import { isAuthenticated } from "../services/AuthService";
 import Vue from "vue";
 
 //Route setup
@@ -71,6 +72,13 @@ export const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (!isAuthenticated() && to.meta.requiresAuth) {
+    return next({
+      name: "login",
+      query: { returnUrl: to.path }
+    });
+  }
+
   document.title = to.meta.title;
   next();
 });
