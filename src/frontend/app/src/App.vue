@@ -101,6 +101,7 @@
 <script>
 import HomePage from "./components/HomePage";
 import PostDetail from "./components/PostDetail";
+import { isAuthenticated } from "./services/AuthService";
 
 export default {
   name: "App",
@@ -172,6 +173,9 @@ export default {
   }),
   props: {
     source: String
+  },
+  created() {
+    this.loggedIn = isAuthenticated();
   }
 };
 </script>
