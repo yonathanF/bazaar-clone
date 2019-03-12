@@ -1,4 +1,3 @@
-import { logout } from "./UserService";
 import { HTTP } from "../APIBase";
 
 function handleResponse(response) {
