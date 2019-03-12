@@ -15,51 +15,55 @@ import Vue from "vue";
 Vue.use(VueRouter);
 
 const routes = [
-  { path: "/", component: HomePage, meta: { title: "Bazaar | Your Homepage" } },
+  {
+    path: "/",
+    component: HomePage,
+    meta: { title: "Bazaar | Your Homepage", requiresAuth: true }
+  },
   {
     path: "/profile",
     component: UserProfile,
-    meta: { title: "Bazaar | Your Profile" }
+    meta: { title: "Bazaar | Your Profile", requiresAuth: true }
   },
   {
     path: "/posts",
     component: UserPosts,
-    meta: { title: "Bazaar | Your Posts" }
+    meta: { title: "Bazaar | Your Posts", requiresAuth: true }
   },
   {
     path: "/postCreate",
     component: PostCreate,
-    meta: { title: "Bazaar | Create Post" }
+    meta: { title: "Bazaar | Create Post", requiresAuth: true }
   },
   {
     path: "/comments",
     component: UserComments,
-    meta: { title: "Bazaar | Your Comments" }
+    meta: { title: "Bazaar | Your Comments", requiresAuth: true }
   },
   {
     path: "/category/:category_id",
     component: AllCategory,
-    meta: { title: "Bazaar | Posts" }
+    meta: { title: "Bazaar | Posts", requiresAuth: true }
   },
   {
     path: "/postDetail/:post_id",
     name: "postDetail",
     component: PostDetail,
-    meta: { title: "Bazaar | Post Detail" }
+    meta: { title: "Bazaar | Post Detail", requiresAuth: true }
   },
   {
     path: "/login/",
     name: "login",
     component: LoginPage,
-    meta: { title: "Bazaar | Login" }
+    meta: { title: "Bazaar | Login", requiresAuth: false }
   },
   {
     path: "/register/",
     name: "register",
     component: RegisterPage,
-    meta: { title: "Bazaar | Register" }
+    meta: { title: "Bazaar | Register", requiresAuth: false }
   },
-  { path: "*", component: Error404 }
+  { path: "*", component: Error404, requiresAuth: false }
 ];
 
 export const router = new VueRouter({
