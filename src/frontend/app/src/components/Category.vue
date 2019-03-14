@@ -35,7 +35,7 @@
 		<v-chip small outline dark color="pink lighten-1">
 
 		    <v-icon small left>calendar_today</v-icon>
-		<span class="font-weight-light">{{ post.deadline | moment("from", "now")}} </span>
+		<span class="text-capitalize font-weight-light">{{ post.deadline | moment("from", "now")}} </span>
 
 		</v-chip>
 		</v-flex>
