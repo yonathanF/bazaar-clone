@@ -2,9 +2,8 @@
   <v-container grid-list-md fill-height v-if="errors == null">
     <v-layout row wrap>
       <v-flex lg6>
-        <h1 class="title">{{ title }}</h1>
-        <h1>Here: {{ post }}</h1>
-        <h4 class="deadline">Deadline: {{ deadline }}</h4>
+        <h1 class="title">{{ post.title }}</h1>
+        <h4 class="deadline">Deadline: {{ post.deadline }}</h4>
 
         <v-btn
           flat
@@ -15,11 +14,11 @@
           >User Profile</v-btn
         >
 
-        <h3>{{ details }}</h3>
-        <h3>{{ request_type }}</h3>
-        <h3>{{ preferred_contact }}</h3>
-        <h3>{{ zipcode }}</h3>
-        <h3>{{ category }}</h3>
+        <h3>{{ post.details }}</h3>
+        <h3>{{ post.request_type }}</h3>
+        <h3>{{ post.preferred_contact }}</h3>
+        <h3>{{ post.zipcode }}</h3>
+        <h3>{{ post.category }}</h3>
       </v-flex>
     </v-layout>
   </v-container>
