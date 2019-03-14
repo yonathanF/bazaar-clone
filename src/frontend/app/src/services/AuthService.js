@@ -1,7 +1,7 @@
 import { HTTP } from "../APIBase";
 import { handleResponse } from "./BaseService";
 
-function logout() {
+export function logout() {
   HTTP.get("logout/", {
     params: {
       token: localStorage.getItem("token")
@@ -9,7 +9,7 @@ function logout() {
   }).then(localStorage.removeItem("token"));
 }
 
-function login(email, password) {
+export function login(email, password) {
   HTTP.post("login/", {
     email: email,
     password: password
@@ -22,7 +22,7 @@ function login(email, password) {
     });
 }
 
-function register(firstname, lastname, email, password) {
+export function register(firstname, lastname, email, password) {
   HTTP.post("register/", {
     firstname: firstname,
     lastname: lastname,

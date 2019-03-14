@@ -1,21 +1,15 @@
 import { logout } from "./AuthService";
 
 export function handleResponse(response) {
-  return response.text().then(text => {
-    const data = text && JSON.parse(text);
-    if (!response.ok) {
-      // invalid login creds
-      if (response.status == 401) {
-        logout();
-      }
-
-      // TODO handle expired tokens by checking
-      // status code and the value of isAuthenticated
-
-      const error = (data && data.Error) || response.statusText;
-      return Promise.reject(error);
+  const data = response.data;
+  if (data[0] != 200 || response.status != 200) {
+    if (data[0] == 401 || response.status == 401) {
+      logout();
     }
+    const error = data.Error || response.statusText;
 
-    return data;
-  });
+    return Promise.reject(error);
+  }
+
+  return Promise.resolve(data);
 }
