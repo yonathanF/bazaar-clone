@@ -14,7 +14,7 @@
                   <template v-slot:activator="{ on }">
                     <v-chip color="pink darken-2" v-on="on" text-color="white">
                       <v-avatar>
-                        <v-icon>calendar_today</v-icon>
+                        <v-icon small>calendar_today</v-icon>
                       </v-avatar>
 
                       {{ post.deadline | moment("dddd, MMMM Do") }}
@@ -27,7 +27,7 @@
                   <template v-slot:activator="{ on }">
                     <v-chip color="pink darken-2" v-on="on" text-color="white">
                       <v-avatar>
-                        <v-icon>how_to_reg</v-icon>
+                        <v-icon small>how_to_reg</v-icon>
                       </v-avatar>
                       {{ post.request_type }}
                     </v-chip>
@@ -39,7 +39,7 @@
                   <template v-slot:activator="{ on }">
                     <v-chip color="pink darken-2" v-on="on" text-color="white">
                       <v-avatar>
-                        <v-icon>contacts</v-icon>
+                        <v-icon small>contacts</v-icon>
                       </v-avatar>
                       {{ post.preferred_contact }}
                     </v-chip>
@@ -51,7 +51,7 @@
                   <template v-slot:activator="{ on }">
                     <v-chip color="pink darken-2" v-on="on" text-color="white">
                       <v-avatar>
-                        <v-icon>pets</v-icon>
+                        <v-icon small>pets</v-icon>
                       </v-avatar>
                       {{ post.category }}
                     </v-chip>
@@ -63,7 +63,7 @@
                   <template v-slot:activator="{ on }">
                     <v-chip color="pink darken-2" v-on="on" text-color="white">
                       <v-avatar>
-                        <v-icon>person_pin_circle</v-icon>
+                        <v-icon small>person_pin_circle</v-icon>
                       </v-avatar>
                       {{ post.zip_code }}
                     </v-chip>
