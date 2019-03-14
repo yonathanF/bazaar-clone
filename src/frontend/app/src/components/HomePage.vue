@@ -19,8 +19,8 @@
 
 
 <script>
-import Category from './Category'
-import {HTTP} from '../APIBase';
+import Category from './Category';
+import {getHomepagePosts} from '../services/PostService';
 
 export default {
   name: 'HomePage',
@@ -76,21 +76,13 @@ export default {
   }),
 
   created() {
-      HTTP.get('homepage/4/')
-      .then(response => {
-	this.posts= response.data
+    getHomepagePosts(4)
+      .then(data => {
+	this.posts= data 
       })
       .catch(e => {
 	this.errors.push(e)
-      })
-    },
-
-   methods: {
-    goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
+      });
     }
-  }
 }
 </script>

@@ -11,3 +11,15 @@ export function getPost(postId) {
       Promise.reject(e);
     });
 }
+
+export function getHomepagePosts(numOfPosts) {
+  return HTTP.get("homepage/" + numOfPosts + "/")
+    .then(handleResponse)
+    .then(response => {
+      return response.data;
+    })
+    .catch(e => {
+      console.log(e);
+      Promise.reject(e);
+    });
+}
