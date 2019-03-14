@@ -10,38 +10,66 @@
           <v-card-text>
             <v-flex lg9>
               <v-layout justify-start row>
-                <v-chip color="pink darken-2" text-color="white">
-                  <v-avatar>
-                    <v-icon>calendar_today</v-icon>
-                  </v-avatar>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                      <v-avatar>
+                        <v-icon>calendar_today</v-icon>
+                      </v-avatar>
 
-                  {{ post.deadline | moment("dddd, MMMM Do") }}
-                </v-chip>
-                <v-chip color="pink darken-2" text-color="white">
-                  <v-avatar>
-                    <v-icon>how_to_reg</v-icon>
-                  </v-avatar>
-                  {{ post.request_type }}
-                </v-chip>
+                      {{ post.deadline | moment("dddd, MMMM Do") }}
+                    </v-chip>
+                  </template>
+                  <span>Deadline</span>
+                </v-tooltip>
 
-                <v-chip color="pink darken-2" text-color="white">
-                  <v-avatar>
-                    <v-icon>contacts</v-icon>
-                  </v-avatar>
-                  {{ post.preferred_contact }}
-                </v-chip>
-                <v-chip color="pink darken-2" text-color="white">
-                  <v-avatar>
-                    <v-icon>pets</v-icon>
-                  </v-avatar>
-                  {{ post.category }}
-                </v-chip>
-                <v-chip color="pink darken-2" text-color="white">
-                  <v-avatar>
-                    <v-icon>person_pin_circle</v-icon>
-                  </v-avatar>
-                  {{ post.zip_code }}
-                </v-chip>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                      <v-avatar>
+                        <v-icon>how_to_reg</v-icon>
+                      </v-avatar>
+                      {{ post.request_type }}
+                    </v-chip>
+                  </template>
+                  <span>Request Type</span>
+                </v-tooltip>
+
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                      <v-avatar>
+                        <v-icon>contacts</v-icon>
+                      </v-avatar>
+                      {{ post.preferred_contact }}
+                    </v-chip>
+                  </template>
+                  <span>Preferred Contact</span>
+                </v-tooltip>
+
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                      <v-avatar>
+                        <v-icon>pets</v-icon>
+                      </v-avatar>
+                      {{ post.category }}
+                    </v-chip>
+                  </template>
+                  <span>Category</span>
+                </v-tooltip>
+
+                <v-tooltip top>
+                  <template v-slot:activator="{ on }">
+                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                      <v-avatar>
+                        <v-icon>person_pin_circle</v-icon>
+                      </v-avatar>
+                      {{ post.zip_code }}
+                    </v-chip>
+                  </template>
+                  <span>Zip code</span>
+                </v-tooltip>
               </v-layout>
 
               <v-layout>
