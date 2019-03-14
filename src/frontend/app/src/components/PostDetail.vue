@@ -1,24 +1,60 @@
 <template>
   <v-container grid-list-md fill-height v-if="errors == null">
-    <v-layout row wrap>
-      <v-flex lg6>
-        <h1 class="title">{{ post.title }}</h1>
-        <h4 class="deadline">Deadline: {{ post.deadline }}</h4>
+    <v-layout align-start justify-center row fill-height>
+      <v-flex sm8 lg11>
+        <v-card>
+          <v-card-title class="display-2">
+            {{ post.title }}
+          </v-card-title>
 
-        <v-btn
-          flat
-          class="white--text"
-          :to="{ path: `/profile/${user}` }"
-          color="pink darken-2"
-          right
-          >User Profile</v-btn
-        >
+          <v-card-text>
+            <v-flex lg9>
+              <v-layout justify-start row>
+                <v-chip color="pink darken-2" text-color="white">
+                  <v-avatar>
+                    <v-icon>calendar_today</v-icon>
+                  </v-avatar>
 
-        <h3>{{ post.details }}</h3>
-        <h3>{{ post.request_type }}</h3>
-        <h3>{{ post.preferred_contact }}</h3>
-        <h3>{{ post.zipcode }}</h3>
-        <h3>{{ post.category }}</h3>
+                  {{ post.deadline | moment("dddd, MMMM Do") }}
+                </v-chip>
+                <v-chip color="pink darken-2" text-color="white">
+                  <v-avatar>
+                    <v-icon>how_to_reg</v-icon>
+                  </v-avatar>
+                  {{ post.request_type }}
+                </v-chip>
+
+                <v-chip color="pink darken-2" text-color="white">
+                  <v-avatar>
+                    <v-icon>contacts</v-icon>
+                  </v-avatar>
+                  {{ post.preferred_contact }}
+                </v-chip>
+                <v-chip color="pink darken-2" text-color="white">
+                  <v-avatar>
+                    <v-icon>pets</v-icon>
+                  </v-avatar>
+                  {{ post.category }}
+                </v-chip>
+                <v-chip color="pink darken-2" text-color="white">
+                  <v-avatar>
+                    <v-icon>person_pin_circle</v-icon>
+                  </v-avatar>
+                  {{ post.zip_code }}
+                </v-chip>
+              </v-layout>
+
+              <v-layout>
+                <div class="post-detail">
+                  <p>
+                    {{ post.details }}
+                  </p>
+                </div>
+              </v-layout>
+            </v-flex>
+            <!--{{ post.details }}-->
+          </v-card-text>
+        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -27,11 +63,11 @@
 </template>
 
 <style scoped>
-.title {
-  font-size: 2.6em !important;
-}
-.deadline {
-  font-size: 1em !important;
+.post-detail {
+  border-style: solid none none none;
+  border-width: 1px;
+  margin: 10px;
+  padding: 15px 0px 0px 0px;
 }
 </style>
 
