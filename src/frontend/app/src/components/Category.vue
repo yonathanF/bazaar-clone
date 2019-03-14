@@ -25,11 +25,11 @@
           </v-img>
   
           <v-card-title primary-title>
-	    <v-layout align-space-between justify-start column>
+	    <v-layout align-start justify-start column>
 	    <v-flex>
 	      <div class="headline">{{ post.title }}</div>
 	      </v-flex>
-	      <v-layout justify-start row fill-height>
+	      <v-layout align-start justify-start row fill-height>
 		<v-flex>
 
 		<v-chip small outline dark color="pink lighten-1">
