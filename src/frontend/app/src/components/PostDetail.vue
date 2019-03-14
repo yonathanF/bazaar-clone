@@ -12,7 +12,7 @@
               <v-layout justify-start row>
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                    <v-chip color="pink lighten-1" v-on="on" text-color="white">
                       <v-avatar>
                         <v-icon small>calendar_today</v-icon>
                       </v-avatar>
@@ -25,7 +25,7 @@
 
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                    <v-chip color="pink lighten-1" v-on="on" text-color="white">
                       <v-avatar>
                         <v-icon small>how_to_reg</v-icon>
                       </v-avatar>
@@ -37,7 +37,7 @@
 
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                    <v-chip color="pink lighten-1" v-on="on" text-color="white">
                       <v-avatar>
                         <v-icon small>contacts</v-icon>
                       </v-avatar>
@@ -49,7 +49,7 @@
 
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                    <v-chip color="pink lighten-1" v-on="on" text-color="white">
                       <v-avatar>
                         <v-icon small>pets</v-icon>
                       </v-avatar>
@@ -61,7 +61,7 @@
 
                 <v-tooltip top>
                   <template v-slot:activator="{ on }">
-                    <v-chip color="pink darken-2" v-on="on" text-color="white">
+                    <v-chip color="pink lighten-1" v-on="on" text-color="white">
                       <v-avatar>
                         <v-icon small>person_pin_circle</v-icon>
                       </v-avatar>

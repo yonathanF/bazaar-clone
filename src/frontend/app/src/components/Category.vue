@@ -1,9 +1,4 @@
 <template>
-    <v-layout
-      align-center 
-      justify-space-between 
-      row 
-      >
       <v-flex> 
 	<v-layout justify-end align-end>
   <v-btn class="headline" round flat dark color="pink darken-2">
@@ -12,7 +7,7 @@
 	</v-layout>
 
     <v-layout
-      align-center 
+      align-start
       justify-space-between 
       row 
       >
@@ -30,23 +25,24 @@
           </v-img>
   
           <v-card-title primary-title>
+	    <v-layout align-space-between justify-start column>
 	    <v-flex>
 	      <div class="headline">{{ post.title }}</div>
 	      </v-flex>
 	      <v-layout justify-start row fill-height>
 		<v-flex>
 
-		<v-chip small flat dark color="pink lighten-1">
+		<v-chip small outline dark color="pink lighten-1">
 
 		    <v-icon small left>calendar_today</v-icon>
-		<span class="font-weight-light">{{ post.deadline | moment("MMMM Do") }} </span>
+		<span class="font-weight-light">{{ post.deadline | moment("from", "now")}} </span>
 
 		</v-chip>
 		</v-flex>
 
 		<v-flex>
 
-		<v-chip dark small flat color="pink lighten-1">
+		<v-chip dark small outline color="pink lighten-1">
 
 		    <v-icon small left>how_to_reg</v-icon>
 		<span class="font-weight-light"> {{ post.request_type}}</span>
@@ -54,11 +50,12 @@
 		</v-chip>
 		</v-flex>
 		<v-flex>
-		<v-chip small flat dark color="pink lighten-1">
+		<v-chip small outline dark color="pink lighten-1">
 		    <v-icon small left>person_pin_circle</v-icon>
 		<span class="font-weight-light"> {{ post.zip_code}}</span>
 		</v-chip>
 		</v-flex>
+	      </v-layout>
 	      </v-layout>
 
           </v-card-title>
@@ -76,7 +73,6 @@
 	</v-flex>
 	</v-layout>
 	</v-flex>
-    </v-layout>
 </template>
 
 <style scoped>
