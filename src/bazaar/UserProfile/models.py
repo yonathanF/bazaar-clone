@@ -12,14 +12,14 @@ class Profile(models.Model):
     education = models.CharField(max_length=200, default='')
     zip_code = models.IntegerField()
 
-    def create_password(password):
+    def create_password(self, password):
         """
         Creates a hashed password of the plaintext passed in
         """
         pass
 
-    def login(password):
+    def login(self, password):
         """
         Tries to login the user with the given password
         """
-        pass
+        return check_password(password, self.password)
