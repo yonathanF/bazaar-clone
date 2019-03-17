@@ -2,7 +2,6 @@ import json
 
 from django.core import serializers
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
@@ -18,8 +17,11 @@ def serialize_profile(profile_id):
     try:
         profile = Profile.objects.filter(pk=profile_id)
         profile_json = json.loads(serializers.serialize('json', profile))
-        return JsonResponse({'profile': profile_json[0]['fields'],
-                             'id': profile_json[0]['pk']})
+        return JsonResponse({
+            'profile': profile_json[0]['fields'],
+            'id': profile_json[0]['pk']
+        },
+                            status=200)
     except:
         return JsonResponse(
             {"Status": "Couldn't find Profile ID %d." % (profile_id)},
@@ -38,8 +40,7 @@ class ProfileCreate(View):
             new_profile = profile_form.save()
             return serialize_profile(new_profile.pk)
 
-        return JsonResponse({'Status': profile_form.errors},
-                            status=400)
+        return JsonResponse({'Status': profile_form.errors}, status=400)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -73,7 +74,9 @@ class ProfileDelete(View):
     def get(self, request, profile_id):
         try:
             Profile.objects.get(id=profile_id).delete()
-            return JsonResponse({'Status': "Deleted Profile ID %d." % (profile_id)})
+            return JsonResponse(
+                {'Status': "Deleted Profile ID %d." % (profile_id)},
+                status=200)
         except:
             return JsonResponse(
                 {'Status': "Couldn't find profile ID %d." % (profile_id)},
