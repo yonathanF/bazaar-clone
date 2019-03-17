@@ -15,6 +15,36 @@ class ProfilePasswordTestCase(TestCase):
 
     def setUp(self):
         self.c = Client()
+        self.test_password = "testPassword",
+        self.profile = Profile.objects.create(
+            first_name='Test',
+            last_name='One',
+            rating='2.22',
+            description='model for unit test one',
+            email="test@email.com",
+            password=self.test_password,
+            education='test',
+            zip_code='22903')
+
+    def test_password_is_hashed(self):
+        """
+        Checks that the password passed in is hashed properly
+        """
+        self.assertNotEqual(self.test_password, self.profile.password)
+
+    def test_correct_password_is_accepted(self):
+        """
+        Tests that correct passwords are accepted
+        """
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertTrue(profile.login(self.test_password))
+
+    def test_incorrect_password_is_rejected(self):
+        """
+        Tests that incorrect passwords are rejected
+        """
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertFalse(profile.login("WrongPassword"))
 
 
 class getProfileTestCase(TestCase):
