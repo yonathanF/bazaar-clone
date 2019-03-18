@@ -22,7 +22,7 @@ class Authenticator(models.Model):
             digestmod='sha256',
         ).hexdigest()
 
-        super(Profile, self).save(*args, **kwargs)
+        super(Authenticator, self).save(*args, **kwargs)
 
 
 class Profile(models.Model):
@@ -39,8 +39,18 @@ class Profile(models.Model):
         self.password = make_password(self.password)
         super(Profile, self).save(*args, **kwargs)
 
-    def check_password(self, password):
-        """
-        Tries to login the user with the given password
-        """
-        return check_password(password, self.password)
+    def login(self, password):
+        if check_password(password, self.password):
+            auth = Authenticator.objects.create(user=self)
+            return auth
+
+        raise Exception("Incorrect password or email")
+
+    def logout(self, auth_token):
+        auths = Authenticator.objects.filter(user=self)
+        for auth in auths:
+            if auth.authenticator == auth_token:
+                auth.delete()
+                return
+
+        raise Exception("Not authorized for operation.")

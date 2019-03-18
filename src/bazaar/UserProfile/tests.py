@@ -37,23 +37,40 @@ class ProfilePasswordTestCase(TestCase):
         Tests that correct passwords are accepted
         """
         profile = Profile.objects.get(pk=self.profile.pk)
-        self.assertTrue(profile.check_password(self.test_password))
+        auth_profile = profile.login(self.test_password)
+        auth_from_authenticator = Authenticator.objects.get(user=profile)
+        self.assertEqual(auth_profile, auth_from_authenticator)
 
     def test_incorrect_password_is_rejected(self):
         """
         Tests that incorrect passwords are rejected
         """
         profile = Profile.objects.get(pk=self.profile.pk)
-        self.assertFalse(profile.check_password("WrongPassword"))
+        self.assertRaises(Exception, profile.login, "WrongPassword")
 
     def test_auth_token_generated(self):
         """
         Tests that the authentication token is generated
         correctly for an existing user
         """
-        auth = Authenticator.objects.create(user_id=self.profile.pk)
+        auth = Authenticator.objects.create(user=self.profile)
+        self.assertNotEqual(auth.authenticator, "")
 
-        print(auth.authenticator)
+    def test_logout_with_good_token(self):
+        """
+        Tests that logging out with a good token works
+        """
+        auth = self.profile.login(self.test_password)
+        self.profile.logout(auth.authenticator)
+        auths = Authenticator.objects.filter(user=self.profile)
+        self.assertNotIn(auth, auths)
+
+    def test_logout_with_bad_token(self):
+        """
+        Tests that logouts are rejected if the request
+        doesn't have a good auth token
+        """
+        self.assertRaises(Exception, self.profile.logout, "badAuthToken")
 
 
 class getProfileTestCase(TestCase):
