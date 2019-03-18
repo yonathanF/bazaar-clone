@@ -5,7 +5,7 @@ from django.core import serializers
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from .models import Profile
+from .models import Authenticator, Profile
 
 
 class ProfilePasswordTestCase(TestCase):
@@ -37,14 +37,23 @@ class ProfilePasswordTestCase(TestCase):
         Tests that correct passwords are accepted
         """
         profile = Profile.objects.get(pk=self.profile.pk)
-        self.assertTrue(profile.login(self.test_password))
+        self.assertTrue(profile.check_password(self.test_password))
 
     def test_incorrect_password_is_rejected(self):
         """
         Tests that incorrect passwords are rejected
         """
         profile = Profile.objects.get(pk=self.profile.pk)
-        self.assertFalse(profile.login("WrongPassword"))
+        self.assertFalse(profile.check_password("WrongPassword"))
+
+    def test_auth_token_generated(self):
+        """
+        Tests that the authentication token is generated
+        correctly for an existing user
+        """
+        auth = Authenticator.objects.create(user_id=self.profile.pk)
+
+        print(auth.authenticator)
 
 
 class getProfileTestCase(TestCase):

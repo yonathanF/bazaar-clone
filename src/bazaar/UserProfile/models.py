@@ -1,5 +1,28 @@
+import hmac
+import os
+
+from django.conf import settings
 from django.contrib.auth.hashers import check_password, make_password
 from django.db import models
+
+
+class Authenticator(models.Model):
+    user = models.ForeignKey(
+        "UserProfile.Profile", on_delete=models.CASCADE, related_name="tokens")
+
+    # TODO this is supposed to be unique but then it will be
+    # have to be under 225 characters
+    authenticator = models.CharField(max_length=1024)
+    date_created = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.authenticator = hmac.new(
+            key=settings.SECRET_KEY.encode('utf-8'),
+            msg=os.urandom(32),
+            digestmod='sha256',
+        ).hexdigest()
+
+        super(Profile, self).save(*args, **kwargs)
 
 
 class Profile(models.Model):
@@ -16,16 +39,8 @@ class Profile(models.Model):
         self.password = make_password(self.password)
         super(Profile, self).save(*args, **kwargs)
 
-    def login(self, password):
+    def check_password(self, password):
         """
         Tries to login the user with the given password
         """
         return check_password(password, self.password)
-
-
-class Authenticator(models.Model):
-    user_id = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name="tokens")
-    authenticator = models.CharField(
-        max_length=1024, default="defaultAuth", primary_key=True)
-    date_created = models.DateTimeField(auto_now=True)
