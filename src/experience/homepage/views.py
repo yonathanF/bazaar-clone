@@ -22,7 +22,6 @@ class TopPostsPerCategory(View):
 
         return Type[1][1]
 
-
     def get(self, request, num_posts):
         categories = (
             ("LI", "Lifestyle"),
@@ -41,17 +40,21 @@ class TopPostsPerCategory(View):
             result = api.post_top_n(category[0], num_posts)
             posts_in_category = {}
             for post in result['Posts']:
-                fields = {'request_type': self.request_type_to_human(post['fields']['request_type']),
-                          'deadline': post['fields']['deadline'],
-                          'title': post['fields']['title'],
-                          'zip_code': post['fields']['zip_code'],
-                          'id':post['pk']}
+                fields = {
+                    'request_type':
+                    self.request_type_to_human(post['fields']['request_type']),
+                    'deadline':
+                    post['fields']['deadline'],
+                    'title':
+                    post['fields']['title'],
+                    'zip_code':
+                    post['fields']['zip_code'],
+                    'id':
+                    post['pk']
+                }
 
                 posts_in_category[post['pk']] = fields
 
-
             posts[category[1]] = posts_in_category
-        resp = JsonResponse(posts)
-        # resp['Access-Control-Allow-Methods']= 'GET'
-        # resp['Access-Control-Allow-Origin'] = '*'
+        resp = JsonResponse({'data': posts}, status=200)
         return resp
