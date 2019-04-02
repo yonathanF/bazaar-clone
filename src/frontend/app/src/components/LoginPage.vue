@@ -77,9 +77,9 @@ export default {
 
   methods: {
     loginUser() {
-      let email = this.$data.firstname;
-      let password = this.$data.password;
-      login(email, password)
+      let emailInput = this.$data.email;
+      let passwordInput = this.$data.password;
+      login(emailInput, passwordInput)
         .then(data => {
           router.push({ name: "home" });
         })

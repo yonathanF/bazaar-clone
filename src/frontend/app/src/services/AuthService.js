@@ -10,7 +10,7 @@ export function logout() {
 }
 
 export function login(email, password) {
-  HTTP.get("login/login/", {
+  HTTP.post("login/login/", {
     email: email,
     password: password
   })
