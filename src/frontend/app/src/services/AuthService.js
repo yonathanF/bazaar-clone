@@ -10,14 +10,14 @@ export function logout() {
 }
 
 export function login(email, password) {
-  HTTP.post("login/login/", {
+  return HTTP.post("login/login/", {
     email: email,
     password: password
   })
     .then(handleResponse)
     .then(token => {
       if (token) {
-        localStorage.setItem("token", JSON.stringify(token));
+        localStorage.setItem("token", token["token"]);
       }
     })
 
