@@ -84,7 +84,7 @@ export default {
       let passwordInput = this.$data.password;
       login(emailInput, passwordInput)
         .then(data => {
-          router.push({ name: "home" });
+          router.push(this.$route.query.returnUrl || "/");
         })
         .catch(e => {
           this.$data.errors = e["response"]["data"]["Status"];
