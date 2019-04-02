@@ -53,6 +53,7 @@ class APIV1(object):
         self.post_endpoint = '/post/'
         self.comment_endpoint = '/comment/'
         self.user_endpoint = '/profile/'
+        self.login_endpoint = '/login/'
 
     def comment_get(self, comment_id):
         """
@@ -208,6 +209,12 @@ class APIV1(object):
         }
 
         # TODO: Finish up routing to model, create model view calls, link frontend buttons for logging in and out
+        # Remake the profile model so that emails are unique and can look up emails, make authenticator primary key
         url = self.user_endpoint+"login/"
         _, response = self.server.post(url, data)
+        return response
+    
+    def user_logout(self, token):
+        url = self.user_endpoint+"logout/" + str(token)
+        _, response = self.server.get(url)
         return response

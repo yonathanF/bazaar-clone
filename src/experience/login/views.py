@@ -21,6 +21,12 @@ logger = logging.getLogger('APPNAME')
 @method_decorator(csrf_exempt, name='dispatch')
 class LoginProfile(View):
      
+
+    def get(self, request, token):
+        api = APIV1()
+        res = api.user_logout(token)
+        return JsonResponse(res, safe=False)
+
     def post(self, request): 
         
         data = request.body.decode('utf-8')
@@ -32,3 +38,4 @@ class LoginProfile(View):
         
         res = api.user_login(email, password)
         return JsonResponse(res, safe=False)
+    

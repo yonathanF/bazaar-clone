@@ -7,7 +7,7 @@ from django.db import models
 
 
 class Authenticator(models.Model):
-    usr = models.ForeignKey(
+    user= models.ForeignKey(
         "UserProfile.Profile", on_delete=models.CASCADE, related_name="tokens")
 
     # TODO this is supposed to be unique but then it will be
@@ -28,7 +28,7 @@ class Authenticator(models.Model):
 class Profile(models.Model):
     first_name = models.CharField(max_length=200, default='')
     last_name = models.CharField(max_length=200, default='')
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     password = models.CharField(max_length=1024, default="defaultPass")
     rating = models.DecimalField(max_digits=3, decimal_places=2)
     description = models.TextField(default='')
