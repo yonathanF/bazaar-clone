@@ -10,7 +10,7 @@ export function createUser(firstname, lastname, email, password){
         rating: 0.00,
         description: "",
         education: "",
-        zip_code: 0,
+        zip_code: '00000',
     })
     .then(handleResponse)
     .then(response => {

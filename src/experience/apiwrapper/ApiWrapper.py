@@ -173,22 +173,26 @@ class APIV1(object):
     def user_get(self, user_id):
         pass
     
-    def user_create(self, first_name, last_name, email, password, rating, description, education, zip_code):
+    def user_create(self, first_name, last_name, email, password, description, education):
+        
         
         data = {
             'first_name': first_name,
             'last_name': last_name,
             'email':  email,
             'password': password,
-            'rating':  rating,
-            'description': description,
-            'education': education,
-            'zip_code': zip_code,
+            'rating':  0.00,
+            'description': "Please update description",
+            'education': "Please update education",
+            'zip_code': 00000,
         }
+
+        
 
         url = self.user_endpoint+"create/"
         _, response = self.server.post(url, data)
         return response
+        
 
 
     def user_update(self, first_name, last_name, email, password, rating, description, education, zip_code):
@@ -196,3 +200,14 @@ class APIV1(object):
 
     def user_delete(user_id):
         pass
+
+    def user_login(self, email, password):
+        data = {
+            'email': email,
+            'password': password
+        }
+
+        # TODO: Finish up routing to model, create model view calls, link frontend buttons for logging in and out
+        url = self.user_endpoint+"login/"
+        _, response = self.server.post(url, data)
+        return response

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'homepage',
     'postdetails',
     'users',
+    'login',
     'corsheaders',
 ]
 

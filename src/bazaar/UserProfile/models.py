@@ -41,13 +41,13 @@ class Profile(models.Model):
 
     def login(self, password):
         if check_password(password, self.password):
-            auth = Authenticator.objects.create(user=self)
+            auth = Authenticator.objects.create(usr=self)
             return auth
 
         raise Exception("Incorrect password or email")
 
     def logout(self, auth_token):
-        auths = Authenticator.objects.filter(user=self)
+        auths = Authenticator.objects.filter(usr=self)
         for auth in auths:
             if auth.authenticator == auth_token:
                 auth.delete()
