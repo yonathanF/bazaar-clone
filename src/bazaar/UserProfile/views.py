@@ -82,7 +82,7 @@ class ProfileDelete(View):
                 {'Status': "Couldn't find profile ID %d." % (profile_id)},
                 status=404)
 
-def ProfileLogin(View):
+class ProfileLogin(View):
     
     def post(self, request):
         data = request.body.decode('utf-8')
@@ -103,7 +103,7 @@ def ProfileLogin(View):
 
 
 
-def ProfileLogout(View):
+class ProfileLogout(View):
     
     def get(self, request, token):
         try:
