@@ -67,7 +67,9 @@ class ApiWrapperTestCase(unittest.TestCase):
                      'education': 'uva',
                      'description': 'stuff',
                      'zip_code': 80012,
-                     'rating': 5}
+                     'rating': 5.00,
+                     'email': "tetsing@virginia.edu",
+                     'password': 'testing'}
 
         status_code, response = self.api.post(url, post_data)
 
@@ -89,7 +91,9 @@ class ApiWrapperTestCase(unittest.TestCase):
                      'education': 'uva',
                      'description': 'stuff',
                      'zip_code': 80012,
-                     'rating': 5}
+                     'rating': 5.00,
+                     'email': "tetsing@virginia.edu",
+                     'password': 'testing'}
 
         status_code, response = self.api.post(url, post_data)
         self.assertEquals(STATUS_OK, status_code)

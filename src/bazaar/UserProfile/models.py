@@ -7,7 +7,7 @@ from django.db import models
 
 
 class Authenticator(models.Model):
-    user = models.ForeignKey(
+    usr = models.ForeignKey(
         "UserProfile.Profile", on_delete=models.CASCADE, related_name="tokens")
 
     # TODO this is supposed to be unique but then it will be

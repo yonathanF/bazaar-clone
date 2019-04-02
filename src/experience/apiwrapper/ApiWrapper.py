@@ -52,6 +52,7 @@ class APIV1(object):
 
         self.post_endpoint = '/post/'
         self.comment_endpoint = '/comment/'
+        self.user_endpoint = '/profile/'
 
     def comment_get(self, comment_id):
         """
@@ -168,3 +169,30 @@ class APIV1(object):
         _, response = self.server.get(url)
 
         return response
+    
+    def user_get(self, user_id):
+        pass
+    
+    def user_create(self, first_name, last_name, email, password, rating, description, education, zip_code):
+        
+        data = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email':  email,
+            'password': password,
+            'rating':  rating,
+            'description': description,
+            'education': education,
+            'zip_code': zip_code,
+        }
+
+        url = self.user_endpoint+"create/"
+        _, response = self.server.post(url, data)
+        return response
+
+
+    def user_update(self, first_name, last_name, email, password, rating, description, education, zip_code):
+        pass
+
+    def user_delete(user_id):
+        pass
