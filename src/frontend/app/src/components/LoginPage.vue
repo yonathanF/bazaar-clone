@@ -59,7 +59,7 @@
 
 <script>
 import { login } from "../services/AuthService";
-import { router } from "../router/MainRouter";
+import { router } from "../routers/MainRouter";
 
 export default {
   name: "LoginPage",
@@ -79,9 +79,13 @@ export default {
     loginUser() {
       let email = this.$data.firstname;
       let password = this.$data.password;
-      login(email, password).catch(e => {
-        this.$data.errors.push(e);
-      });
+      login(email, password)
+        .then(data => {
+          router.push({ name: "home" });
+        })
+        .catch(e => {
+          this.$data.errors.push(e);
+        });
     }
   }
 };
