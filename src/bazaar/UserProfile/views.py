@@ -82,6 +82,7 @@ class ProfileDelete(View):
                 {'Status': "Couldn't find profile ID %d." % (profile_id)},
                 status=404)
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ProfileLogin(View):
     
     def post(self, request):
@@ -89,10 +90,11 @@ class ProfileLogin(View):
         newdata = json.loads(data)
         email = newdata['email']
         password = newdata['password']
+        
         try:
             userprof = Profile.objects.get(email=email)
             auth = userprof.login(password)
-            return JsonResponse({'token': auth}, status=200)
+            return JsonResponse({'token': auth.authenticator}, status=200)
 
         except Profile.DoesNotExist:
             return JsonResponse(
@@ -102,14 +104,14 @@ class ProfileLogin(View):
         return JsonResponse({'Status': "Something went wrong"}, status=400)
 
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class ProfileLogout(View):
     
     def get(self, request, token):
         try:
-            Authenticator.objects.filter(authenticator=token).delete()
+            Authenticator.objects.get(authenticator=token).delete()
             return JsonResponse(
-                {'Status': "Deleted Authenticator %d."},
+                {'Status': "Deleted Authenticator"},
                 status=200)
         except:
             return JsonResponse(
