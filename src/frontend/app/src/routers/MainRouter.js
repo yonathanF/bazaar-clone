@@ -19,30 +19,36 @@ const routes = [
   {
     path: "/",
     component: HomePage,
+    name: "home",
     meta: { title: "Bazaar | Your Homepage", requiresAuth: true }
   },
   {
     path: "/profile",
     component: UserProfile,
+    name: "profile",
     meta: { title: "Bazaar | Your Profile", requiresAuth: true }
   },
   {
     path: "/posts",
     component: UserPosts,
+    name: "userPosts",
     meta: { title: "Bazaar | Your Posts", requiresAuth: true }
   },
   {
     path: "/postCreate",
     component: PostCreate,
+    name: "createPost",
     meta: { title: "Bazaar | Create Post", requiresAuth: true }
   },
   {
     path: "/comments",
     component: UserComments,
+    name: "userComments",
     meta: { title: "Bazaar | Your Comments", requiresAuth: true }
   },
   {
     path: "/category/:category_id",
+    name: "catgory",
     component: AllCategory,
     meta: { title: "Bazaar | Posts", requiresAuth: true }
   },

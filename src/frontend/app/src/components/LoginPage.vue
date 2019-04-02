@@ -23,7 +23,7 @@
                 label="Password"
                 v-model="password"
                 :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.min]"
+                :rules="[rules.required]"
                 :type="show1 ? 'text' : 'password'"
                 single-line
                 solo
@@ -39,6 +39,7 @@
                 class="white--text"
                 block
                 large
+                @click="loginUser()"
                 >Login</v-btn
               >
             </v-flex>
@@ -57,17 +58,31 @@
 </style>
 
 <script>
+import { login } from "../services/AuthService";
+import { router } from "../router/MainRouter";
+
 export default {
   name: "LoginPage",
   data: () => ({
     show1: false,
     password: "",
+    errors: null,
+    invalid_form: false,
     email: "",
     rules: {
       required: value => !!value || "Required.",
-      min: v => v.length >= 8 || "Min 8 characters",
       emailMatch: () => "The email and password you entered don't match"
     }
-  })
+  }),
+
+  methods: {
+    loginUser() {
+      let email = this.$data.firstname;
+      let password = this.$data.password;
+      login(email, password).catch(e => {
+        this.$data.errors.push(e);
+      });
+    }
+  }
 };
 </script>

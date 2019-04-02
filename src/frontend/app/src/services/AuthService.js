@@ -19,6 +19,10 @@ export function login(email, password) {
       if (token) {
         localStorage.setItem("token", JSON.stringify(token));
       }
+    })
+
+    .catch(e => {
+      Promise.reject(e);
     });
 }
 
