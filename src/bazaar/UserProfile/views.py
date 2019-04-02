@@ -99,6 +99,10 @@ class ProfileLogin(View):
             return JsonResponse(
                 {'Status': "Couldn't find a valid email and password"},
                 status=404)
+        except Exception:
+            return JsonResponse(
+                {'Status': "Couldn't find a valid email and password"},
+                status=404)
 
         return JsonResponse({'Status': "Something went wrong"}, status=400)
 
