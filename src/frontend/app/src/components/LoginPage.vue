@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height v-if="errors == null">
+  <v-container fill-height>
     <v-layout align-center justify-center>
       <v-flex xs6 lg3>
         <v-card>
@@ -32,6 +32,9 @@
               ></v-text-field>
             </v-flex>
 
+            <v-flex lg12>
+              {{ errors }}
+            </v-flex>
             <v-flex lg12>
               <v-btn
                 :disabled="invalid_form"
@@ -66,7 +69,7 @@ export default {
   data: () => ({
     show1: false,
     password: "",
-    errors: null,
+    errors: "",
     invalid_form: false,
     email: "",
     rules: {
@@ -84,7 +87,7 @@ export default {
           router.push({ name: "home" });
         })
         .catch(e => {
-          this.$data.errors.push(e);
+          this.$data.errors = e["response"]["data"]["Status"];
         });
     }
   }

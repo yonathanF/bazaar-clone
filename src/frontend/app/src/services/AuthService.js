@@ -16,13 +16,14 @@ export function login(email, password) {
   })
     .then(handleResponse)
     .then(token => {
-      if (token) {
+      if (token["token"]) {
         localStorage.setItem("token", token["token"]);
+      } else if (token["Status"]) {
+        return Promise.reject(token["Status"]);
       }
     })
-
     .catch(e => {
-      Promise.reject(e);
+      return Promise.reject(e);
     });
 }
 
