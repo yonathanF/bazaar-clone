@@ -62,6 +62,7 @@
 
 <script>
 import { login } from "../services/AuthService";
+import { isAuthenticated } from "../services/AuthService";
 import { router } from "../routers/MainRouter";
 
 export default {
@@ -84,6 +85,9 @@ export default {
       let passwordInput = this.$data.password;
       login(emailInput, passwordInput)
         .then(data => {
+          while (!isAuthenticated()) {
+            /*give it time to set and read the token*/
+          }
           router.push(this.$route.query.returnUrl || "/");
         })
         .catch(e => {
