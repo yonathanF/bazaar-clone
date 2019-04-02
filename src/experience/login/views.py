@@ -31,5 +31,6 @@ class LoginProfile(View):
         email = newdata['email']
         password = newdata['password']
 
-        res = api.user_login(email, password)
-        return JsonResponse(res, safe=False)
+        response_code, response_body = api.user_login(email, password)
+
+        return JsonResponse(response_body, status=response_code)
