@@ -209,7 +209,6 @@ class APIV1(object):
         }
 
         # TODO: Finish up routing to model, create model view calls, link frontend buttons for logging in and out
-        # Remake the profile model so that emails are unique and can look up emails, make authenticator primary key
         url = self.user_endpoint+"login/"
         _, response = self.server.post(url, data)
         return response

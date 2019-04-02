@@ -1,5 +1,11 @@
 <template>
   <v-container fill-height v-if="errors == null">
+    <span v-if="errors != null">
+      {{ errors[0] }}
+    </span>
+    <span v-if="post != null">
+      {{ post }}
+    </span>
     <v-layout align-center justify-center>
       <v-flex xs6 lg3>
         <v-card>
@@ -85,6 +91,8 @@ import { createUser } from "../services/UserService";
 export default {
   name: "RegisterPage",
   data: () => ({
+    errors: [],
+    post: [],
     show1: false,
     password: "",
     email: "",
@@ -103,6 +111,12 @@ export default {
         var email = this.$data.email
         var password = this.$data.password
         createUser(firstname, lastname, email, password)
+        .then(data => {
+          this.$data.post= data 
+        })
+        .catch(e => {
+          this.$data.errors.push(e)
+        });
       }
       
   }

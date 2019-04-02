@@ -14,9 +14,10 @@ export function createUser(firstname, lastname, email, password){
     })
     .then(handleResponse)
     .then(response => {
-        console.log(response.status_code)
+        return response.data;
     })
     .catch(e => {
+      console.log(e);
       Promise.reject(e);
     });
   }

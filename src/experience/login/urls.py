@@ -6,5 +6,5 @@ urlpatterns = [
     path('/login/',
          LoginProfile.as_view(),
          name="loginuser"),
-    path('/logout/<str:token>', LoginProfile.as_view(), name="logoutuser"),
+    path('/logout/<str:token>/', LoginProfile.as_view(), name="logoutuser"),
 ]
