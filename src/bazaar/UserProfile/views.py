@@ -86,15 +86,13 @@ class ProfileDelete(View):
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfileLogin(View):
     def post(self, request):
-        data = request.body.decode('utf-8')
-        newdata = json.loads(data)
-
         try:
-            email = newdata['email']
-            password = newdata['password']
+            email = request.POST['email']
+            password = request.POST['password']
 
             userprof = Profile.objects.get(email=email)
             auth = userprof.login(password)
+
             return JsonResponse({'token': auth.authenticator}, status=200)
 
         except Profile.DoesNotExist:
