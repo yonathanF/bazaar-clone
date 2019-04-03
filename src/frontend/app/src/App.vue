@@ -24,6 +24,15 @@
               <v-list-tile-title>{{ info.title }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
+
+          <v-list-tile @click="logout()">
+            <v-list-tile-action>
+              <v-icon color="pink darken-2" medium>directions_walk</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Logout</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
         </v-list-group>
 
         <v-list-group no-action value="true">
@@ -102,6 +111,8 @@
 import HomePage from "./components/HomePage";
 import PostDetail from "./components/PostDetail";
 import { isAuthenticated } from "./services/AuthService";
+import { logout } from "./services/AuthService";
+import { router } from "./routers/MainRouter";
 
 export default {
   name: "App",
@@ -177,6 +188,10 @@ export default {
   methods: {
     isAuthenticated() {
       return isAuthenticated();
+    },
+    logout() {
+      logout();
+      router.push({ name: "login" });
     }
   }
 };
