@@ -66,6 +66,16 @@
       >
       <v-spacer></v-spacer>
 
+      <v-text-field
+        class="search"
+        height="10"
+        solo
+        label="Search for a post..."
+        light
+        append-icon="search"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
       <router-link :to="{ name: 'createPost' }">
         <v-btn v-if="isAuthenticated()" round light>Create Post</v-btn>
       </router-link>
@@ -112,6 +122,11 @@
 
 .drawer-list {
   color: #000000;
+}
+
+.search {
+  margin: 15px;
+  padding: 15px;
 }
 </style>
 
