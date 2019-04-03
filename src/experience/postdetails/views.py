@@ -26,3 +26,20 @@ class ShowPostDetails(View):
         api = APIV1()
         logger.info(post_id)
         return JsonResponse(api.post_get(post_id), safe=False)
+    
+    def post(self, request, token):
+        data = request.body.decode('utf-8')
+        newdata = json.loads(data)
+        api = APIV1()
+
+        title = newdata['title]
+        details = newdata['details']
+        category = newdata['category']
+        preferred_contact= newdata['password']
+        deadline = newdata['deadline']
+        request_type = newdata['request_type']
+        zip_code = newdata['zip_code']
+        
+        
+        res = api.post_create(title, details, category, preferred_contact, deadline, request_type, zip_code, token)
+        return JsonResponse(res, safe=False)

@@ -86,12 +86,11 @@ class getProfileTestCase(TestCase):
             education='test',
             zip_code='22903')
 
-    @unittest.skip("Waiting on a fix for broken model")
     def test_getSuccess(self):
         response = self.c.get(
             reverse('change', kwargs={'profile_id': self.profile.id}))
         test = [
-            'Test', 'One', '2.22', 22903, 'model for unit test one', 'test'
+            'Test', 'One', '2.22', 22903, 'model for unit test one', 'test', "test@email.com"
         ]
         response_list = []
         for k, v in response.json()['profile'].items():
@@ -109,33 +108,31 @@ class getProfileTestCase(TestCase):
 class postProfileTestCase(TestCase):
     def setUp(self):
         self.c = Client()
-        self.profile = Profile.objects.create(
-            first_name='Test',
-            last_name='Two',
-            rating='4.44',
-            email="test@email.com",
-            password="testPassword",
-            description='model for unit test two',
-            education='test',
-            zip_code='22903')
+        self.profile = {
+            'first_name': 'Test',
+            'last_name': 'Two',
+            'rating': '4.44',
+            'email': "test@email.com",
+            'description': 'model for unit test two',
+            'education': 'test',
+            'zip_code': 22903
+        }
 
-    @unittest.skip("Waiting on a fix for broken model")
+
     def test_postSuccess(self):
         response = self.c.post(
             reverse('create'), {
                 'first_name': 'Test',
                 'last_name': 'Two',
                 'rating': '4.44',
-                'email': 'testemail@email.com',
-                'password': 'TestPassword',
+                'email': 'test@email.com',
+                'password': 'testPassword',
                 'description': 'model for unit test two',
                 'education': 'test',
                 'zip_code': '22903'
             })
-        testid = self.profile.id
-        profile = Profile.objects.filter(pk=testid)
-        profile_json = json.loads(serializers.serialize('json', profile))
-        self.assertEquals(profile_json[0]['fields'],
+
+        self.assertEquals(self.profile,
                           response.json()['profile'])
 
     def test_postFailure(self):

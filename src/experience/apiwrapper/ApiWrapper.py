@@ -53,8 +53,7 @@ class APIV1(object):
 
         self.post_endpoint = '/post/'
         self.comment_endpoint = '/comment/'
-        self.user_endpoint = '/profile/'
-        self.login_endpoint = '/login/'
+        self.login_endpoint = '/profile/'
 
     def comment_get(self, comment_id):
         """
@@ -157,7 +156,7 @@ class APIV1(object):
         return response
 
     def post_create(self, title, details, category, preferred_contact,
-                    deadline, zip_code, request_type, user_id):
+                    deadline, zip_code, request_type, token):
         data = {
             'title': title,
             'details': details,
@@ -166,10 +165,9 @@ class APIV1(object):
             'deadline': deadline,
             'zip_code': zip_code,
             'request_type': request_type,
-            'user': user_id
         }
 
-        url = self.post_endpoint + "create/"
+        url = self.post_endpoint + "create/" + str(token)
         _, response = self.server.post(url, data)
         return response
 
@@ -181,10 +179,10 @@ class APIV1(object):
 
         return response
 
-    def user_get(self, user_id):
+    def login_get(self, user_id):
         pass
 
-    def user_create(self, first_name, last_name, email, password, description,
+    def login_create(self, first_name, last_name, email, password, description,
                     education):
 
         data = {
@@ -198,25 +196,25 @@ class APIV1(object):
             'zip_code': 00000,
         }
 
-        url = self.user_endpoint + "create/"
+        url = self.login_endpoint + "create/"
         _, response = self.server.post(url, data)
         return response
 
-    def user_update(self, first_name, last_name, email, password, rating,
+    def login_update(self, first_name, last_name, email, password, rating,
                     description, education, zip_code):
         pass
 
-    def user_delete(user_id):
+    def login_delete(user_id):
         pass
 
-    def user_login(self, email, password):
+    def login_login(self, email, password):
         data = {'email': email, 'password': password}
 
         # TODO: Finish up routing to model, create model view calls, link frontend buttons for logging in and out
-        url = self.user_endpoint + "login/"
+        url = self.login_endpoint + "login/"
         return self.server.post(url, data)
 
-    def user_logout(self, token):
-        url = self.user_endpoint + "logout/" + str(token)
+    def login_logout(self, token):
+        url = self.login_endpoint + "logout/" + str(token)
         _, response = self.server.get(url)
         return response

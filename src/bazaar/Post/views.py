@@ -8,6 +8,7 @@ from django.views.generic import View
 
 from .forms import CreatePostForm
 from .models import Post
+from UserProfile.models import Authenticator, Profile
 
 
 def serialize_post(post_id):
@@ -76,14 +77,21 @@ class PostCreate(View):
     Creates a post through the Post HTTP method
     """
 
-    def post(self, request):
-        post_form = CreatePostForm(request.POST)
-        if post_form.is_valid():
-            new_post = post_form.save()
-            return serialize_post(new_post.pk)
+    def post(self, request, token):
+        if(isAuthenticated(token)):
+            tokenobject = Authenticator.objects.get(authenticator=token)
+            userid = tokenobject.user_id
+            post_form = CreatePostForm(request.POST)
+            if post_form.is_valid():
+                post_form.user_id = userid
+                new_post = post_form.save()
+                return serialize_post(new_post.pk)
 
-        return JsonResponse({'Status': post_form.errors},
-                            status=400)
+            return JsonResponse({'Status': post_form.errors},
+                                status=400)
+        else:
+            return JsonResponse({'Status': "You are not authenticated, please login"},
+                                status=401)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -97,3 +105,10 @@ class PostDelete(View):
             return JsonResponse(
                 {'Status': "Couldn't find post ID %d." % (post_id)},
                 status=404)
+
+def isAuthenticated(token):
+    try:
+        Authenticator.objects.get(authenticator=token)
+        return True
+    except Authenticator.DoesNotExist:
+        return False

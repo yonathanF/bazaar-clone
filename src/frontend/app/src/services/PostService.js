@@ -12,6 +12,10 @@ export function getPost(postId) {
     });
 }
 
+export function createPost(data){
+  
+}
+
 export function getHomepagePosts(numOfPosts) {
   return HTTP.get("homepage/" + numOfPosts + "/")
     .then(handleResponse)

@@ -19,7 +19,7 @@ logger = logging.getLogger('APPNAME')
 class LoginProfile(View):
     def get(self, request, token):
         api = APIV1()
-        res = api.user_logout(token)
+        res = api.login_logout(token)
         return JsonResponse(res, safe=False)
 
     def post(self, request):
@@ -31,6 +31,37 @@ class LoginProfile(View):
         email = newdata['email']
         password = newdata['password']
 
-        response_code, response_body = api.user_login(email, password)
+        response_code, response_body = api.login_login(email, password)
 
         return JsonResponse(response_body, status=response_code)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UserProfiles(View):
+     
+    def post(self, request): 
+        
+        data = request.body.decode('utf-8')
+        newdata = json.loads(data)
+        api = APIV1()
+        first_name = newdata['first_name']
+        last_name = newdata['last_name']
+        email = newdata['email']
+        password = newdata['password']
+        rating = float(newdata['rating'])
+        description = newdata['description']
+        education = newdata['education']
+        zip_code = int(newdata['zip_code'])
+        # data2 = {
+        #     'first_name': first_name,
+        #     'last_name': last_name,
+        #     'email':  email,
+        #     'password': password,
+        #     'rating':  rating,
+        #     'description': description,
+        #     'education': education,
+        #     'zip_code': zip_code,
+        # }
+        
+        
+        res = api.login_create(first_name,last_name,email, password, description, education)
+        return JsonResponse(res, safe=False)

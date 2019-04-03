@@ -46,6 +46,9 @@
                 >Login</v-btn
               >
             </v-flex>
+            <v-flex>
+             <router-link to="/register/">Don't have an account? Sign up!</router-link>
+            </v-flex>
           </v-card-text>
         </v-card>
       </v-flex>

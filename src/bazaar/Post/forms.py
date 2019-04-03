@@ -5,5 +5,5 @@ from .models import Post
 class CreatePostForm(ModelForm):
     class Meta:
         model = Post
-        exclude = ['date_posted']
+        exclude = ['date_posted', 'user_id']
 

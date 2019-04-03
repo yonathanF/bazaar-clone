@@ -1,11 +1,5 @@
 <template>
-  <v-container fill-height v-if="errors == null">
-    <span v-if="errors != null">
-      {{ errors[0] }}
-    </span>
-    <span v-if="post != null">
-      {{ post }}
-    </span>
+  <v-container fill-height>
     <v-layout align-center justify-center>
       <v-flex xs6 lg3>
         <v-card>
@@ -59,7 +53,11 @@
                 @click:append="show1 = !show1"
               ></v-text-field>
             </v-flex>
-
+            <v-flex>
+              <span v-if="errors != null">
+                {{ errors[0] }}
+              </span>
+            </v-flex>
             <v-flex lg12>
               <v-btn
                 :disabled="invalid_form"
@@ -86,13 +84,13 @@
 </style>
 
 <script>
-import { createUser } from "../services/UserService";
+import { register } from "../services/AuthService";
 
 export default {
   name: "RegisterPage",
   data: () => ({
     errors: [],
-    post: [],
+    post: "",
     show1: false,
     password: "",
     email: "",
@@ -110,7 +108,7 @@ export default {
         var lastname = this.$data.lastname
         var email = this.$data.email
         var password = this.$data.password
-        createUser(firstname, lastname, email, password)
+        register(firstname, lastname, email, password)
         .then(data => {
           this.$data.post= data 
         })

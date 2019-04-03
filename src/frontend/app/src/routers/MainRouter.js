@@ -65,7 +65,7 @@ const routes = [
     meta: { title: "Bazaar | Login", requiresAuth: false }
   },
   {
-    path: "/register/",
+    path: "/register",
     name: "register",
     component: RegisterPage,
     meta: { title: "Bazaar | Register", requiresAuth: false }
