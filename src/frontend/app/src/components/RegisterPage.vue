@@ -58,6 +58,7 @@
                 {{ errors[0] }}
               </span>
             </v-flex>
+
             <v-flex lg12>
               <v-btn
                 :disabled="invalid_form"
@@ -84,7 +85,12 @@
 </style>
 
 <script>
+<<<<<<< HEAD
 import { register } from "../services/AuthService";
+=======
+import { createUser } from "../services/UserService";
+import { router } from "../routers/MainRouter";
+>>>>>>> redirect to home page after registeration
 
 export default {
   name: "RegisterPage",
@@ -104,20 +110,27 @@ export default {
   }),
   methods: {
     sendUser() {
+<<<<<<< HEAD
         var firstname = this.$data.firstname
         var lastname = this.$data.lastname
         var email = this.$data.email
         var password = this.$data.password
         register(firstname, lastname, email, password)
+=======
+      var firstname = this.$data.firstname;
+      var lastname = this.$data.lastname;
+      var email = this.$data.email;
+      var password = this.$data.password;
+      createUser(firstname, lastname, email, password)
+>>>>>>> redirect to home page after registeration
         .then(data => {
-          this.$data.post= data 
+          this.$data.post = data;
+          router.push({ name: "home" });
         })
         .catch(e => {
-          this.$data.errors.push(e)
+          this.$data.errors.push(e);
         });
-      }
-      
+    }
   }
-  
 };
 </script>
