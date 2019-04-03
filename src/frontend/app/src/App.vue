@@ -73,6 +73,7 @@
         label="Search for a post..."
         light
         append-icon="search"
+        v-on:keyup.enter="search"
       ></v-text-field>
 
       <v-spacer></v-spacer>
@@ -134,15 +135,12 @@
 import HomePage from "./components/HomePage";
 import PostDetail from "./components/PostDetail";
 import { isAuthenticated } from "./services/AuthService";
+import { searchPost } from "./services/PostService";
 import { logout } from "./services/AuthService";
 import { router } from "./routers/MainRouter";
 
 export default {
   name: "App",
-  components: {
-    HomePage,
-    PostDetail
-  },
   data: () => ({
     drawer: null,
     auth: false,
@@ -209,6 +207,9 @@ export default {
     source: String
   },
   methods: {
+    search() {
+      console.log("Searching...");
+    },
     isAuthenticated() {
       return isAuthenticated();
     },
