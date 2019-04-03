@@ -68,7 +68,7 @@
       <v-btn v-if="isAuthenticated()" round light to="postCreate"
         >Create Post</v-btn
       >
-      <v-btn v-if="!isAuthenticated()" round light to="/login"
+      <v-btn v-if="!isAuthenticated()" round light to="postCreate"
         >Login to Post</v-btn
       >
     </v-toolbar>
