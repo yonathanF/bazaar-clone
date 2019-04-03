@@ -48,5 +48,6 @@ class UserProfiles(View):
         email = newdata['email']
         password = newdata['password']
 
-        res = api.login_create(first_name, last_name, email, password)
-        return JsonResponse(res, safe=False)
+        response_code, response = api.login_create(first_name, last_name,
+                                                   email, password)
+        return JsonResponse(response, status=response_code, safe=False)

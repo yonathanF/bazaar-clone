@@ -197,8 +197,8 @@ class APIV1(object):
         }
 
         url = self.login_endpoint + "create/"
-        _, response = self.server.post(url, data)
-        return response
+        response_code, response = self.server.post(url, data)
+        return response_code, response
 
     def login_update(self, first_name, last_name, email, password, rating,
                      description, education, zip_code):
