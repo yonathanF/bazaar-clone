@@ -8,6 +8,7 @@ import PostCreate from "../components/PostCreate";
 import Error404 from "../components/Error404";
 import LoginPage from "../components/LoginPage";
 import RegisterPage from "../components/RegisterPage";
+import SearchResult from "../components/SearchResult";
 import VueRouter from "vue-router";
 import { isAuthenticated } from "../services/AuthService";
 import Vue from "vue";
@@ -63,6 +64,12 @@ const routes = [
     name: "login",
     component: LoginPage,
     meta: { title: "Bazaar | Login", requiresAuth: false }
+  },
+  {
+    path: "/search/",
+    name: "search",
+    component: SearchResult,
+    meta: { title: "Bazaar | Search", requiresAuth: false }
   },
   {
     path: "/register",
