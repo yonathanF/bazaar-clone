@@ -28,3 +28,27 @@ web:
     - "8003:80"
   volumes:
     - ./src/frontend/app:/app/
+
+kafka:
+  image: spotify/kafka
+  container_name: kafka
+  environment:
+    ADVERTISED_HOST: kafka
+    ADVERTISED_PORT: 9092
+  hostname: kafka
+
+es:
+  image: elasticsearch:6.7.0
+  container_name: es
+  ports:
+    - "9200:9200"
+
+batch:
+  image: tp33/django
+  container_name: batch
+  links:
+    - kafka:kafka
+    - es:es
+  volumes:
+    - ./src/batch/app:/app/
+  command: bash -c "python3 ProducerConsumer.py"
