@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'Comment',
     'Post',
     'corsheaders',
+    'django_cron',
 ]
 
 MIDDLEWARE = [
