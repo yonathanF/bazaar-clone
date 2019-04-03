@@ -1,11 +1,11 @@
 <template>
-  <v-app v-if="!loggedIn">
+  <v-app v-if="isFullScreen()">
     <router-view />
   </v-app>
-  <v-app v-else-if="loggedIn" id="inspire">
+  <v-app v-else-if="!isFullScreen()" id="inspire">
     <v-navigation-drawer class="drawer" v-model="drawer" fixed app>
       <v-list>
-        <v-list-group no-action value="true">
+        <v-list-group v-if="isAuthenticated()" no-action value="true">
           <v-list-tile slot="activator">
             <v-list-tile-content>
               <v-list-tile-title>Account</v-list-tile-title>
@@ -22,6 +22,15 @@
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title>{{ info.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-list-tile @click="logout()">
+            <v-list-tile-action>
+              <v-icon color="pink darken-2" medium>directions_walk</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>Logout</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list-group>
@@ -55,10 +64,18 @@
           >Bazaar</router-link
         ></v-toolbar-title
       >
+      <v-spacer></v-spacer>
+
+      <router-link :to="{ name: 'createPost' }">
+        <v-btn v-if="isAuthenticated()" round light>Create Post</v-btn>
+      </router-link>
+
+      <router-link :to="{ name: 'createPost' }">
+        <v-btn v-if="!isAuthenticated()" round light>Login to Post</v-btn>
+      </router-link>
     </v-toolbar>
     <v-content>
       <v-container grid-list-lg wrap fill-height>
-        <!--<HomePage :service-categories=services> </HomePage>-->
         <router-view />
       </v-container>
     </v-content>
@@ -102,6 +119,8 @@
 import HomePage from "./components/HomePage";
 import PostDetail from "./components/PostDetail";
 import { isAuthenticated } from "./services/AuthService";
+import { logout } from "./services/AuthService";
+import { router } from "./routers/MainRouter";
 
 export default {
   name: "App",
@@ -111,7 +130,7 @@ export default {
   },
   data: () => ({
     drawer: null,
-    loggedIn: false,
+    auth: false,
     account_info: [
       {
         title: "Profile",
@@ -174,8 +193,18 @@ export default {
   props: {
     source: String
   },
-  created() {
-    this.loggedIn = isAuthenticated();
+  methods: {
+    isAuthenticated() {
+      return isAuthenticated();
+    },
+    isFullScreen() {
+      let name = this.$router.currentRoute.name;
+      return name === "login" || name === "register";
+    },
+    logout() {
+      logout();
+      router.push({ name: "login" });
+    }
   }
 };
 </script>

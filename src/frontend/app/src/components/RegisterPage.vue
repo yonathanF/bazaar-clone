@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height v-if="errors == null">
+  <v-container fill-height>
     <v-layout align-center justify-center>
       <v-flex xs6 lg3>
         <v-card>
@@ -53,6 +53,11 @@
                 @click:append="show1 = !show1"
               ></v-text-field>
             </v-flex>
+            <v-flex>
+              <ul>
+                <li v-for="(key, value) in errors">{{ value }} is required.</li>
+              </ul>
+            </v-flex>
 
             <v-flex lg12>
               <v-btn
@@ -61,7 +66,13 @@
                 class="white--text"
                 block
                 large
+                @click="sendUser()"
                 >Register</v-btn
+              >
+            </v-flex>
+            <v-flex>
+              <router-link to="/login/"
+                >Already have an account? Login!</router-link
               >
             </v-flex>
           </v-card-text>
@@ -79,9 +90,14 @@
 </style>
 
 <script>
+import { register } from "../services/AuthService";
+import { router } from "../routers/MainRouter";
+
 export default {
   name: "RegisterPage",
   data: () => ({
+    errors: "",
+    post: "",
     show1: false,
     password: "",
     email: "",
@@ -92,6 +108,22 @@ export default {
       min: v => v.length >= 8 || "Min 8 characters",
       emailMatch: () => "The email and password you entered don't match"
     }
-  })
+  }),
+  methods: {
+    sendUser() {
+      var firstname = this.$data.firstname;
+      var lastname = this.$data.lastname;
+      var email = this.$data.email;
+      var password = this.$data.password;
+      register(firstname, lastname, email, password)
+        .then(data => {
+          this.$data.post = data;
+          router.push({ name: "home" });
+        })
+        .catch(e => {
+          this.$data.errors = e["response"]["data"]["Status"];
+        });
+    }
+  }
 };
 </script>

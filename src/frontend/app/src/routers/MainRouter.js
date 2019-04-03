@@ -19,38 +19,44 @@ const routes = [
   {
     path: "/",
     component: HomePage,
-    meta: { title: "Bazaar | Your Homepage", requiresAuth: true }
+    name: "home",
+    meta: { title: "Bazaar | Your Homepage", requiresAuth: false }
   },
   {
     path: "/profile",
     component: UserProfile,
+    name: "profile",
     meta: { title: "Bazaar | Your Profile", requiresAuth: true }
   },
   {
     path: "/posts",
     component: UserPosts,
+    name: "userPosts",
     meta: { title: "Bazaar | Your Posts", requiresAuth: true }
   },
   {
     path: "/postCreate",
     component: PostCreate,
+    name: "createPost",
     meta: { title: "Bazaar | Create Post", requiresAuth: true }
   },
   {
     path: "/comments",
     component: UserComments,
+    name: "userComments",
     meta: { title: "Bazaar | Your Comments", requiresAuth: true }
   },
   {
     path: "/category/:category_id",
+    name: "catgory",
     component: AllCategory,
-    meta: { title: "Bazaar | Posts", requiresAuth: true }
+    meta: { title: "Bazaar | Posts", requiresAuth: false }
   },
   {
     path: "/postDetail/:post_id",
     name: "postDetail",
     component: PostDetail,
-    meta: { title: "Bazaar | Post Detail", requiresAuth: true }
+    meta: { title: "Bazaar | Post Detail", requiresAuth: false }
   },
   {
     path: "/login/",
@@ -59,7 +65,7 @@ const routes = [
     meta: { title: "Bazaar | Login", requiresAuth: false }
   },
   {
-    path: "/register/",
+    path: "/register",
     name: "register",
     component: RegisterPage,
     meta: { title: "Bazaar | Register", requiresAuth: false }

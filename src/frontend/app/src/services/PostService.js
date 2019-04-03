@@ -8,7 +8,16 @@ export function getPost(postId) {
       return response[1];
     })
     .catch(e => {
-      Promise.reject(e);
+      return Promise.reject(e);
+    });
+}
+
+export function createPost(data) {
+  return HTTP.post("postdetails/create/" + localStorage.getItem("token"), data)
+    .then(handleResponse)
+
+    .catch(e => {
+      return Promise.reject(e);
     });
 }
 
@@ -19,7 +28,6 @@ export function getHomepagePosts(numOfPosts) {
       return response.data;
     })
     .catch(e => {
-      console.log(e);
-      Promise.reject(e);
+      return Promise.reject(e);
     });
 }
