@@ -233,7 +233,7 @@ export default {
     },
     isFullScreen() {
       let name = this.$router.currentRoute.name;
-      return name === "login" || name === "register";
+      return name == "Error404" || name === "login" || name === "register";
     },
     logout() {
       logout();

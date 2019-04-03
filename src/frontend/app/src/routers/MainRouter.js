@@ -77,7 +77,7 @@ const routes = [
     component: RegisterPage,
     meta: { title: "Bazaar | Register", requiresAuth: false }
   },
-  { path: "*", component: Error404, requiresAuth: false }
+  { path: "*", name: "Error404", component: Error404, requiresAuth: false }
 ];
 
 export const router = new VueRouter({
