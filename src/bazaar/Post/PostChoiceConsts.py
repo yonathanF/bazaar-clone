@@ -11,7 +11,7 @@ Categories = (
 
 Type = (
     ("Offering", "Offering service"),
-    ("Asking", "Asking for service"),
+    ("Requesting", "Asking for service"),
 )
 
 Contact = (
