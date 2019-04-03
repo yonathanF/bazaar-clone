@@ -64,6 +64,8 @@
           >Bazaar</router-link
         ></v-toolbar-title
       >
+      <v-spacer></v-spacer>
+      <v-btn round light to="postCreate">Create Post</v-btn>
     </v-toolbar>
     <v-content>
       <v-container grid-list-lg wrap fill-height>
