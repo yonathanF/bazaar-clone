@@ -1,5 +1,11 @@
 <template>
   <v-container fill-height v-if="errors == null">
+    <span v-if="errors != null">
+      {{ errors[0] }}
+    </span>
+    <span v-if="post != null">
+      {{ post }}
+    </span>
     <v-layout align-center justify-center>
       <v-flex xs6 lg3>
         <v-card>
@@ -61,6 +67,7 @@
                 class="white--text"
                 block
                 large
+                @click="sendUser()"
                 >Register</v-btn
               >
             </v-flex>
@@ -79,9 +86,13 @@
 </style>
 
 <script>
+import { createUser } from "../services/UserService";
+
 export default {
   name: "RegisterPage",
   data: () => ({
+    errors: [],
+    post: [],
     show1: false,
     password: "",
     email: "",
@@ -92,6 +103,23 @@ export default {
       min: v => v.length >= 8 || "Min 8 characters",
       emailMatch: () => "The email and password you entered don't match"
     }
-  })
+  }),
+  methods: {
+    sendUser() {
+        var firstname = this.$data.firstname
+        var lastname = this.$data.lastname
+        var email = this.$data.email
+        var password = this.$data.password
+        createUser(firstname, lastname, email, password)
+        .then(data => {
+          this.$data.post= data 
+        })
+        .catch(e => {
+          this.$data.errors.push(e)
+        });
+      }
+      
+  }
+  
 };
 </script>

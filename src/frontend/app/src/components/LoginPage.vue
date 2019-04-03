@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height v-if="errors == null">
+  <v-container fill-height>
     <v-layout align-center justify-center>
       <v-flex xs6 lg3>
         <v-card>
@@ -23,7 +23,7 @@
                 label="Password"
                 v-model="password"
                 :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.min]"
+                :rules="[rules.required]"
                 :type="show1 ? 'text' : 'password'"
                 single-line
                 solo
@@ -33,12 +33,16 @@
             </v-flex>
 
             <v-flex lg12>
+              {{ errors }}
+            </v-flex>
+            <v-flex lg12>
               <v-btn
                 :disabled="invalid_form"
                 color="#880E4F"
                 class="white--text"
                 block
                 large
+                @click="loginUser()"
                 >Login</v-btn
               >
             </v-flex>
@@ -57,17 +61,36 @@
 </style>
 
 <script>
+import { login } from "../services/AuthService";
+import { isAuthenticated } from "../services/AuthService";
+import { router } from "../routers/MainRouter";
+
 export default {
   name: "LoginPage",
   data: () => ({
     show1: false,
     password: "",
+    errors: "",
+    invalid_form: false,
     email: "",
     rules: {
       required: value => !!value || "Required.",
-      min: v => v.length >= 8 || "Min 8 characters",
       emailMatch: () => "The email and password you entered don't match"
     }
-  })
+  }),
+
+  methods: {
+    loginUser() {
+      let emailInput = this.$data.email;
+      let passwordInput = this.$data.password;
+      login(emailInput, passwordInput)
+        .then(data => {
+          router.push(this.$route.query.returnUrl || "/");
+        })
+        .catch(e => {
+          this.$data.errors = e["response"]["data"]["Status"];
+        });
+    }
+  }
 };
 </script>

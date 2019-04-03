@@ -3,7 +3,7 @@ from django.urls import path
 from .views import ShowPostDetails
 
 urlpatterns = [
-    path('<int:post_id>/',
+    path('create/',
          ShowPostDetails.as_view(),
          name="postdetails"),
 ]

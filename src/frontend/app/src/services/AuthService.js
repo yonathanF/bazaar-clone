@@ -10,15 +10,20 @@ export function logout() {
 }
 
 export function login(email, password) {
-  HTTP.post("login/", {
+  return HTTP.post("login/login/", {
     email: email,
     password: password
   })
     .then(handleResponse)
     .then(token => {
-      if (token) {
-        localStorage.setItem("token", JSON.stringify(token));
+      if (token["token"]) {
+        localStorage.setItem("token", token["token"]);
+      } else if (token["Status"]) {
+        return Promise.reject(token["Status"]);
       }
+    })
+    .catch(e => {
+      return Promise.reject(e);
     });
 }
 

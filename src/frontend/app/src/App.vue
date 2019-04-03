@@ -1,8 +1,8 @@
 <template>
-  <v-app v-if="!loggedIn">
+  <v-app v-if="!isAuthenticated()">
     <router-view />
   </v-app>
-  <v-app v-else-if="loggedIn" id="inspire">
+  <v-app v-else-if="isAuthenticated()" id="inspire">
     <v-navigation-drawer class="drawer" v-model="drawer" fixed app>
       <v-list>
         <v-list-group no-action value="true">
@@ -174,8 +174,10 @@ export default {
   props: {
     source: String
   },
-  created() {
-    this.loggedIn = isAuthenticated();
+  methods: {
+    isAuthenticated() {
+      return isAuthenticated();
+    }
   }
 };
 </script>

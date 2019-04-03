@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
 from .forms import ProfileForm
-from .models import Profile
+from .models import Authenticator, Profile
 
 
 def serialize_profile(profile_id):
@@ -81,3 +81,38 @@ class ProfileDelete(View):
             return JsonResponse(
                 {'Status': "Couldn't find profile ID %d." % (profile_id)},
                 status=404)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProfileLogin(View):
+    def post(self, request):
+        try:
+            email = request.POST['email']
+            password = request.POST['password']
+
+            userprof = Profile.objects.get(email=email)
+            auth = userprof.login(password)
+
+            return JsonResponse({'token': auth.authenticator}, status=200)
+
+        except Profile.DoesNotExist:
+            return JsonResponse(
+                {'Status': "Couldn't find a valid email and password"},
+                status=404)
+        except Exception:
+            return JsonResponse(
+                {'Status': "Couldn't find a valid email and password"},
+                status=404)
+
+        return JsonResponse({'Status': "Something went wrong"}, status=400)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProfileLogout(View):
+    def get(self, request, token):
+        try:
+            Authenticator.objects.get(authenticator=token).delete()
+            return JsonResponse({'Status': "Deleted Authenticator"},
+                                status=200)
+        except:
+            return JsonResponse({'Status': "Not Authenticated"}, status=404)
