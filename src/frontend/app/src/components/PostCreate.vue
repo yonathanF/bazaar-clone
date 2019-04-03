@@ -193,7 +193,7 @@ export default {
     invalid_form() {
       if (this.title.length < 1) return true;
 
-      if (this.details.length < 1) return true;
+      if (this.details.length < 1 || this.details.length > 500) return true;
 
       if (this.deadline == "") return true;
 
