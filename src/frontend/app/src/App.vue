@@ -65,12 +65,14 @@
         ></v-toolbar-title
       >
       <v-spacer></v-spacer>
-      <v-btn v-if="isAuthenticated()" round light to="postCreate"
-        >Create Post</v-btn
-      >
-      <v-btn v-if="!isAuthenticated()" round light to="postCreate"
-        >Login to Post</v-btn
-      >
+
+      <router-link :to="{ name: 'createPost' }">
+        <v-btn v-if="isAuthenticated()" round light>Create Post</v-btn>
+      </router-link>
+
+      <router-link :to="{ name: 'createPost' }">
+        <v-btn v-if="!isAuthenticated()" round light>Login to Post</v-btn>
+      </router-link>
     </v-toolbar>
     <v-content>
       <v-container grid-list-lg wrap fill-height>
