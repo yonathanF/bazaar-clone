@@ -60,9 +60,10 @@
     <v-toolbar class="toolbar" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title
-        ><router-link class="toolbar-title" to="/"
-          >Bazaar</router-link
-        ></v-toolbar-title
+        ><router-link class="toolbar-title" to="/">
+          <v-icon large>store_mall_directory</v-icon>
+          Bazaar
+        </router-link></v-toolbar-title
       >
       <v-spacer></v-spacer>
 
