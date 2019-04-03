@@ -7,7 +7,7 @@ models:
     - "8001:8000"
   volumes:
     - ./src/bazaar:/app/bazaar
-  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
+  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh && /app/bazaar/delauth.sh" 
 exp:
   image: tp33/django
   container_name: exp
@@ -28,3 +28,4 @@ web:
     - "8003:80"
   volumes:
     - ./src/frontend/app:/app/
+
