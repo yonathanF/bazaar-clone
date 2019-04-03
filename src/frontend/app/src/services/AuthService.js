@@ -47,8 +47,7 @@ export function register(firstname, lastname, email, password) {
       }
     })
     .catch(e => {
-      console.log(e);
-      Promise.reject(e);
+      return Promise.reject(e);
     });
 }
 
