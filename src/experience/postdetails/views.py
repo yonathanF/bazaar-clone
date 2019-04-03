@@ -30,11 +30,12 @@ class ShowPostDetails(View):
         title = newdata['title']
         details = newdata['details']
         category = newdata['category']
-        preferred_contact = newdata['password']
+        preferred_contact = newdata['preferred_contact']
         deadline = newdata['deadline']
         request_type = newdata['request_type']
         zip_code = newdata['zip_code']
 
-        res = api.post_create(title, details, category, preferred_contact,
-                              deadline, request_type, zip_code, token)
-        return JsonResponse(res, safe=False)
+        res_code, res = api.post_create(title, details, category,
+                                        preferred_contact, deadline,
+                                        request_type, zip_code, token)
+        return JsonResponse(res, status=res_code, safe=False)

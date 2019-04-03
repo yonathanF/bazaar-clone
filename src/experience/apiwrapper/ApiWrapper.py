@@ -168,8 +168,8 @@ class APIV1(object):
         }
 
         url = self.post_endpoint + "create/" + str(token)
-        _, response = self.server.post(url, data)
-        return response
+        resp_code, response = self.server.post(url, data)
+        return resp_code, response
 
     def post_top_n(self, category, num_posts):
         url = self.post_endpoint + "byCategory/" + str(category)\
