@@ -156,7 +156,7 @@ class APIV1(object):
         return response
 
     def post_create(self, title, details, category, preferred_contact,
-                    deadline, zip_code, request_type, token):
+                    deadline, request_type, zip_code, token):
         data = {
             'title': title,
             'details': details,
@@ -165,6 +165,7 @@ class APIV1(object):
             'deadline': deadline,
             'zip_code': zip_code,
             'request_type': request_type,
+            'user': 1
         }
 
         url = self.post_endpoint + "create/" + str(token)
