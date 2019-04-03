@@ -138,11 +138,13 @@
 
 <script>
 import { createPost } from "../services/PostService";
+import { router } from "../routers/MainRouter";
 
 export default {
   name: "PostCreate",
   data: () => ({
     menu: false,
+    error: "",
     title: "",
     details: "",
     deadline: "",
@@ -177,9 +179,13 @@ export default {
         category: data.category,
         preferred_contact: data.preferred_contact
       };
-      createPost(postDetails).then(data => {
-        console.log(data);
-      });
+      createPost(postDetails)
+        .then(data => {
+          router.push({ name: "postDetail", params: { post_id: data.id } });
+        })
+        .catch(e => {
+          this.$data.errors = e;
+        });
     }
   },
 
