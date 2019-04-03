@@ -35,11 +35,11 @@ class LoginProfile(View):
 
         return JsonResponse(response_body, status=response_code)
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class UserProfiles(View):
-     
-    def post(self, request): 
-        
+    def post(self, request):
+
         data = request.body.decode('utf-8')
         newdata = json.loads(data)
         api = APIV1()
@@ -47,21 +47,6 @@ class UserProfiles(View):
         last_name = newdata['last_name']
         email = newdata['email']
         password = newdata['password']
-        rating = float(newdata['rating'])
-        description = newdata['description']
-        education = newdata['education']
-        zip_code = int(newdata['zip_code'])
-        # data2 = {
-        #     'first_name': first_name,
-        #     'last_name': last_name,
-        #     'email':  email,
-        #     'password': password,
-        #     'rating':  rating,
-        #     'description': description,
-        #     'education': education,
-        #     'zip_code': zip_code,
-        # }
-        
-        
-        res = api.login_create(first_name,last_name,email, password, description, education)
+
+        res = api.login_create(first_name, last_name, email, password)
         return JsonResponse(res, safe=False)

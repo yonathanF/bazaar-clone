@@ -182,8 +182,7 @@ class APIV1(object):
     def login_get(self, user_id):
         pass
 
-    def login_create(self, first_name, last_name, email, password, description,
-                    education):
+    def login_create(self, first_name, last_name, email, password):
 
         data = {
             'first_name': first_name,
@@ -201,7 +200,7 @@ class APIV1(object):
         return response
 
     def login_update(self, first_name, last_name, email, password, rating,
-                    description, education, zip_code):
+                     description, education, zip_code):
         pass
 
     def login_delete(user_id):
