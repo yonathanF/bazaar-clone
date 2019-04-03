@@ -115,6 +115,7 @@
                   :disabled="invalid_form"
                   color="#880E4F"
                   class="white--text"
+                  @click="createPost()"
                   raised
                   large
                   >Create</v-btn
@@ -136,7 +137,7 @@
 </style>
 
 <script>
-import { HTTP } from "../APIBase";
+import { createPost } from "../services/PostService";
 
 export default {
   name: "PostCreate",
@@ -163,6 +164,24 @@ export default {
       "Automotives"
     ]
   }),
+
+  methods: {
+    createPost() {
+      let data = this.$data;
+      var postDetails = {
+        title: data.title,
+        details: data.details,
+        deadline: data.deadline,
+        request_type: data.request_type,
+        zip_code: data.zipcode,
+        category: data.category,
+        preferred_contact: data.preferred_contact
+      };
+      createPost(postDetails).then(data => {
+        console.log(data);
+      });
+    }
+  },
 
   computed: {
     invalid_form() {
