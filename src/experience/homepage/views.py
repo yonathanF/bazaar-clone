@@ -14,7 +14,7 @@ class TopPostsPerCategory(View):
 
     def get(self, request, num_posts):
         categories = (
-            "Lifestyle"
+            "Lifestyle",
             "IT Consultation",
             "Events",
             "Tutoring",
