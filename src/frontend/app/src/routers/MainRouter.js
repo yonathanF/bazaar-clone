@@ -20,7 +20,7 @@ const routes = [
     path: "/",
     component: HomePage,
     name: "home",
-    meta: { title: "Bazaar | Your Homepage", requiresAuth: true }
+    meta: { title: "Bazaar | Your Homepage", requiresAuth: false }
   },
   {
     path: "/profile",
@@ -50,13 +50,13 @@ const routes = [
     path: "/category/:category_id",
     name: "catgory",
     component: AllCategory,
-    meta: { title: "Bazaar | Posts", requiresAuth: true }
+    meta: { title: "Bazaar | Posts", requiresAuth: false }
   },
   {
     path: "/postDetail/:post_id",
     name: "postDetail",
     component: PostDetail,
-    meta: { title: "Bazaar | Post Detail", requiresAuth: true }
+    meta: { title: "Bazaar | Post Detail", requiresAuth: false }
   },
   {
     path: "/login/",

@@ -1,11 +1,11 @@
 <template>
-  <v-app v-if="!isAuthenticated()">
+  <v-app v-if="isFullScreen()">
     <router-view />
   </v-app>
-  <v-app v-else-if="isAuthenticated()" id="inspire">
+  <v-app v-else-if="!isFullScreen()" id="inspire">
     <v-navigation-drawer class="drawer" v-model="drawer" fixed app>
       <v-list>
-        <v-list-group no-action value="true">
+        <v-list-group v-if="isAuthenticated()" no-action value="true">
           <v-list-tile slot="activator">
             <v-list-tile-content>
               <v-list-tile-title>Account</v-list-tile-title>
@@ -65,11 +65,15 @@
         ></v-toolbar-title
       >
       <v-spacer></v-spacer>
-      <v-btn round light to="postCreate">Create Post</v-btn>
+      <v-btn v-if="isAuthenticated()" round light to="postCreate"
+        >Create Post</v-btn
+      >
+      <v-btn v-if="!isAuthenticated()" round light to="/login"
+        >Login to Post</v-btn
+      >
     </v-toolbar>
     <v-content>
       <v-container grid-list-lg wrap fill-height>
-        <!--<HomePage :service-categories=services> </HomePage>-->
         <router-view />
       </v-container>
     </v-content>
@@ -124,7 +128,7 @@ export default {
   },
   data: () => ({
     drawer: null,
-    loggedIn: false,
+    auth: false,
     account_info: [
       {
         title: "Profile",
@@ -190,6 +194,10 @@ export default {
   methods: {
     isAuthenticated() {
       return isAuthenticated();
+    },
+    isFullScreen() {
+      let name = this.$router.currentRoute.name;
+      return name === "login" || name === "register";
     },
     logout() {
       logout();
