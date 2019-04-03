@@ -1,6 +1,6 @@
 Categories = (
     ("Lifestyle", "Live a better life"),
-    ("IT Consultation", "Help with IT problems"),
+    ("IT", "Help with IT problems"),
     ("Events", "Help with events"),
     ("Tutoring", "Learn something new"),
     ("Art", "Get creative"),
