@@ -66,7 +66,7 @@ const routes = [
     meta: { title: "Bazaar | Login", requiresAuth: false }
   },
   {
-    path: "/search/",
+    path: "/search/:keywords",
     name: "search",
     component: SearchResult,
     meta: { title: "Bazaar | Search", requiresAuth: false }

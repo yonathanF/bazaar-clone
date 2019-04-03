@@ -1,10 +1,6 @@
 <template>
       <v-flex> 
-	<v-layout justify-end align-end>
-  <v-btn class="headline" medium round solo dark color="pink darken-2">
-    {{ categoryName}}<v-icon right>arrow_forward</v-icon>
-        </v-btn>
-	</v-layout>
+	
 
     <v-layout
       align-start

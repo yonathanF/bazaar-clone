@@ -213,11 +213,18 @@ export default {
     search() {
       searchPost(this.$data.keywords)
         .then(searchResults => {
-          router.push({ name: "search" });
+          router.push({
+            name: "search",
+            params: { keywords: this.$data.keywords }
+          });
           console.log("success Searching...");
         })
         .catch(e => {
-          router.push({ name: "search" });
+          router.push({
+            name: "search",
+            params: { keywords: this.$data.keywords }
+          });
+
           console.log("searching error...");
         });
     },
