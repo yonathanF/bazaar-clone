@@ -32,15 +32,17 @@ class ShowPostDetails(View):
         title = newdata['title']
         details = newdata['details']
         category = newdata['category']
-        preferred_contact = newdata['password']
+        preferred_contact = newdata['preferred_contact']
         deadline = newdata['deadline']
         request_type = newdata['request_type']
         zip_code = newdata['zip_code']
 
         res = api.post_create(title, details, category, preferred_contact,
                               deadline, request_type, zip_code, token)
-        if(res.status_code == 200):
+                 
+        if(res['post'] is not None):
             prodres = producer.send('new-posts', json.dumps(res).encode('utf-8'))
+            
             return JsonResponse({'response': res, 'send': str(prodres)}, safe=False)
         else:
             return JsonResponse(res, safe=False)

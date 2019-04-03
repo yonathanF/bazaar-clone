@@ -1,0 +1,1 @@
+{'post': {'deadline': '2019-08-20', 'category': 'EV', 'zip_code': 22033, 'user': 1, 'request_type': 'OF', 'preferred_contact': 'PH', 'date_posted': '2019-04-03T23:20:32.263Z', 'title': 'testing', 'details': 'This is testing the producer consumer'}, 'id': 2}

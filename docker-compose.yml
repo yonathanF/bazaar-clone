@@ -63,4 +63,5 @@ batch:
     - elasticsearch:elasticsearch
   volumes:
     - ./src/batch/app:/app/
-  entrypoint: tail -f /dev/null
+  restart: on-failure
+  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && python ProducerConsumer.py"

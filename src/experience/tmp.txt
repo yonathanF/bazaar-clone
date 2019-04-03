@@ -1,1 +1,1 @@
-200
+<kafka.producer.future.FutureRecordMetadata object at 0x7f8cbc2b8630>
