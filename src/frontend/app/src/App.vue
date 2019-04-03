@@ -67,6 +67,7 @@
       <v-spacer></v-spacer>
 
       <v-text-field
+        v-model="keywords"
         class="search"
         height="10"
         solo
@@ -143,6 +144,7 @@ export default {
   name: "App",
   data: () => ({
     drawer: null,
+    keywords: "",
     auth: false,
     account_info: [
       {
@@ -208,7 +210,13 @@ export default {
   },
   methods: {
     search() {
-      console.log("Searching...");
+      searchPost(this.$data.keywords)
+        .then(searchResults => {
+          console.log("success Searching...");
+        })
+        .catch(e => {
+          console.log("searching error...");
+        });
     },
     isAuthenticated() {
       return isAuthenticated();
