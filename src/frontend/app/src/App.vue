@@ -213,9 +213,11 @@ export default {
     search() {
       searchPost(this.$data.keywords)
         .then(searchResults => {
+          router.push({ name: "search" });
           console.log("success Searching...");
         })
         .catch(e => {
+          router.push({ name: "search" });
           console.log("searching error...");
         });
     },
