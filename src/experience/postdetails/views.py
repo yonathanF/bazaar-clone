@@ -39,7 +39,9 @@ class ShowPostDetails(View):
 
         res = api.post_create(title, details, category, preferred_contact,
                               deadline, request_type, zip_code, token)
-        
-        prodres = producer.send('new-posts', json.dumps(res).encode('utf-8'))
-        return JsonResponse({'response': res, 'send': str(prodres)}, safe=False)
+        if(res.status_code == 200):
+            prodres = producer.send('new-posts', json.dumps(res).encode('utf-8'))
+            return JsonResponse({'response': res, 'send': str(prodres)}, safe=False)
+        else:
+            return JsonResponse(res, safe=False)
 
