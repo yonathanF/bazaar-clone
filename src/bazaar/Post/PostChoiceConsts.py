@@ -1,20 +1,20 @@
 Categories = (
-    ("LI", "Lifestyle"),
-    ("IT", "IT Consultation"),
-    ("EV", "Events"),
-    ("TU", "Tutoring"),
-    ("AR", "Art"),
-    ("HO", "Household"),
-    ("LB", "Labor"),
-    ("OT", "Other"),
+    ("Lifestyle", "Live a better life"),
+    ("IT Consultation", "Help with IT problems"),
+    ("Events", "Help with events"),
+    ("Tutoring", "Learn something new"),
+    ("Art", "Get creative"),
+    ("Household", "Improve your home"),
+    ("Labor", "Get a hand"),
+    ("Other", "Anything else"),
 )
 
 Type = (
-    ("OF", "Offering"),
-    ("AS", "Asking"),
+    ("Offering", "Offering service"),
+    ("Asking", "Asking for service"),
 )
 
 Contact = (
-    ("EM", "Email"),
-    ("PH", "Phone"),
+    ("Email", "Through email"),
+    ("Phone", "Through phone"),
 )
