@@ -14,7 +14,9 @@ export function getPost(postId) {
 
 export function searchPost(query) {
   return HTTP.get("postdetails/search/", {
-    query: query
+    params: {
+      query: query
+    }
   })
     .then(handleResponse)
     .catch(e => {
