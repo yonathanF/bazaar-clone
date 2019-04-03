@@ -1,7 +1,7 @@
 <template>
       <v-flex> 
 	<v-layout justify-end align-end>
-  <v-btn class="headline" round flat dark color="pink darken-2">
+  <v-btn class="headline" medium round solo dark color="pink darken-2">
     {{ categoryName}}<v-icon right>arrow_forward</v-icon>
         </v-btn>
 	</v-layout>
@@ -19,7 +19,7 @@
 
     <v-card>
           <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            src="https://picsum.photos/700/700/?random"
             height="200px"
           >
           </v-img>
