@@ -60,12 +60,25 @@
     <v-toolbar class="toolbar" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title
-        ><router-link class="toolbar-title" to="/"
-          >Bazaar</router-link
-        ></v-toolbar-title
+        ><router-link class="toolbar-title" to="/">
+          <v-icon large>store_mall_directory</v-icon>
+          Bazaar
+        </router-link></v-toolbar-title
       >
       <v-spacer></v-spacer>
 
+      <v-text-field
+        v-model="keywords"
+        class="search"
+        height="10"
+        solo
+        label="Search for a post..."
+        light
+        append-icon="search"
+        v-on:keyup.enter="search"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
       <router-link :to="{ name: 'createPost' }">
         <v-btn v-if="isAuthenticated()" round light>Create Post</v-btn>
       </router-link>
@@ -113,6 +126,11 @@
 .drawer-list {
   color: #000000;
 }
+
+.search {
+  margin: 15px;
+  padding: 15px;
+}
 </style>
 
 <script>
@@ -124,12 +142,9 @@ import { router } from "./routers/MainRouter";
 
 export default {
   name: "App",
-  components: {
-    HomePage,
-    PostDetail
-  },
   data: () => ({
     drawer: null,
+    keywords: "",
     auth: false,
     account_info: [
       {
@@ -194,6 +209,12 @@ export default {
     source: String
   },
   methods: {
+    search() {
+      router.push({
+        name: "search",
+        params: { keywords: this.$data.keywords }
+      });
+    },
     isAuthenticated() {
       return isAuthenticated();
     },

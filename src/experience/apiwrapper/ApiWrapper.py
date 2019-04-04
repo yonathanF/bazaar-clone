@@ -4,10 +4,13 @@ communicate with it.
 """
 
 import json
+from kafka import KafkaProducer
+from elasticsearch import Elasticsearch
 
 import requests
 
 BASE_URL = "http://models-api:8000/api/v1"
+ES_URL = 'elasticsearch'
 
 
 class API(object):
@@ -15,9 +18,14 @@ class API(object):
     Wraps the URL and provides basic methods to communicate to it
     """
 
-    def __init__(self, base_url=BASE_URL):
+    def __init__(self, base_url=BASE_URL, es_url=ES_URL):
         self.base_url = base_url
         self.STATUS_FAIL = 400
+        self.es_url = ES_URL
+        self.es = Elasticsearch([self.es_url])
+    
+    def get_es(self, body, doc_type, index, size=10):
+        return self.es.search(index=index, doc_type=doc_type, body=body, size=size)
 
     def post(self, endpoint, data):
         url = self.base_url + endpoint
@@ -121,6 +129,29 @@ class APIV1(object):
 
     #     return response
 
+    def post_search(self, keywords):
+        query = {
+            "query": {
+                "multi_match": {
+                    "query": keywords,
+                    "fields": ['title', 'details']
+                }
+            }
+        }
+        try:
+            result = self.server.get_es(query, "post", "bazaar", 10)
+            posts = []
+            for source in result['hits']['hits']:
+                post = source['_source']
+                post['post_id'] = source['_id']
+                posts.append(post)
+            print("*************************************************")
+            print(len(posts))
+            return posts
+        except Exception as e:
+            return []
+        
+
     def post_get(self, post_id):
         """
         Gets the post specified by post_id
@@ -157,6 +188,7 @@ class APIV1(object):
 
     def post_create(self, title, details, category, preferred_contact,
                     deadline, request_type, zip_code, token):
+        producer = KafkaProducer(bootstrap_servers='kafka:9092')
         data = {
             'title': title,
             'details': details,
@@ -167,10 +199,15 @@ class APIV1(object):
             'request_type': request_type,
             'user': 1
         }
-
         url = self.post_endpoint + "create/" + str(token)
-        resp_code, response = self.server.post(url, data)
-        return resp_code, response
+        status_code, response = self.server.post(url, data)
+        if(status_code == 200):
+            prodres = producer.send('new-posts', json.dumps(response).encode('utf-8'))
+            print(prodres.get())
+        else:
+            print("We are not producing anything")
+        return response
+
 
     def post_top_n(self, category, num_posts):
         url = self.post_endpoint + "byCategory/" + str(category)\
