@@ -5,10 +5,10 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+from UserProfile.models import Authenticator, Profile
 
 from .forms import CreatePostForm
 from .models import Post
-from UserProfile.models import Authenticator, Profile
 
 
 def serialize_post(post_id):
@@ -18,12 +18,13 @@ def serialize_post(post_id):
     try:
         post = Post.objects.filter(id=post_id)
         json_post = json.loads(serializers.serialize("json", post))
-        return JsonResponse(
-            {'post': json_post[0]['fields'], 'id': json_post[0]['pk']})
+        return JsonResponse({
+            'post': json_post[0]['fields'],
+            'id': json_post[0]['pk']
+        })
     except:
         return JsonResponse(
-            {"Status": "Couldn't find Post ID %d." % (post_id)},
-            status=404)
+            {"Status": "Couldn't find Post ID %d." % (post_id)}, status=404)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -31,6 +32,7 @@ class PostPerCategory(View):
     """
     Gets the most recent <num_posts> for the specified category
     """
+
     def get(self, request, num_posts, category):
 
         try:
@@ -41,8 +43,7 @@ class PostPerCategory(View):
             return JsonResponse({'Posts': json_post})
 
         except:
-            return JsonResponse(
-                {"Status": "Couldn't process request."})
+            return JsonResponse({"Status": "Couldn't process request."})
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -78,20 +79,21 @@ class PostCreate(View):
     """
 
     def post(self, request, token):
-        if(isAuthenticated(token)):
-            tokenobject = Authenticator.objects.get(authenticator=token)
-            userid = tokenobject.user_id
+        if (isAuthenticated(token)):
+            auth = Authenticator.objects.get(authenticator=token)
             post_form = CreatePostForm(request.POST)
+
             if post_form.is_valid():
-                post_form.user_id = userid
-                new_post = post_form.save()
+                new_post = post_form.save(commit=False)
+                new_post.user = auth.user
+                new_post.save()
                 return serialize_post(new_post.pk)
 
-            return JsonResponse({'Status': post_form.errors},
-                                status=400)
+            return JsonResponse({'Status': post_form.errors}, status=400)
         else:
-            return JsonResponse({'Status': "You are not authenticated, please login"},
-                                status=401)
+            return JsonResponse(
+                {'Status': "You are not authenticated, please login"},
+                status=401)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -105,6 +107,7 @@ class PostDelete(View):
             return JsonResponse(
                 {'Status': "Couldn't find post ID %d." % (post_id)},
                 status=404)
+
 
 def isAuthenticated(token):
     try:

@@ -1,11 +1,11 @@
 <template>
-  <v-app v-if="!isAuthenticated()">
+  <v-app v-if="isFullScreen()">
     <router-view />
   </v-app>
-  <v-app v-else-if="isAuthenticated()" id="inspire">
+  <v-app v-else-if="!isFullScreen()" id="inspire">
     <v-navigation-drawer class="drawer" v-model="drawer" fixed app>
       <v-list>
-        <v-list-group no-action value="true">
+        <v-list-group v-if="isAuthenticated()" no-action value="true">
           <v-list-tile slot="activator">
             <v-list-tile-content>
               <v-list-tile-title>Account</v-list-tile-title>
@@ -60,16 +60,35 @@
     <v-toolbar class="toolbar" dark fixed app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title
-        ><router-link class="toolbar-title" to="/"
-          >Bazaar</router-link
-        ></v-toolbar-title
+        ><router-link class="toolbar-title" to="/">
+          <v-icon large>store_mall_directory</v-icon>
+          Bazaar
+        </router-link></v-toolbar-title
       >
       <v-spacer></v-spacer>
-      <v-btn round light to="postCreate">Create Post</v-btn>
+
+      <v-text-field
+        v-model="keywords"
+        class="search"
+        height="10"
+        solo
+        label="Search for a post..."
+        light
+        append-icon="search"
+        v-on:keyup.enter="search"
+      ></v-text-field>
+
+      <v-spacer></v-spacer>
+      <router-link :to="{ name: 'createPost' }">
+        <v-btn v-if="isAuthenticated()" round light>Create Post</v-btn>
+      </router-link>
+
+      <router-link :to="{ name: 'createPost' }">
+        <v-btn v-if="!isAuthenticated()" round light>Login to Post</v-btn>
+      </router-link>
     </v-toolbar>
     <v-content>
       <v-container grid-list-lg wrap fill-height>
-        <!--<HomePage :service-categories=services> </HomePage>-->
         <router-view />
       </v-container>
     </v-content>
@@ -107,24 +126,27 @@
 .drawer-list {
   color: #000000;
 }
+
+.search {
+  margin: 15px;
+  padding: 15px;
+}
 </style>
 
 <script>
 import HomePage from "./components/HomePage";
 import PostDetail from "./components/PostDetail";
 import { isAuthenticated } from "./services/AuthService";
+import { searchPost } from "./services/PostService";
 import { logout } from "./services/AuthService";
 import { router } from "./routers/MainRouter";
 
 export default {
   name: "App",
-  components: {
-    HomePage,
-    PostDetail
-  },
   data: () => ({
     drawer: null,
-    loggedIn: false,
+    keywords: "",
+    auth: false,
     account_info: [
       {
         title: "Profile",
@@ -188,8 +210,30 @@ export default {
     source: String
   },
   methods: {
+    search() {
+      searchPost(this.$data.keywords)
+        .then(searchResults => {
+          router.push({
+            name: "search",
+            params: { keywords: this.$data.keywords }
+          });
+          console.log("success Searching...");
+        })
+        .catch(e => {
+          router.push({
+            name: "search",
+            params: { keywords: this.$data.keywords }
+          });
+
+          console.log("searching error...");
+        });
+    },
     isAuthenticated() {
       return isAuthenticated();
+    },
+    isFullScreen() {
+      let name = this.$router.currentRoute.name;
+      return name === "login" || name === "register";
     },
     logout() {
       logout();

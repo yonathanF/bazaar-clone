@@ -54,9 +54,9 @@
               ></v-text-field>
             </v-flex>
             <v-flex>
-              <span v-if="errors != null">
-                {{ errors[0] }}
-              </span>
+              <ul>
+                <li v-for="(key, value) in errors">{{ value }} is required.</li>
+              </ul>
             </v-flex>
 
             <v-flex lg12>
@@ -68,6 +68,11 @@
                 large
                 @click="sendUser()"
                 >Register</v-btn
+              >
+            </v-flex>
+            <v-flex>
+              <router-link to="/login/"
+                >Already have an account? Login!</router-link
               >
             </v-flex>
           </v-card-text>
@@ -91,7 +96,7 @@ import { router } from "../routers/MainRouter";
 export default {
   name: "RegisterPage",
   data: () => ({
-    errors: [],
+    errors: "",
     post: "",
     show1: false,
     password: "",
@@ -106,17 +111,17 @@ export default {
   }),
   methods: {
     sendUser() {
-        var firstname = this.$data.firstname
-        var lastname = this.$data.lastname
-        var email = this.$data.email
-        var password = this.$data.password
-        register(firstname, lastname, email, password)
+      var firstname = this.$data.firstname;
+      var lastname = this.$data.lastname;
+      var email = this.$data.email;
+      var password = this.$data.password;
+      register(firstname, lastname, email, password)
         .then(data => {
           this.$data.post = data;
           router.push({ name: "home" });
         })
         .catch(e => {
-          this.$data.errors.push(e);
+          this.$data.errors = e["response"]["data"]["Status"];
         });
     }
   }
