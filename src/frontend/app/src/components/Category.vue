@@ -1,13 +1,9 @@
 <template>
-    <v-layout
-      align-center 
-      justify-space-between 
-      row 
-      >
       <v-flex> 
-	<h1 class="category"> {{categoryName}}</h1> 
+	
+
     <v-layout
-      align-center 
+      align-start
       justify-space-between 
       row 
       >
@@ -19,18 +15,45 @@
 
     <v-card>
           <v-img
-            src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+            src="https://picsum.photos/700/700/?random"
             height="200px"
           >
           </v-img>
   
           <v-card-title primary-title>
-            <div>
+	    <v-layout align-start justify-start column>
+	    <v-flex>
 	      <div class="headline">{{ post.title }}</div>
-	      <span> {{ post.deadline }}</span>
-	      <span> {{ post.zip_code}}</span>
-	      <span> {{ post.request_type}}</span>
-            </div>
+	      </v-flex>
+	      <v-layout align-start justify-start row fill-height>
+		<v-flex>
+
+		<v-chip small outline dark color="pink lighten-1">
+
+		    <v-icon small left>calendar_today</v-icon>
+		<span class="text-capitalize font-weight-light">{{ post.deadline | moment("from", "now")}} </span>
+
+		</v-chip>
+		</v-flex>
+
+		<v-flex>
+
+		<v-chip dark small outline color="pink lighten-1">
+
+		    <v-icon small left>how_to_reg</v-icon>
+		<span class="font-weight-light"> {{ post.request_type}}</span>
+
+		</v-chip>
+		</v-flex>
+		<v-flex>
+		<v-chip small outline dark color="pink lighten-1">
+		    <v-icon small left>person_pin_circle</v-icon>
+		<span class="font-weight-light"> {{ post.zip_code}}</span>
+		</v-chip>
+		</v-flex>
+	      </v-layout>
+	      </v-layout>
+
           </v-card-title>
   
           <v-card-actions>
@@ -46,7 +69,6 @@
 	</v-flex>
 	</v-layout>
 	</v-flex>
-    </v-layout>
 </template>
 
 <style scoped>

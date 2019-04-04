@@ -8,7 +8,11 @@
 	    :key="post.id"
 	  >
 
-
+<v-layout justify-end align-end>
+  <v-btn class="headline" medium round solo dark color="pink darken-2">
+    {{ category }}<v-icon right>arrow_forward</v-icon>
+        </v-btn>
+	</v-layout>
 	  <Category :category-list="post" :category-name="category"> </Category>
 	    </br> </br>
 	</v-flex>
@@ -19,8 +23,8 @@
 
 
 <script>
-import Category from './Category'
-import {HTTP} from '../APIBase';
+import Category from './Category';
+import {getHomepagePosts} from '../services/PostService';
 
 export default {
   name: 'HomePage',
@@ -76,21 +80,13 @@ export default {
   }),
 
   created() {
-      HTTP.get('homepage/4/')
-      .then(response => {
-	this.posts= response.data
+    getHomepagePosts(4)
+      .then(data => {
+	this.posts= data 
       })
       .catch(e => {
 	this.errors.push(e)
-      })
-    },
-
-   methods: {
-    goBack () {
-      window.history.length > 1
-        ? this.$router.go(-1)
-        : this.$router.push('/')
+      });
     }
-  }
 }
 </script>
