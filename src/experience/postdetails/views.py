@@ -11,7 +11,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
 
-logger = logging.getLogger('APPNAME')
 
 
 # Create your views here.
@@ -19,10 +18,10 @@ logger = logging.getLogger('APPNAME')
 class ShowPostDetails(View):
     def get(self, request, post_id):
         api = APIV1()
-        logger.info(post_id)
         return JsonResponse(api.post_get(post_id), safe=False)
 
     def post(self, request, token):
+        
         data = request.body.decode('utf-8')
         newdata = json.loads(data)
         api = APIV1()
@@ -34,8 +33,16 @@ class ShowPostDetails(View):
         deadline = newdata['deadline']
         request_type = newdata['request_type']
         zip_code = newdata['zip_code']
+        res = api.post_create(title, details, category, preferred_contact,
+                              deadline, request_type, zip_code, token)
 
-        res_code, res = api.post_create(title, details, category,
-                                        preferred_contact, deadline,
-                                        request_type, zip_code, token)
-        return JsonResponse(res, status=res_code, safe=False)
+        return JsonResponse(res, safe=False)
+
+class SearchPosts(View):
+
+    def get(self, request, keywords):
+        api = APIV1()
+        print("*"*100)
+        print(keywords)
+        results = api.post_search(keywords)
+        return JsonResponse({"posts": results})

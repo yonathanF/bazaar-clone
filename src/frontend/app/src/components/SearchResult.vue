@@ -6,7 +6,9 @@
           Search result for: {{ getKeywords() }}
         </h4>
       </v-layout>
-      <Category :category-list="posts"></Category>
+      <v-flex>
+        <Category :category-list="posts"></Category>
+      </v-flex>
     </v-flex>
   </v-layout>
 </template>
@@ -19,6 +21,8 @@
 
 <script>
 import Category from "./Category";
+import { searchPost } from "../services/PostService";
+import { router } from "../routers/MainRouter";
 
 export default {
   name: "SearchResult",
@@ -27,37 +31,35 @@ export default {
   },
 
   data: () => ({
-    posts: [
-      {
-        date_posted: "2019-04-03T22:20:29.828Z",
-        details: "I can help you improve your home",
-        zip_code: 80012,
-        title: "Home improvement project",
-        user: 1,
-        deadline: "2019-04-24",
-        preferred_contact: "Email",
-        category: "Labor",
-        request_type: "Offering",
-        id: 2
-      },
-
-      {
-        date_posted: "2019-04-03T22:20:29.828Z",
-        details: "I can help you improve your home",
-        zip_code: 80012,
-        title: "Home improvement project",
-        user: 1,
-        deadline: "2019-04-24",
-        preferred_contact: "Email",
-        category: "Labor",
-        request_type: "Offering",
-        id: 1
-      }
-    ]
+    posts: []
   }),
+  watch:{
+    '$route' (to, from) {
+      if(to.name === "search"){
+        var x = to.params.keywords;
+        searchPost(x)
+          .then(searchResults => {
+            this.$data.posts = searchResults['posts']
+          })
+          .catch(e => {
+              console.log(e)
+
+          });
+      }
+    }
+  },
+  created: function(){
+    searchPost(this.$route.params.keywords)
+        .then(searchResults => {
+          this.$data.posts = searchResults['posts']
+        })
+        .catch(e => {
+            console.log(e)
+
+        });
+  },
   methods: {
     getKeywords() {
-      console.log("test: " + this.$route.query.keywords);
       return this.$route.params.keywords;
     }
   }

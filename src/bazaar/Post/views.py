@@ -80,6 +80,7 @@ class PostCreate(View):
 
     def post(self, request, token):
         if (isAuthenticated(token)):
+            print(token)
             auth = Authenticator.objects.get(authenticator=token)
             post_form = CreatePostForm(request.POST)
 
