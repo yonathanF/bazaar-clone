@@ -137,7 +137,6 @@
 import HomePage from "./components/HomePage";
 import PostDetail from "./components/PostDetail";
 import { isAuthenticated } from "./services/AuthService";
-import { searchPost } from "./services/PostService";
 import { logout } from "./services/AuthService";
 import { router } from "./routers/MainRouter";
 
@@ -211,22 +210,10 @@ export default {
   },
   methods: {
     search() {
-      searchPost(this.$data.keywords)
-        .then(searchResults => {
-          router.push({
-            name: "search",
-            params: { keywords: this.$data.keywords }
-          });
-          console.log("success Searching...");
-        })
-        .catch(e => {
-          router.push({
-            name: "search",
-            params: { keywords: this.$data.keywords }
-          });
-
-          console.log("searching error...");
-        });
+      router.push({
+        name: "search",
+        params: { keywords: this.$data.keywords }
+      });
     },
     isAuthenticated() {
       return isAuthenticated();

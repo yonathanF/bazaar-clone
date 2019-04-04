@@ -2,7 +2,7 @@ from kafka import KafkaConsumer
 from elasticsearch import Elasticsearch
 import json
 
-consumer = KafkaConsumer('new-posts', group_id='creating-posts', bootstrap_servers=['kafka:9092'], auto_offset_reset='earliest', value_deserializer=lambda x: json.loads(x.decode('utf-8')))
+consumer = KafkaConsumer('new-posts', group_id='creating-posts', bootstrap_servers=['kafka:9092'])
 
 esbody = {
     "mappings": {
@@ -41,12 +41,15 @@ esbody = {
 }
 
 es = Elasticsearch(['elasticsearch'])
-es.indices.create(index="bazaar", body=esbody, ignore=[400, 404])
+x = es.indices.create(index="bazaar", body=esbody, ignore=[400, 404])
+# print(str(x))
 
-while(1):
+while(True):
+
     for message in consumer:
-        post_id = message.value['id']
-        post = message.value['post']
+        tmp = json.loads((message.value).decode('utf-8'))
+        post_id = tmp['id']
+        post = tmp['post']
         es.index(index="bazaar", id=post_id, body = post, doc_type = "post")
         es.indices.refresh(index="bazaar")
         

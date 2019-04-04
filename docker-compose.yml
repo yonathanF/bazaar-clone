@@ -64,4 +64,4 @@ batch:
   volumes:
     - ./src/batch/app:/app/
   restart: on-failure
-  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && python ProducerConsumer.py"
+  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"

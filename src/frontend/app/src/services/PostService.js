@@ -13,11 +13,7 @@ export function getPost(postId) {
 }
 
 export function searchPost(query) {
-  return HTTP.get("postdetails/search/", {
-    params: {
-      query: query
-    }
-  })
+  return HTTP.get("postdetails/search/" + query)
     .then(handleResponse)
     .catch(e => {
       return Promise.reject(e);
@@ -25,7 +21,7 @@ export function searchPost(query) {
 }
 
 export function createPost(data) {
-  return HTTP.post("postdetails/create/" + localStorage.getItem("token"), data)
+  return HTTP.post("postdetails/create/" + localStorage.getItem("token") + "/", data)
     .then(handleResponse)
 
     .catch(e => {

@@ -139,12 +139,14 @@ class APIV1(object):
             }
         }
         try:
-            result = self.server.get_es(query, "post", "bazaar", 5)
+            result = self.server.get_es(query, "post", "bazaar", 10)
             posts = []
             for source in result['hits']['hits']:
                 post = source['_source']
-                post['id'] = source['_id']
+                post['post_id'] = source['_id']
                 posts.append(post)
+            print("*************************************************")
+            print(len(posts))
             return posts
         except Exception as e:
             return []
@@ -201,6 +203,9 @@ class APIV1(object):
         status_code, response = self.server.post(url, data)
         if(status_code == 200):
             prodres = producer.send('new-posts', json.dumps(response).encode('utf-8'))
+            print(prodres.get())
+        else:
+            print("We are not producing anything")
         return response
 
 

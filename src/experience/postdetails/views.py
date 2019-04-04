@@ -33,10 +33,8 @@ class ShowPostDetails(View):
         deadline = newdata['deadline']
         request_type = newdata['request_type']
         zip_code = newdata['zip_code']
-
         res = api.post_create(title, details, category, preferred_contact,
                               deadline, request_type, zip_code, token)
-                 
 
         return JsonResponse(res, safe=False)
 
@@ -44,5 +42,7 @@ class SearchPosts(View):
 
     def get(self, request, keywords):
         api = APIV1()
+        print("*"*100)
+        print(keywords)
         results = api.post_search(keywords)
         return JsonResponse({"posts": results})
