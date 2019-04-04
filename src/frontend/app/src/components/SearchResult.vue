@@ -1,16 +1,16 @@
 <template>
-  <v-layout justify-start column>
-    <v-flex>
-      <v-layout justify-right row>
-        <h4 class="searchTitle display-1" style="padding:15px">
-          Search result for: {{ getKeywords() }}
-        </h4>
-      </v-layout>
+  <v-container grid-list-md text-xs-center>
+    <v-layout row wrap>
       <v-flex>
-        <Category :category-list="posts"></Category>
+        <v-layout justify-right row>
+          <h4 class="searchTitle display-1" style="padding:15px">
+            Search result for: {{ getKeywords() }}
+          </h4>
+        </v-layout>
+          <Category :category-list="posts"></Category>
       </v-flex>
-    </v-flex>
-  </v-layout>
+    </v-layout>
+  </v-container>
 </template>
 
 <style scoped>
