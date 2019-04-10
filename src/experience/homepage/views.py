@@ -36,7 +36,7 @@ class TopPostsPerCategory(View):
                     'deadline': post['fields']['deadline'],
                     'title': post['fields']['title'],
                     'zip_code': post['fields']['zip_code'],
-                    'id': post['pk']
+                    'post_id': post['pk']
                 }
 
                 posts_in_category[post['pk']] = fields

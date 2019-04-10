@@ -10,7 +10,7 @@
 
     <v-flex
       v-for="post in categoryList"
-      :key="post.id"
+      :key="post.post_id"
     >
 
     <v-card>
@@ -60,7 +60,7 @@
             <v-btn icon>
 	      <v-icon>bookmark_border</v-icon>
 	    </v-btn>
-	    <v-btn  :to="{name:'postDetail', params: {post_id: post.id }}" flat color="pink darken-2">Details</v-btn>
+	    <v-btn  :to="{name:'postDetail', params: {post_id: post.post_id }}" flat color="pink darken-2">Details</v-btn>
             <v-spacer></v-spacer>
 	  </v-btn>
           </v-card-actions>
