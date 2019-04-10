@@ -23,3 +23,18 @@ Think of it like copy-pasting the source code into a new folder. Branches are ve
 
 Issues are the team’s todo list. Once we decide on a user story, we can break it down into issues and move it GitHub. Issues make it really easy to discuss code, progress, and larger goals. For example, if you have a line like Issue #12 in your commit, GitHub will link that commit in the issue comments. GitHub also provides a board for Agile development. All new issues go into the Backlog. When we decide to work on a given issue, we move it into Todo. It’s then moved into In Progress once someone starts working on it. When the issue is closed, Automation will put the issue into the Done column. This makes it easy to see who’s doing what and how much time we need to finish whatever feature/fix.
 
+
+## Tools
+
+### Coverage 
+You can generate a report for your tests by doing something like
+```
+coverage run --source='.' manage.py test
+```
+
+on the same level as 'manage.py'. Then do 
+```
+coverage html
+```
+
+which generates an HTML report of your code coverage. Open the file 'htmlcov/index.hmtl' in your browser. The folder 'htmlcov' is on the same level as manage.py.
