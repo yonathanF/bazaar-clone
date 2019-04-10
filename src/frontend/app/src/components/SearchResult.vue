@@ -1,16 +1,14 @@
 <template>
-  <v-container grid-list-md text-xs-center>
-    <v-layout row wrap>
-      <v-flex>
-        <v-layout justify-right row>
-          <h4 class="searchTitle display-1" style="padding:15px">
-            Search result for: {{ getKeywords() }}
-          </h4>
-        </v-layout>
-          <Category :category-list="posts"></Category>
-      </v-flex>
-    </v-layout>
-  </v-container>
+  <v-layout row wrap>
+    <v-flex>
+      <v-layout justify-right row>
+        <h4 class="searchTitle display-1" style="padding:15px">
+          Search result for: {{ getKeywords() }}
+        </h4>
+      </v-layout>
+      <Category :category-list="posts"></Category>
+    </v-flex>
+  </v-layout>
 </template>
 
 <style scoped>
@@ -33,30 +31,28 @@ export default {
   data: () => ({
     posts: []
   }),
-  watch:{
-    '$route' (to, from) {
-      if(to.name === "search"){
+  watch: {
+    $route(to, from) {
+      if (to.name === "search") {
         var x = to.params.keywords;
         searchPost(x)
           .then(searchResults => {
-            this.$data.posts = searchResults['posts']
+            this.$data.posts = searchResults["posts"];
           })
           .catch(e => {
-              console.log(e)
-
+            console.log(e);
           });
       }
     }
   },
-  created: function(){
+  created: function() {
     searchPost(this.$route.params.keywords)
-        .then(searchResults => {
-          this.$data.posts = searchResults['posts']
-        })
-        .catch(e => {
-            console.log(e)
-
-        });
+      .then(searchResults => {
+        this.$data.posts = searchResults["posts"];
+      })
+      .catch(e => {
+        console.log(e);
+      });
   },
   methods: {
     getKeywords() {

@@ -1,13 +1,12 @@
 <template>
-      <v-flex> 
-	
-
+  <v-flex sm-3 md-6>
     <v-layout
       align-start
       justify-space-between 
-      row 
+      row
       >
 
+  <v-flex>
     <v-flex
       v-for="post in categoryList"
       :key="post.post_id"
@@ -66,6 +65,8 @@
           </v-card-actions>
   
         </v-card>           
+	</v-flex>
+
 	</v-flex>
 	</v-layout>
 	</v-flex>
