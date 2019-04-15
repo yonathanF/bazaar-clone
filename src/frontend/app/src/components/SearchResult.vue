@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap>
+  <v-layout column wrap>
     <v-flex>
       <v-layout justify-right row>
         <h4 class="searchTitle display-1" style="padding:15px">
