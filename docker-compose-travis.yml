@@ -1,8 +1,6 @@
 database:
   image: mysql:5.7.23  
   container_name: database.testing
-  ports:
-    - "3306:3306"
   restart: always
   environment:
     MYSQL_ROOT_PASSWORD: "root"
