@@ -14,7 +14,7 @@ models:
   volumes:
     - ./src/models:/app/models
   environment:
-    PRODUCTION: true
+    PRODUCTION: "true"
   command: bash -c "chmod +x /app/models/setup.sh && /app/models/setup.sh" 
 
 databaseCMD:
@@ -38,10 +38,12 @@ exp:
     - models:models-api
     - kafka:kafka
     - elasticsearch:elasticsearch
+  ports:
+    - "8002:8000"
   volumes:
     - ./src/experience:/app/experience
   environment:
-    PRODUCTION: true
+    PRODUCTION: "true"
   command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
 
 web:
