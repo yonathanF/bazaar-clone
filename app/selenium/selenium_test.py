@@ -9,10 +9,14 @@ class PythonOrgSearch(unittest.TestCase):
 		self.driver = webdriver.Remote(command_executor = "http://selenium-chrome:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME)
 		print("do you get down to here?")
 
-	def test_visit_site_with_chrome(self):
-		self.chrome.get('http://127.0.0.1:8003')
-		print("here??")
-		self.assertNotEquals(self.chrome.title, 'Django: the Web framework for perfectionists with deadlines.')
+	def test_search_in_python_org(self):
+		driver = self.driver
+		driver.get("http://www.python.org")
+		self.assertIn("Python", driver.title)
+		elem = driver.find_element_by_name("q")
+		elem.send_keys("pycon")
+		elem.send_keys(Keys.RETURN)
+		assert "No results found." not in driver.page_source
 	
 	def tearDown(self):
    		print("what about here???????")
