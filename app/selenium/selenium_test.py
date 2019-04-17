@@ -7,7 +7,6 @@ class PythonOrgSearch(unittest.TestCase):
 
 	def setUp(self):
 		self.driver = webdriver.Remote(command_executor = "http://selenium-chrome:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME)
-		print("do you get down to here?")
 
 	def test_search_in_python_org(self):
 		driver = self.driver
@@ -17,9 +16,13 @@ class PythonOrgSearch(unittest.TestCase):
 		elem.send_keys("pycon")
 		elem.send_keys(Keys.RETURN)
 		assert "No results found." not in driver.page_source
+
+	def test_connection_works(self):
+		driver = self.driver
+		driver.get("http://web:4444/")
+		assert "No results found." not in driver.page_source
 	
 	def tearDown(self):
-   		print("what about here???????")
    		self.driver.close()
 
 if __name__ == "__main__":
