@@ -1,7 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-driver.get(“http://127.0.01:56763/xyz.com”);
+
+driver = webdriver.Remote(command_executor = "http://web:8003", desired_capabilities = DesiredCapabilities.CHROME)
+
+# RemoteWebDriver driver = chrome.getWebDriver();
+# driver.get("http://" + chrome.getTestHostIpAddress() + ":8080/");
+
+# WebDriver driver = new FirefoxDriver();
+
+# driver.get(“http://www.google.com”);
 
 
 # chrome_options = webdriver.ChromeOptions()
