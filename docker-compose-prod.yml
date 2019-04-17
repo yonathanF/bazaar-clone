@@ -1,0 +1,88 @@
+database:
+  image: mysql:5.7.23  
+  container_name: production.db 
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+models:
+  image: tp33/django
+  container_name: models
+  links:
+    - database:db
+  volumes:
+    - ./src/models:/app/models
+  environment:
+    PRODUCTION: true
+  command: bash -c "chmod +x /app/models/setup.sh && /app/models/setup.sh" 
+
+databaseCMD:
+  image: mysql:5.7.23  
+  container_name: databaseCMD 
+  volumes:
+    - ./travis/dbsetup.sql:/tmp/dbsetup.sql
+    - ./travis/import.sh:/tmp/import.sh
+  links:
+    - database:db
+  environment:
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  command: bash -c "chmod +x /tmp/import.sh && /tmp/import.sh"
+
+
+exp:
+  image: tp33/django
+  container_name: exp
+  links:
+    - models:models-api
+    - kafka:kafka
+    - elasticsearch:elasticsearch
+  volumes:
+    - ./src/experience:/app/experience
+  environment:
+    PRODUCTION: true
+  command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
+
+web:
+  build: ./src/frontend/app
+  container_name: web
+  ports:
+    - "8003:80"
+  links:
+    - exp:exp-api
+  volumes:
+    - ./src/frontend/app:/app/
+
+kafka:
+  image: spotify/kafka
+  container_name: kafka
+  environment:
+    ADVERTISED_HOST: kafka
+    ADVERTISED_PORT: 9092
+  hostname: kafka
+
+elasticsearch:
+  image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
+  container_name: elasticsearch
+  environment:
+    - cluster.name=docker-cluster
+    - bootstrap.memory_lock=true
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  volumes:
+    - esdata1:/usr/share/elasticsearch/data
+
+batch:
+  image: tp33/django
+  container_name: batch
+  links:
+    - kafka:kafka
+    - elasticsearch:elasticsearch
+  volumes:
+    - ./src/batch/app:/app/
+  restart: on-failure
+  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"
