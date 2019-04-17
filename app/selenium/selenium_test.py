@@ -3,7 +3,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 
-driver = webdriver.Remote(command_executor = "http://selenium-chrome/", desired_capabilities = DesiredCapabilities.CHROME)
+driver = webdriver.Remote(command_executor = "http://selenium-chrome:4444/", desired_capabilities = DesiredCapabilities.CHROME)
 
 # RemoteWebDriver driver = chrome.getWebDriver();
 # driver.get("http://" + chrome.getTestHostIpAddress() + ":8080/");
