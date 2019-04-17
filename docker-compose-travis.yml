@@ -70,7 +70,6 @@ elasticsearch:
       hard: -1
   volumes:
     - esdata1:/usr/share/elasticsearch/data
-    - 9200:9200
 
 batch:
   image: tp33/django
