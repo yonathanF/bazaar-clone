@@ -21,7 +21,18 @@ class PythonOrgSearch(unittest.TestCase):
 		driver = self.driver
 		driver.get("http://web:4444/")
 		assert "No results found." not in driver.page_source
+
+	def test_new_account(self):
+		driver = self.driver
+		driver.get("http://web:8003/#/login/")
+
+		body = driver.find_element_by_id('pLEASEWORK')
+		print("did you find it?" ,body)
+		#WebElement formElement = driver.findElement(By.id("loginForm"));
 	
+	#def test_homepage_fetch_id(self):
+
+
 	def tearDown(self):
    		self.driver.close()
 

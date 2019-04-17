@@ -13,7 +13,9 @@
     {{ category }}<v-icon right>arrow_forward</v-icon>
         </v-btn>
 	</v-layout>
+		<div id="category">
 	  <Category :category-list="post" :category-name="category"> </Category>
+	  </div>
 	    </br> </br>
 	</v-flex>
 

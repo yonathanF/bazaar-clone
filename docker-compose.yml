@@ -8,6 +8,7 @@ models:
   volumes:
     - ./src/models:/app/models
   command: bash -c "chmod +x /app/models/setup.sh && /app/models/setup.sh" 
+
 exp:
   image: tp33/django
   container_name: exp
@@ -82,6 +83,9 @@ selenium-test:
     - web:web
   volumes:
     - ./app/selenium:/app
+  environment:
+    - HUB_PORT_4444_TCP_ADDR=selenium-chrome
+    - HUB_PORT_4444_TCP_PORT=4444
   restart: on-failure
   command: bash -c "pip install selenium==2.53.5 && python /app/selenium_test.py"
 
