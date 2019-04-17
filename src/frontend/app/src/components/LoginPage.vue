@@ -47,7 +47,8 @@
               >
             </v-flex>
             <v-flex>
-             <router-link to="/register/">Don't have an account? Sign up!</router-link>
+
+            <div id="pLEASEWORK"><router-link to="/register/">Don't have an account? Sign up!</router-link></div>  
             </v-flex>
           </v-card-text>
         </v-card>
