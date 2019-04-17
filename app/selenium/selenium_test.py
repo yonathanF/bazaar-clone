@@ -1,18 +1,26 @@
+import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
+class PythonOrgSearch(unittest.TestCase):
 
-driver = webdriver.Remote(command_executor = "http://selenium-chrome:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME)
-print("do you get down to here?")
+	def setUp(self):
+		self.driver = webdriver.Remote(command_executor = "http://selenium-chrome:4444/wd/hub", desired_capabilities = DesiredCapabilities.CHROME)
+		print("do you get down to here?")
 
-def test_visit_site_with_chrome(self):
-	self.chrome.get('http://127.0.0.1:8003')
-	print("here??")
-	self.assertIn(self.chrome.title, 'Django: the Web framework for perfectionists with deadlines.')
+	def test_visit_site_with_chrome(self):
+		self.chrome.get('http://127.0.0.1:8003')
+		print("here??")
+		self.assertNotEquals(self.chrome.title, 'Django: the Web framework for perfectionists with deadlines.')
+	
+	def tearDown(self):
+   		print("what about here???????")
+   		self.driver.close()
 
-print("what about here???????")
-driver.quit()
+if __name__ == "__main__":
+    unittest.main()
+
 
 # RemoteWebDriver driver = chrome.getWebDriver();
 # driver.get("http://" + chrome.getTestHostIpAddress() + ":8080/");
