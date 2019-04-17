@@ -65,3 +65,23 @@ batch:
     - ./src/batch/app:/app/
   restart: on-failure
   command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"
+
+selenium-chrome:
+  image: selenium/standalone-chrome
+  container_name: selenium-chrome
+  links:
+    - web:web
+  ports:
+    - "4444:4444"
+
+selenium-test:
+  image: tp33/django
+  container_name: selenium-test
+  links:
+    - selenium-chrome:selenium-chrome
+    - web:web
+  volumes:
+    - ./src/selenium/app:/app
+
+proxy:
+  image: haproxy
