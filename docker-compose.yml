@@ -80,10 +80,10 @@ services:
         - elasticsearch:elasticsearch
       volumes:
         - ./src/batch/app:/app/
-      depends_on:
-          - kafka
-          - elasticsearch
-      command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"
+      command:
+          - bash
+          - -c
+          - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
 
     selenium-chrome:
       image: selenium/standalone-chrome
