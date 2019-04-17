@@ -82,7 +82,7 @@ selenium-test:
     - web:web
   volumes:
     - ./app/selenium:/app
-  command: bash -c "pip install selenium==2.53.5 && python /app/selenium/selenium_test.py"
+  command: bash -c "pip install selenium==2.53.5 && python /app/selenium_test.py"
 
 
 
