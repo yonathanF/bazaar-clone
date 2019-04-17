@@ -6,8 +6,8 @@ models:
   ports:
     - "8001:8000"
   volumes:
-    - ./src/bazaar:/app/bazaar
-  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
+    - ./src/models:/app/models
+  command: bash -c "chmod +x /app/models/setup.sh && /app/models/setup.sh" 
 exp:
   image: tp33/django
   container_name: exp

@@ -42,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'bazaar.urls'
+ROOT_URLCONF = 'models.urls'
 
 TEMPLATES = [
     {
@@ -60,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bazaar.wsgi.application'
+WSGI_APPLICATION = 'models.wsgi.application'
 
 
 # Database

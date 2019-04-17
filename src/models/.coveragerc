@@ -1,0 +1,2 @@
+[run]
+omit=models/*,*/__init__.py,*/migrations/*,manage.py,*/tests.py,*/admin.py
