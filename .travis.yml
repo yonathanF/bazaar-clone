@@ -18,3 +18,5 @@ script:
 deploy:
   provider: script
   script: bash ./travis/deploy.sh 
+  on:
+    branch: CI_config_yonathan
