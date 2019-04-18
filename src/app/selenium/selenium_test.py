@@ -42,7 +42,7 @@ class PythonOrgSearch(unittest.TestCase):
 		except NoSuchElementException:
 			return False
 		return True
-
+        '''
 	def test_name_register(self):
 		driver = self.driver
 		driver.get("http://web:80/#/register/")
@@ -54,7 +54,7 @@ class PythonOrgSearch(unittest.TestCase):
 		except NoSuchElementException:
 			return False
 		return True
-
+        
 	def test_login_flow(self):
 		driver = self.driver
 		driver.get("http://web:80/#/register/")
@@ -93,7 +93,7 @@ class PythonOrgSearch(unittest.TestCase):
 		driver.find_element_by_id("register").click()
 		time.sleep(5)
 		self.assertFalse("logout" in driver.page_source)
-
+        '''
 	# def test_click_post(self):
 	# 	driver = self.driver
 	# 	driver.get("http://web:80/#/")
