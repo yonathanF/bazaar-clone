@@ -25,8 +25,8 @@
             </v-list-tile-content>
           </v-list-tile>
 
-          <v-list-tile id="logout" @click="logout()">
-            <v-list-tile-action>
+          <v-list-tile @click="logout()">
+            <id="logout" v-list-tile-action>
               <v-icon color="pink darken-2" medium>directions_walk</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
@@ -68,6 +68,7 @@
       <v-spacer></v-spacer>
 
       <v-text-field
+        id = "search"
         v-model="keywords"
         class="search"
         height="10"

@@ -72,7 +72,7 @@ class PythonOrgSearch(unittest.TestCase):
 		time.sleep(5)
 
 		driver.find_element_by_id("register").click()
-		self.assertTrue("app" in driver.page_source)
+		self.assertTrue("login" in driver.page_source)
 
 
 	def test_logout_flow(self):
@@ -95,9 +95,8 @@ class PythonOrgSearch(unittest.TestCase):
 		self.assertFalse("logout" in driver.page_source)
 
 	def test_post_creation(self):
-		driver = self.driver
-		driver.get("http://localhost:8003/#/postCreate")
 		
+
 
 
 	def tearDown(self):

@@ -4,6 +4,7 @@
 	  column 
         >
 	<v-flex
+		id = "post_id"
 	   v-for="(post, category) in posts" 
 	    :key="post.id"
 	  >
