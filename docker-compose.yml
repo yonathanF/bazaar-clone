@@ -83,9 +83,6 @@ selenium-test:
     - web:web
   volumes:
     - ./app/selenium:/app
-  environment:
-    - HUB_PORT_4444_TCP_ADDR=selenium-chrome
-    - HUB_PORT_4444_TCP_PORT=4444
   restart: on-failure
   command: bash -c "pip install selenium==2.53.5 && python /app/selenium_test.py"
 
