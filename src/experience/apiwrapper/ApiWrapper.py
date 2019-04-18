@@ -142,7 +142,7 @@ class APIV1(object):
             }
         }
         try:
-            result = self.server.get_es(query, "post", "bazaar", 10)
+            result = self.server.get_es(query, "post", "models", 10)
             posts = []
             for source in result['hits']['hits']:
                 post = source['_source']

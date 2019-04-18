@@ -6,8 +6,8 @@ models:
   ports:
     - "8001:8000"
   volumes:
-    - ./src/bazaar:/app/bazaar
-  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
+    - ./src/models:/app/models
+  command: bash -c "chmod +x /app/models/setup.sh && /app/models/setup.sh" 
 exp:
   image: tp33/django
   container_name: exp
@@ -83,23 +83,6 @@ batch:
       - bash
       - -c
       - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
-
-selenium-chrome:
-  image: selenium/standalone-chrome
-  container_name: selenium-chrome
-  links:
-    - web1:web1
-  ports:
-    - "4444:4444"
-
-selenium-test:
-  image: tp33/django
-  container_name: selenium-test
-  links:
-    - selenium-chrome:selenium-chrome
-    - web1:web1
-  volumes:
-    - ./src/selenium/app:/app
 
 proxy:
     build: ./src/haproxy/app

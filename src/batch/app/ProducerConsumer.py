@@ -41,7 +41,7 @@ esbody = {
 }
 
 es = Elasticsearch(['elasticsearch'])
-x = es.indices.create(index="bazaar", body=esbody, ignore=[400, 404])
+x = es.indices.create(index="models", body=esbody, ignore=[400, 404])
 # print(str(x))
 
 while(True):
@@ -50,6 +50,6 @@ while(True):
         tmp = json.loads((message.value).decode('utf-8'))
         post_id = tmp['id']
         post = tmp['post']
-        es.index(index="bazaar", id=post_id, body = post, doc_type = "post")
-        es.indices.refresh(index="bazaar")
+        es.index(index="models", id=post_id, body = post, doc_type = "post")
+        es.indices.refresh(index="models")
         
