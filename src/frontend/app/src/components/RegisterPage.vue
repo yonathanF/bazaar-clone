@@ -16,12 +16,12 @@
                 solo
                 required
                 :rules="[rules.required]"
-                </span>
               ></v-text-field>
             </v-flex>
 
             <v-flex lg12>
               <v-text-field
+                id="last_name"
                 label="Last name"
                 v-model="lastname"
                 single-line
@@ -33,6 +33,7 @@
 
             <v-flex lg12>
               <v-text-field
+                id="email"
                 label="Email"
                 v-model="email"
                 single-line
@@ -44,6 +45,7 @@
 
             <v-flex lg12>
               <v-text-field
+                id="password"
                 label="Password"
                 v-model="password"
                 :append-icon="show1 ? 'visibility' : 'visibility_off'"
@@ -63,6 +65,7 @@
 
             <v-flex lg12>
               <v-btn
+                id="register"
                 :disabled="invalid_form"
                 color="#880E4F"
                 class="white--text"

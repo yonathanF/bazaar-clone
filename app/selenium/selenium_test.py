@@ -42,7 +42,18 @@ class PythonOrgSearch(unittest.TestCase):
 			return False
 		return True
 
-	
+	def test_name_register(self):
+		driver = self.driver
+		driver.get("http://web:80/#/register/")
+
+		name = driver.find_element_by_id("name")
+
+		try:
+			name.send_keys("Simmy", Keys.RETURN)
+		except NoSuchElementException:
+			return False
+		return True
+		#name.send_keys(Keys.ENTER)
 
 	def tearDown(self):
    		self.driver.close()
