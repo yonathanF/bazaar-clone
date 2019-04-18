@@ -57,10 +57,10 @@
           </v-card-title>
   
           <v-card-actions>
-            <v-btn icon>
+            <v-btn icon id="details">
 	      <v-icon>bookmark_border</v-icon>
 	    </v-btn>
-	    <v-btn  :to="{name:'postDetail', params: {post_id: post.id }}" flat color="pink darken-2" id="details">Details</v-btn>
+	    <v-btn  :to="{name:'postDetail', params: {post_id: post.id }}" flat color="pink darken-2">Details</v-btn>
             <v-spacer></v-spacer>
 	  </v-btn>
           </v-card-actions>
