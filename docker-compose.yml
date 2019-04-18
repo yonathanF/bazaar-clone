@@ -100,22 +100,3 @@ redis:
     command: ["redis-server", "--appendonly", "yes"]
     ports:
         - 6379:6379
-        
-selenium-chrome:
-  image: selenium/standalone-chrome
-  container_name: selenium-chrome
-  links:
-    - web:web
-  ports:
-    - "4444:4444"
-
-selenium-test:
-  image: tp33/django
-  container_name: selenium-test
-  links:
-    - selenium-chrome:selenium-chrome
-    - web:web
-  volumes:
-    - ./src/app/selenium:/app
-  restart: on-failure
-  command: bash -c "pip install selenium==2.53.5 && python /app/selenium_test.py"
