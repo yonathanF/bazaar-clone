@@ -95,7 +95,15 @@ class PythonOrgSearch(unittest.TestCase):
 		self.assertFalse("logout" in driver.page_source)
 
 	def test_post_creation(self):
-		
+		driver = self.driver
+		driver.get("http://web:80/#/")
+
+		detail = driver.find_element_by_id("details").click()
+		time.sleep(5)
+
+		assert "postDetail" in driver.current_url
+
+		assert asdfadf
 
 
 

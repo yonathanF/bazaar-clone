@@ -26,7 +26,7 @@
           </v-list-tile>
 
           <v-list-tile @click="logout()">
-            <id="logout" v-list-tile-action>
+            <v-list-tile-action>
               <v-icon color="pink darken-2" medium>directions_walk</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
