@@ -82,7 +82,7 @@ selenium-test:
     - selenium-chrome:selenium-chrome
     - web:web
   volumes:
-    - ./app/selenium:/app
+    - ./src/app/selenium:/app
   restart: on-failure
   command: bash -c "pip install selenium==2.53.5 && python /app/selenium_test.py"
 

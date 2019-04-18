@@ -1,4 +1,5 @@
 import unittest
+import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -53,7 +54,26 @@ class PythonOrgSearch(unittest.TestCase):
 		except NoSuchElementException:
 			return False
 		return True
-		#name.send_keys(Keys.ENTER)
+
+	def test_login_flow(self):
+		driver = self.driver
+		driver.get("http://web:80/#/register/")
+
+		name = driver.find_element_by_id("name")
+		last_name = driver.find_element_by_id("last_name")
+		email = driver.find_element_by_id("email")
+		password = driver.find_element_by_id("password")
+
+		name.send_keys("Simmy", Keys.RETURN)
+		name.send_keys("Yonathan", Keys.RETURN)
+		name.send_keys("branden@gmail.com", Keys.RETURN)
+		name.send_keys("hellothere", Keys.RETURN)
+
+		time.sleep(5)
+
+		driver.find_element_by_id("register").click()
+
+
 
 	def tearDown(self):
    		self.driver.close()
