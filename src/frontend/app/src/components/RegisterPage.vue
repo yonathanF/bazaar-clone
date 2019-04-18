@@ -9,12 +9,14 @@
           <v-card-text>
             <v-flex lg12>
               <v-text-field
+                id="name"
                 label="First name"
                 v-model="firstname"
                 single-line
                 solo
                 required
                 :rules="[rules.required]"
+                </span>
               ></v-text-field>
             </v-flex>
 
