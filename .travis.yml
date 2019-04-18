@@ -1,0 +1,21 @@
+services: 
+    - docker
+env:
+    - DOCKER_COMPOSE_VERSION=3.7
+
+before_install:
+    - docker -v
+    - sudo /etc/init.d/postgresql stop
+    - sudo rm /usr/local/bin/docker-compose
+    - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+    - chmod +x docker-compose
+    - sudo mv docker-compose /usr/local/bin
+
+install:
+  # Start the docker stuff
+    - docker pull mysql:5.7.23
+    - docker run --name mysql -d -e MYSQL_ROOT_PASSWORD='$3cureUS' -v ~/cs4501/db:/var/lib/mysql  mysql:5.7.23
+    - docker ps -a
+    - docker start mysql
+    - docker-compose up -d
+    - sleep 10
