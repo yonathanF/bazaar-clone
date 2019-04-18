@@ -24,7 +24,7 @@ class PythonOrgSearch(unittest.TestCase):
 
 	def test_new_account(self):
 		driver = self.driver
-		driver.get("http://web:8003/#/login/")
+		driver.get("http://web:80/#/login/")
 
 		body = driver.find_element_by_id('signUp')
 		print("did you find it?" ,body)
