@@ -43,7 +43,6 @@ exp:
 
 web:
   build: ./src/frontend/app
-  image: yonathanf/bazaar 
   container_name: web
   links:
     - exp:exp-api
