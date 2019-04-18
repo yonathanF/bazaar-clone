@@ -4,10 +4,11 @@
       <v-flex xs12 sm10 lg9>
         <v-card>
           <v-card-title>
-            <h1 class="new-post">Create a New Post</h1>
+            <h1 id="new_post" class="new-post">Create a New Post</h1>
           </v-card-title>
           <v-card-text>
             <v-text-field
+              id = "post_title"
               label="Post title"
               v-model="title"
               single-line

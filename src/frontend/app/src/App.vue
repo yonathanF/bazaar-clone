@@ -68,6 +68,7 @@
       <v-spacer></v-spacer>
 
       <v-text-field
+        id = "search"
         v-model="keywords"
         class="search"
         height="10"
