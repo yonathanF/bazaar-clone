@@ -33,13 +33,14 @@ class PythonOrgSearch(unittest.TestCase):
 			return False
 		return True
 
-		# body = driver.find_element_by_id('signUp').click()
-		
-		# assert "Don't have an account" in body
-		#WebElement formElement = driver.findElement(By.id("loginForm"));
-	
-	#def test_homepage_fetch_id(self):
-
+	def test_email_field(self):
+		driver = self.driver
+		driver.get("http://web:80/#/login/")
+		try:
+			driver.find_element_by_id('email')
+		except NoSuchElementException:
+			return False
+		return True
 
 	def tearDown(self):
    		self.driver.close()

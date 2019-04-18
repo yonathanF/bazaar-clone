@@ -8,8 +8,8 @@
           </v-card-title>
           <v-card-text>
             <v-flex lg12>
-              <v-text-field
               <span id="email">
+              <v-text-field
                 label="Email"
                 v-model="email"
                 single-line
