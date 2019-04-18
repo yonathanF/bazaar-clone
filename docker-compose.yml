@@ -1,115 +1,119 @@
-version: "3.7"
-services:
-    models:
-      image: tp33/django
-      container_name: models
-      external_links:
-        - mysql:db
-      ports:
-        - "8001:8000"
-      volumes:
-        - ./src/bazaar:/app/bazaar
-      command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
-    exp:
-      image: tp33/django
-      container_name: exp
-      links:
-        - models:models-api
-        - kafka:kafka
-        - elasticsearch:elasticsearch
-      ports:
-        - "8002:8000"
-      volumes:
-        - ./src/experience:/app/experience
-      command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
+models:
+  image: tp33/django
+  container_name: models
+  external_links:
+    - mysql:db
+  ports:
+    - "8001:8000"
+  volumes:
+    - ./src/bazaar:/app/bazaar
+  command: bash -c "chmod +x /app/bazaar/setup.sh && /app/bazaar/setup.sh" 
+exp:
+  image: tp33/django
+  container_name: exp
+  links:
+    - models:models-api
+    - kafka:kafka
+    - elasticsearch:elasticsearch
+    - redis:redis
+  ports:
+    - "8002:8000"
+  volumes:
+    - ./src/experience:/app/experience
+  command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
 
-    web1:
-      build: ./src/frontend/app
-      container_name: web1
-      links:
-        - exp:exp-api
-      volumes:
-        - ./src/frontend/app:/app/
+web1:
+  build: ./src/frontend/app
+  container_name: web1
+  links:
+    - exp:exp-api
+  volumes:
+    - ./src/frontend/app:/app/
 
-    web2:
-      build: ./src/frontend/app
-      container_name: web2
-      links:
-        - exp:exp-api
-      volumes:
-        - ./src/frontend/app:/app/
+web2:
+  build: ./src/frontend/app
+  container_name: web2
+  links:
+    - exp:exp-api
+  volumes:
+    - ./src/frontend/app:/app/
 
-    web3:
-      build: ./src/frontend/app
-      container_name: web3
-      links:
-        - exp:exp-api
-      volumes:
-        - ./src/frontend/app:/app/
+web3:
+  build: ./src/frontend/app
+  container_name: web3
+  links:
+    - exp:exp-api
+  volumes:
+    - ./src/frontend/app:/app/
 
-    kafka:
-      image: spotify/kafka
-      container_name: kafka
-      environment:
-        ADVERTISED_HOST: kafka
-        ADVERTISED_PORT: 9092
-      hostname: kafka
+kafka:
+  image: spotify/kafka
+  container_name: kafka
+  environment:
+    ADVERTISED_HOST: kafka
+    ADVERTISED_PORT: 9092
+  hostname: kafka
 
-    elasticsearch:
-      image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
-      container_name: elasticsearch
-      environment:
-        - cluster.name=docker-cluster
-        - bootstrap.memory_lock=true
-        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      ulimits:
-        memlock:
-            soft: -1
-            hard: -1 
-        nofile:
-            soft: 65536
-            hard: 65536
-      ports:
-        - 9200:9200
+elasticsearch:
+  image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
+  container_name: elasticsearch
+  environment:
+    - cluster.name=docker-cluster
+    - bootstrap.memory_lock=true
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  ulimits:
+    memlock:
+        soft: -1
+        hard: -1 
+    nofile:
+        soft: 65536
+        hard: 65536
+  ports:
+    - 9200:9200
 
-    batch:
-      image: tp33/django
-      container_name: batch
-      links:
-        - kafka:kafka
-        - elasticsearch:elasticsearch
-      volumes:
-        - ./src/batch/app:/app/
-      command:
-          - bash
-          - -c
-          - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
+batch:
+  image: tp33/django
+  container_name: batch
+  links:
+    - kafka:kafka
+    - elasticsearch:elasticsearch
+  volumes:
+    - ./src/batch/app:/app/
+  command:
+      - bash
+      - -c
+      - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
 
-    selenium-chrome:
-      image: selenium/standalone-chrome
-      container_name: selenium-chrome
-      links:
+selenium-chrome:
+  image: selenium/standalone-chrome
+  container_name: selenium-chrome
+  links:
+    - web1:web1
+  ports:
+    - "4444:4444"
+
+selenium-test:
+  image: tp33/django
+  container_name: selenium-test
+  links:
+    - selenium-chrome:selenium-chrome
+    - web1:web1
+  volumes:
+    - ./src/selenium/app:/app
+
+proxy:
+    build: ./src/haproxy/app
+    container_name: haproxy 
+    links:
         - web1:web1
-      ports:
-        - "4444:4444"
+        - web2:web2
+        - web3:web3
+    ports:
+        - 9300:9300
 
-    selenium-test:
-      image: tp33/django
-      container_name: selenium-test
-      links:
-        - selenium-chrome:selenium-chrome
-        - web1:web1
-      volumes:
-        - ./src/selenium/app:/app
-      depends_on:
-          - selenium-chrome
-
-    proxy:
-        build: ./src/haproxy/app
-        container_name: haproxy 
-        links:
-            - web1:web1
-            - web2:web2
-            - web3:web3
-        ports:
-            - 9300:9300
+redis:
+    image: redis
+    container_name: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+        - 6379:6379

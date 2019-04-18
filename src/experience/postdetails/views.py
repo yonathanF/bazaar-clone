@@ -42,7 +42,5 @@ class SearchPosts(View):
 
     def get(self, request, keywords):
         api = APIV1()
-        print("*"*100)
-        print(keywords)
         results = api.post_search(keywords)
         return JsonResponse({"posts": results})
