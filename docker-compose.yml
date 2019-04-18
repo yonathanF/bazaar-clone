@@ -117,3 +117,12 @@ redis:
     command: ["redis-server", "--appendonly", "yes"]
     ports:
         - 6379:6379
+
+master:
+    image: vinsdocker/jmmaster
+    container_name: master
+    tty: true
+    hostname: master
+
+slave:
+    image: vinsdocker/jmserver
