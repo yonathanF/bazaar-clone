@@ -94,14 +94,14 @@ class PythonOrgSearch(unittest.TestCase):
 		time.sleep(5)
 		self.assertFalse("logout" in driver.page_source)
 
-	def test_click_post(self):
-		driver = self.driver
-		driver.get("http://web:80/#/")
+	# def test_click_post(self):
+	# 	driver = self.driver
+	# 	driver.get("http://web:80/#/")
 
-		detail = driver.find_element_by_id("details").click()
-		time.sleep(5)
+	# 	detail = driver.find_element_by_id("details").click()
+	# 	time.sleep(5)
 
-		self.assertTrue("details" in driver.page_source)
+	# 	self.assertTrue("details" in driver.page_source)
 
 	def tearDown(self):
    		self.driver.close()
