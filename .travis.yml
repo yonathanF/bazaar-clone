@@ -15,8 +15,3 @@ install:
 script:
     - sudo docker exec -it models bash -c "cd models && python manage.py test"
 
-deploy:
-  provider: script
-  script: bash ./travis/deploy.sh 
-  on:
-    branch: CI_config_yonathan
