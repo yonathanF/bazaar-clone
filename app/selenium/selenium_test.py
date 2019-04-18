@@ -2,6 +2,7 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.common.exceptions import NoSuchElementException        
 
 class PythonOrgSearch(unittest.TestCase):
 
@@ -26,8 +27,15 @@ class PythonOrgSearch(unittest.TestCase):
 		driver = self.driver
 		driver.get("http://web:80/#/login/")
 
-		body = driver.find_element_by_id('signUp')
-		print("did you find it?" ,body)
+		try:
+			driver.find_element_by_id('signUp')
+		except NoSuchElementException:
+			return False
+		return True
+
+		# body = driver.find_element_by_id('signUp').click()
+		
+		# assert "Don't have an account" in body
 		#WebElement formElement = driver.findElement(By.id("loginForm"));
 	
 	#def test_homepage_fetch_id(self):
