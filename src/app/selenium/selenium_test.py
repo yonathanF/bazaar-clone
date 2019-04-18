@@ -72,7 +72,32 @@ class PythonOrgSearch(unittest.TestCase):
 		time.sleep(5)
 
 		driver.find_element_by_id("register").click()
+		self.assertTrue("app" in driver.page_source)
 
+
+	def test_logout_flow(self):
+		driver = self.driver
+		driver.get("http://web:80/#/register/")
+
+		name = driver.find_element_by_id("name")
+		last_name = driver.find_element_by_id("last_name")
+		email = driver.find_element_by_id("email")
+		password = driver.find_element_by_id("password")
+
+		name.send_keys("Simmy", Keys.RETURN)
+		name.send_keys("Yonathan", Keys.RETURN)
+		name.send_keys("branden@gmail.com", Keys.RETURN)
+		name.send_keys("hellothere", Keys.RETURN)
+
+		time.sleep(5)
+		driver.find_element_by_id("register").click()
+		time.sleep(5)
+		self.assertFalse("logout" in driver.page_source)
+
+	def test_post_creation(self):
+		driver = self.driver
+		driver.get("http://localhost:8003/#/postCreate")
+		
 
 
 	def tearDown(self):
