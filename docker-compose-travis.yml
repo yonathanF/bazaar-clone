@@ -1,13 +1,35 @@
+database:
+  image: mysql:5.7.23  
+  container_name: database.testing
+  restart: always
+  environment:
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
 models:
   image: tp33/django
   container_name: models
-  external_links:
-    - mysql:db
-  ports:
-    - "8001:8000"
+  links:
+    - database:db
   volumes:
     - ./src/models:/app/models
   command: bash -c "chmod +x /app/models/setup.sh && /app/models/setup.sh" 
+
+
+databaseCMD:
+  image: mysql:5.7.23  
+  container_name: databaseCMD 
+  volumes:
+    - ./travis/dbsetup.sql:/tmp/dbsetup.sql
+    - ./travis/import.sh:/tmp/import.sh
+  links:
+    - database:db
+  environment:
+    MYSQL_ROOT_PASSWORD: "root"
+    MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  command: bash -c "chmod +x /tmp/import.sh && /tmp/import.sh"
+
+
 exp:
   image: tp33/django
   container_name: exp
@@ -15,32 +37,13 @@ exp:
     - models:models-api
     - kafka:kafka
     - elasticsearch:elasticsearch
-    - redis:redis
-  ports:
-    - "8002:8000"
   volumes:
     - ./src/experience:/app/experience
   command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
 
-web1:
+web:
   build: ./src/frontend/app
-  container_name: web1
-  links:
-    - exp:exp-api
-  volumes:
-    - ./src/frontend/app:/app/
-
-web2:
-  build: ./src/frontend/app
-  container_name: web2
-  links:
-    - exp:exp-api
-  volumes:
-    - ./src/frontend/app:/app/
-
-web3:
-  build: ./src/frontend/app
-  container_name: web3
+  container_name: web
   links:
     - exp:exp-api
   volumes:
@@ -63,13 +66,10 @@ elasticsearch:
     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
   ulimits:
     memlock:
-        soft: -1
-        hard: -1 
-    nofile:
-        soft: 65536
-        hard: 65536
-  ports:
-    - 9200:9200
+      soft: -1
+      hard: -1
+  volumes:
+    - esdata1:/usr/share/elasticsearch/data
 
 batch:
   image: tp33/django
@@ -79,24 +79,5 @@ batch:
     - elasticsearch:elasticsearch
   volumes:
     - ./src/batch/app:/app/
-  command:
-      - bash
-      - -c
-      - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
-
-proxy:
-    build: ./src/haproxy/app
-    container_name: haproxy 
-    links:
-        - web1:web1
-        - web2:web2
-        - web3:web3
-    ports:
-        - 9300:9300
-
-redis:
-    image: redis
-    container_name: redis
-    command: ["redis-server", "--appendonly", "yes"]
-    ports:
-        - 6379:6379
+  restart: on-failure
+  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"

@@ -2,10 +2,12 @@
 API Wrapper for the model layer so the experience layer can
 communicate with it.
 """
-
+import time
+import ast
 import json
 from kafka import KafkaProducer
 from elasticsearch import Elasticsearch
+import redis
 
 import requests
 
@@ -23,6 +25,7 @@ class API(object):
         self.STATUS_FAIL = 400
         self.es_url = ES_URL
         self.es = Elasticsearch([self.es_url])
+        self.red = redis.Redis(host='redis', port=6379, db=0)
     
     def get_es(self, body, doc_type, index, size=10):
         return self.es.search(index=index, doc_type=doc_type, body=body, size=size)
@@ -139,14 +142,12 @@ class APIV1(object):
             }
         }
         try:
-            result = self.server.get_es(query, "post", "bazaar", 10)
+            result = self.server.get_es(query, "post", "models", 10)
             posts = []
             for source in result['hits']['hits']:
                 post = source['_source']
                 post['post_id'] = source['_id']
                 posts.append(post)
-            print("*************************************************")
-            print(len(posts))
             return posts
         except Exception as e:
             return []
@@ -158,7 +159,21 @@ class APIV1(object):
         """
         url = self.post_endpoint + str(post_id)
         response = self.server.get(url)
-        return response
+        
+        string_id = str(post_id)
+
+        if(self.server.red.get(string_id) is None):
+            self.server.red.set(string_id, str(response[1]))
+            self.server.red.expire(string_id, 300)
+            return response
+        else:
+            ''' 
+            f = open("tmp.txt", "w+")
+            f.write(str(type(ast.literal_eval(self.server.red.get(string_id).decode('utf-8')))))
+            f.close()
+            ''' 
+            response = ast.literal_eval(self.server.red.get(string_id).decode('utf-8'))
+            return (200, response)
 
     def post_delete(self, post_id):
         """
@@ -214,8 +229,21 @@ class APIV1(object):
                     + "/" + str(num_posts)+"/"
 
         _, response = self.server.get(url)
+        
+        combined_id = str(category) + "+" + str(num_posts)
 
-        return response
+        if(self.server.red.get(combined_id) is None):
+            self.server.red.set(combined_id, str(response))
+            self.server.red.expire(combined_id, 300)
+            return response
+        else:
+            response = ast.literal_eval(self.server.red.get(combined_id).decode('utf-8'))
+            return response
+        '''
+        f = open("tmp.txt", "a")
+        f.write(str(response))
+        f.close()
+        '''
 
     def login_get(self, user_id):
         pass

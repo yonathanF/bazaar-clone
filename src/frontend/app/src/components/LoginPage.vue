@@ -8,6 +8,7 @@
           </v-card-title>
           <v-card-text>
             <v-flex lg12>
+              <span id="email">
               <v-text-field
                 label="Email"
                 v-model="email"
@@ -16,9 +17,11 @@
                 required
                 :rules="[rules.required]"
               ></v-text-field>
+              </span>
             </v-flex>
 
             <v-flex lg12>
+              <span id="password">
               <v-text-field
                 label="Password"
                 v-model="password"
@@ -30,12 +33,14 @@
                 required
                 @click:append="show1 = !show1"
               ></v-text-field>
+              </span>
             </v-flex>
 
             <v-flex lg12>
               {{ errors }}
             </v-flex>
             <v-flex lg12>
+            <span id="login">
               <v-btn
                 :disabled="invalid_form"
                 color="#880E4F"
@@ -45,9 +50,11 @@
                 @click="loginUser()"
                 >Login</v-btn
               >
+              </span>
             </v-flex>
             <v-flex>
-             <router-link to="/register/">Don't have an account? Sign up!</router-link>
+
+            <div id="signUp"><router-link to="/register/">Don't have an account? Sign up!</router-link></div>  
             </v-flex>
           </v-card-text>
         </v-card>

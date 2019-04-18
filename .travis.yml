@@ -1,0 +1,17 @@
+language: python 
+
+services: 
+    - docker
+
+before_install:
+    - docker -v
+    - sudo /etc/init.d/postgresql stop
+
+install:
+    - sudo docker-compose -v 
+    - sudo docker-compose -f docker-compose-travis.yml up -d --build 
+    - sleep 50s
+
+script:
+    - sudo docker exec -it models bash -c "cd models && python manage.py test"
+
