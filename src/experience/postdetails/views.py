@@ -15,8 +15,7 @@ from django.views.generic import View
 class ShowPostDetails(View):
     def get(self, request, post_id):
         api = APIV1()
-        print("hello world" * 30)
-        return JsonResponse(api.post_get(post_id), safe=False)
+        return JsonResponse(api.post_get_and_log(post_id, "USER"), safe=False)
 
     def post(self, request, token):
 

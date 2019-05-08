@@ -44,7 +44,7 @@ exp:
   volumes:
     - ./src/experience:/app/experience
   environment:
-    PRODUCTION: "true"
+    PRODUCTION: "false"
   command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
 
 web:
