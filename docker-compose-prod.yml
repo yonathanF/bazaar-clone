@@ -9,6 +9,8 @@ database:
 models:
   image: tp33/django
   container_name: models
+  ports:
+    - "8001:8000"
   links:
     - database:db
   volumes:

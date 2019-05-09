@@ -13,6 +13,7 @@ is_prod = os.environ.get('PRODUCTION')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = is_prod != "true"
 
+DEBUG = True 
 ALLOWED_HOSTS = ["models-api", "localhost", "127.0.0.1", 'testserver', '*']
 
 # Application definition
