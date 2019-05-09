@@ -4,13 +4,10 @@ import urllib.parse
 import urllib.request
 
 from apiwrapper.ApiWrapper import APIV1
-from django.core import serializers
 from django.http import JsonResponse
-from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-
 
 
 # Create your views here.
@@ -18,10 +15,10 @@ from django.views.generic import View
 class ShowPostDetails(View):
     def get(self, request, post_id):
         api = APIV1()
-        return JsonResponse(api.post_get(post_id), safe=False)
+        return JsonResponse(api.post_get_and_log(post_id, "USER"), safe=False)
 
     def post(self, request, token):
-        
+
         data = request.body.decode('utf-8')
         newdata = json.loads(data)
         api = APIV1()
@@ -38,8 +35,8 @@ class ShowPostDetails(View):
 
         return JsonResponse(res, safe=False)
 
-class SearchPosts(View):
 
+class SearchPosts(View):
     def get(self, request, keywords):
         api = APIV1()
         results = api.post_search(keywords)

@@ -2,14 +2,14 @@
 API Wrapper for the model layer so the experience layer can
 communicate with it.
 """
-import time
 import ast
 import json
-from kafka import KafkaProducer
-from elasticsearch import Elasticsearch
-import redis
 
 import requests
+
+import redis
+from elasticsearch import Elasticsearch
+from kafka import KafkaProducer
 
 BASE_URL = "http://models-api:8000/api/v1"
 ES_URL = 'elasticsearch'
@@ -23,12 +23,21 @@ class API(object):
     def __init__(self, base_url=BASE_URL, es_url=ES_URL):
         self.base_url = base_url
         self.STATUS_FAIL = 400
+        self.kafka = KafkaProducer(bootstrap_servers='kafka:9092')
         self.es_url = ES_URL
         self.es = Elasticsearch([self.es_url])
         self.red = redis.Redis(host='redis', port=6379, db=0)
-    
+
     def get_es(self, body, doc_type, index, size=10):
-        return self.es.search(index=index, doc_type=doc_type, body=body, size=size)
+        return self.es.search(index=index,
+                              doc_type=doc_type,
+                              body=body,
+                              size=size)
+
+    def post_kafka(self, topic, data):
+        kafka_response = self.kafak.send(topic,
+                                         json.dumps(data).encode('utf-8'))
+        return kafka_response.get()
 
     def post(self, endpoint, data):
         url = self.base_url + endpoint
@@ -124,14 +133,6 @@ class APIV1(object):
         _, response = self.server.post(url, data)
         return response
 
-    # def comment_top_n(self, category, num_comments):
-    #     url = self.comment_endpoint + "byCategory/" + str(category)\
-    #                 + "/" + str(num_posts)+"/"
-
-    #     _, response = self.server.get(url)
-
-    #     return response
-
     def post_search(self, keywords):
         query = {
             "query": {
@@ -151,7 +152,14 @@ class APIV1(object):
             return posts
         except Exception as e:
             return []
-        
+
+    def post_get_and_log(self, post_id, user_id):
+        """
+        Gets the post and also logs it for rec system
+        """
+        log_data = str(post_id) + "\t" + str(user_id) + "\n"
+        self.server.post_kafka("post-log", log_data)
+        return self.post_get(post_id)
 
     def post_get(self, post_id):
         """
@@ -159,20 +167,16 @@ class APIV1(object):
         """
         url = self.post_endpoint + str(post_id)
         response = self.server.get(url)
-        
+
         string_id = str(post_id)
 
-        if(self.server.red.get(string_id) is None):
+        if (self.server.red.get(string_id) is None):
             self.server.red.set(string_id, str(response[1]))
             self.server.red.expire(string_id, 300)
             return response
         else:
-            ''' 
-            f = open("tmp.txt", "w+")
-            f.write(str(type(ast.literal_eval(self.server.red.get(string_id).decode('utf-8')))))
-            f.close()
-            ''' 
-            response = ast.literal_eval(self.server.red.get(string_id).decode('utf-8'))
+            response = ast.literal_eval(
+                self.server.red.get(string_id).decode('utf-8'))
             return (200, response)
 
     def post_delete(self, post_id):
@@ -203,7 +207,6 @@ class APIV1(object):
 
     def post_create(self, title, details, category, preferred_contact,
                     deadline, request_type, zip_code, token):
-        producer = KafkaProducer(bootstrap_servers='kafka:9092')
         data = {
             'title': title,
             'details': details,
@@ -216,28 +219,26 @@ class APIV1(object):
         }
         url = self.post_endpoint + "create/" + str(token)
         status_code, response = self.server.post(url, data)
-        if(status_code == 200):
-            prodres = producer.send('new-posts', json.dumps(response).encode('utf-8'))
-            print(prodres.get())
-        else:
-            print("We are not producing anything")
-        return response
+        if (status_code == 200):
+            self.server.post_kafka('new-posts', response)
 
+        return response
 
     def post_top_n(self, category, num_posts):
         url = self.post_endpoint + "byCategory/" + str(category)\
                     + "/" + str(num_posts)+"/"
 
         _, response = self.server.get(url)
-        
+
         combined_id = str(category) + "+" + str(num_posts)
 
-        if(self.server.red.get(combined_id) is None):
+        if (self.server.red.get(combined_id) is None):
             self.server.red.set(combined_id, str(response))
             self.server.red.expire(combined_id, 300)
             return response
         else:
-            response = ast.literal_eval(self.server.red.get(combined_id).decode('utf-8'))
+            response = ast.literal_eval(
+                self.server.red.get(combined_id).decode('utf-8'))
             return response
         '''
         f = open("tmp.txt", "a")
@@ -275,7 +276,6 @@ class APIV1(object):
     def login_login(self, email, password):
         data = {'email': email, 'password': password}
 
-        # TODO: Finish up routing to model, create model view calls, link frontend buttons for logging in and out
         url = self.login_endpoint + "login/"
         return self.server.post(url, data)
 

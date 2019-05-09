@@ -1,13 +1,16 @@
-from kafka import KafkaConsumer
-from elasticsearch import Elasticsearch
 import json
 
-consumer = KafkaConsumer('new-posts', group_id='creating-posts', bootstrap_servers=['kafka:9092'])
+from elasticsearch import Elasticsearch
+from kafka import KafkaConsumer
+
+consumer = KafkaConsumer('new-posts',
+                         group_id='creating-posts',
+                         bootstrap_servers=['kafka:9092'])
 
 esbody = {
     "mappings": {
         "post": {
-            "properties":{
+            "properties": {
                 "title": {
                     "type": "text"
                 },
@@ -17,7 +20,7 @@ esbody = {
                 "zip_code": {
                     "type": "integer"
                 },
-                "user":{
+                "user": {
                     "type": "integer"
                 },
                 "date_created": {
@@ -29,7 +32,7 @@ esbody = {
                 "preferred_contact": {
                     "type": "text"
                 },
-                "category":{
+                "category": {
                     "type": "text"
                 },
                 "request_type": {
@@ -44,12 +47,11 @@ es = Elasticsearch(['elasticsearch'])
 x = es.indices.create(index="models", body=esbody, ignore=[400, 404])
 # print(str(x))
 
-while(True):
+while (True):
 
     for message in consumer:
         tmp = json.loads((message.value).decode('utf-8'))
         post_id = tmp['id']
         post = tmp['post']
-        es.index(index="models", id=post_id, body = post, doc_type = "post")
+        es.index(index="models", id=post_id, body=post, doc_type="post")
         es.indices.refresh(index="models")
-        
