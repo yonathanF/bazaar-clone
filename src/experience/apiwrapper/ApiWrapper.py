@@ -75,6 +75,14 @@ class APIV1(object):
         self.comment_endpoint = '/comment/'
         self.login_endpoint = '/profile/'
 
+    def profile_get_with_token(self, token):
+        """
+        Gets the profile related to the token
+        """
+        url = self.login_endpoint + "/authProfile/" + token + "/"
+        response = self.server.get(url)
+        return response
+
     def comment_get(self, comment_id):
         """
         Gets the post specified by post_id
@@ -157,10 +165,8 @@ class APIV1(object):
         """
         Gets the post and also logs it for rec system
         """
-        log_data = str(post_id) + "\t" + str(user_id) + "\n"
-        kafka_result = self.server.post_kafka("post-log", log_data)
-        log_file = open("tmp_log.log", "a")
-        log_file.write(str(kafka_result))
+        log_data = str(user_id) + "\t" + str(post_id) + "\n"
+        self.server.post_kafka("post-log", log_data)
         return self.post_get(post_id)
 
     def post_get(self, post_id):
