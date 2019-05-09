@@ -113,7 +113,7 @@ batch:
 
 spark-master:
   image: gettyimages/spark
-  command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master
+  command: bin/spark-class org.apache.spark.deploy.master.Master -h spark-master && pip install requests
   container_name: spark-master
   hostname: spark-master
   links:
@@ -140,7 +140,7 @@ spark-master:
 
 spark-worker:
   image: gettyimages/spark
-  command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+  command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077 && pip install requests
   container_name: spark-worker
   hostname: spark-worker
   environment:

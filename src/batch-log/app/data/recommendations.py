@@ -1,3 +1,7 @@
+import json
+
+import requests
+
 from pyspark import SparkContext
 
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
@@ -40,6 +44,16 @@ filtered_users = distinct_users.filter(lambda x: x[1] >= 1)
 
 output = filtered_users.collect()
 
-print(output)
+recs = {}
+for rec in output:
+    if rec[0][0] in recs:
+        recs[rec[0][0]].append(int(rec[0][1]))
+    else:
+        recs[rec[0][0]] = [int(rec[0][1])]
 
+url = 'http://models-api:8000/api/v1/post/rec/'
+post_fields = {'recs': json.dumps(recs)}
+
+request = requests.post(url, data=post_fields)
+print(request.status_code)
 sc.stop()
