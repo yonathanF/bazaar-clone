@@ -79,6 +79,19 @@ elasticsearch:
   volumes:
     - esdata1:/usr/share/elasticsearch/data
 
+batch-log:
+  image: tp33/django
+  container_name: batch-log
+  links:
+    - kafka:kafka
+  volumes:
+    - ./src/batch-log/app:/app/
+  command:
+      - bash
+      - -c
+      - "chmod +x ./setup.sh && ./setup.sh"
+
+
 batch:
   image: tp33/django
   container_name: batch
@@ -87,8 +100,12 @@ batch:
     - elasticsearch:elasticsearch
   volumes:
     - ./src/batch/app:/app/
-  restart: on-failure
-  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"
+  command:
+      - bash
+      - -c
+      - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
+
+
 
 redis:
     image: redis

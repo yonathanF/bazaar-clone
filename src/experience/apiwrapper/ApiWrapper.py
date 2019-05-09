@@ -157,10 +157,9 @@ class APIV1(object):
         """
         Gets the post and also logs it for rec system
         """
-        log_file = open(self.log_file, 'a')
-        log_file.write(str(post_id) + "\t" + str(user_id) + "\n")
-        log_file.close()
-        return post_get(post_id)
+        log_data = str(post_id) + "\t" + str(user_id) + "\n"
+        self.server.post_kafka("post-log", log_data)
+        return self.post_get(post_id)
 
     def post_get(self, post_id):
         """
@@ -277,7 +276,6 @@ class APIV1(object):
     def login_login(self, email, password):
         data = {'email': email, 'password': password}
 
-        # TODO: Finish up routing to model, create model view calls, link frontend buttons for logging in and out
         url = self.login_endpoint + "login/"
         return self.server.post(url, data)
 
