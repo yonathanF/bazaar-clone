@@ -161,7 +161,7 @@ spark-worker:
   ports:
     - 8081:8081
   volumes:
-    - ./src/batch-log/data:/tmp/data
+    - ./src/batch-log/app/data:/tmp/data
 
 redis:
     image: redis
