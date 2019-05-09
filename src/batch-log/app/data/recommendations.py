@@ -4,7 +4,7 @@ from operator import add
 
 sc = SparkContext("spark://spark-master:7077", "PopularItems")
 
-data = sc.textFile("/tmp/data/access.log", 2)     # each worker loads a piece of the data file
+data = sc.textFile("/tmp/data/access_log.log", 2)     # each worker loads a piece of the data file
 
 # Step 1
 pairs = data.map(lambda line: line.split(" "))   # tell each worker to split each line of it's partition

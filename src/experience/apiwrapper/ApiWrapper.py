@@ -165,7 +165,7 @@ class APIV1(object):
         """
         Gets the post and also logs it for rec system
         """
-        log_data = str(user_id) + "\t" + str(post_id) + "\n"
+        log_data = str(user_id) + " " + str(post_id) + "\n"
         self.server.post_kafka("post-log", log_data)
         return self.post_get(post_id)
 

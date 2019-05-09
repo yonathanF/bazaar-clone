@@ -1,7 +1,4 @@
 import json
-import logging
-import urllib.parse
-import urllib.request
 
 from apiwrapper.ApiWrapper import APIV1
 from django.http import JsonResponse
