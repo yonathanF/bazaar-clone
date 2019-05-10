@@ -35,7 +35,7 @@ class API(object):
                               size=size)
 
     def post_kafka(self, topic, data):
-        kafka_response = self.kafak.send(topic,
+        kafka_response = self.kafka.send(topic,
                                          json.dumps(data).encode('utf-8'))
         return kafka_response.get()
 
