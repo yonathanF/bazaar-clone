@@ -35,8 +35,12 @@ class API(object):
                               size=size)
 
     def post_kafka(self, topic, data):
-        kafka_response = self.kafka.send(topic,
-                                         json.dumps(data).encode('utf-8'))
+        kafka_response = self.kafka.send(topic, json.dumps(data).encode('utf-8'))
+        '''
+        f = open("tmp.txt", "a")
+        f.write(str(kafka_response))
+        f.close()
+        '''
         return kafka_response.get()
 
     def post(self, endpoint, data):
