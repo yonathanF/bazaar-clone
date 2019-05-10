@@ -22,29 +22,20 @@ class ShowPostDetails(View):
 
             user_id = profile[1]['id']
             post = api.post_get_and_log(post_id, user_id)
-            recommended = []
-
-            # return JsonResponse(post[1]['post'].keys(), safe=False)
-            for rec in post[1]['post']['recommendations']:
-                rec_post = api.post_get(rec)[1]
-                rec_post_id = rec_post['post']
-                rec_post_id['id'] = rec_post['id']
-                recommended.append(rec_post_id)
-
-            post[1]['post']['recommendations'] = recommended
-            return JsonResponse(post, safe=False)
         else:
             recommended = []
             post = api.post_get(post_id)
-            # return JsonResponse(post[1]['post'].keys(), safe=False)
-            for rec in post[1]['post']['recommendations']:
-                rec_post = api.post_get(rec)[1]
-                rec_post_id = rec_post['post']
-                rec_post_id['id'] = rec_post['id']
-                recommended.append(rec_post_id)
 
-            post[1]['post']['recommendations'] = recommended
-            return JsonResponse(post, safe=False)
+        recommended = []
+
+        for rec in post[1]['post']['recommendations']:
+            rec_post = api.post_get(rec)[1]
+            rec_post_id = rec_post['post']
+            rec_post_id['id'] = rec_post['id']
+            recommended.append(rec_post_id)
+
+        post[1]['post']['recommendations'] = recommended
+        return JsonResponse(post, safe=False)
 
     def post(self, request, token):
 
