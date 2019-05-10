@@ -9,7 +9,6 @@ log_file = open(log_file_name, 'a')
 
 while (True):
     for message in consumer:
-        print("Message...")
         message_json = json.loads((message.value).decode('utf-8'))
         log_file.write(message_json)
         log_file.flush()
