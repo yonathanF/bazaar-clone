@@ -35,7 +35,7 @@ class API(object):
                               size=size)
 
     def post_kafka(self, topic, data):
-        kafka_response = self.kafak.send(topic,
+        kafka_response = self.kafka.send(topic,
                                          json.dumps(data).encode('utf-8'))
         return kafka_response.get()
 
@@ -74,6 +74,14 @@ class APIV1(object):
         self.post_endpoint = '/post/'
         self.comment_endpoint = '/comment/'
         self.login_endpoint = '/profile/'
+
+    def profile_get_with_token(self, token):
+        """
+        Gets the profile related to the token
+        """
+        url = self.login_endpoint + "/authProfile/" + token + "/"
+        response = self.server.get(url)
+        return response
 
     def comment_get(self, comment_id):
         """
@@ -157,7 +165,7 @@ class APIV1(object):
         """
         Gets the post and also logs it for rec system
         """
-        log_data = str(post_id) + "\t" + str(user_id) + "\n"
+        log_data = str(user_id) + " " + str(post_id) + "\n"
         self.server.post_kafka("post-log", log_data)
         return self.post_get(post_id)
 
