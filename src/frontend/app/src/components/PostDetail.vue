@@ -118,6 +118,12 @@ export default {
     post_id: -1,
     errors: null
   }),
+  watch: {
+    $route(to, from) {
+      next();
+    }
+  },
+
   created() {
     getPost(this.$route.params.post_id)
       .then(postData => {
