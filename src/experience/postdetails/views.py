@@ -17,9 +17,22 @@ class ShowPostDetails(View):
         if 'HTTP_AUTHORIZATION' in request.META:
             token = str(request.META['HTTP_AUTHORIZATION']).split()[1]
             profile = api.profile_get_with_token(token)
+            if 'id' not in profile[1]:
+                return JsonResponse(api.post_get(post_id), safe=False)
+
             user_id = profile[1]['id']
-            return JsonResponse(api.post_get_and_log(post_id, user_id),
-                                safe=False)
+            post = api.post_get_and_log(post_id, user_id)
+            recommended = []
+
+            # return JsonResponse(post[1]['post'].keys(), safe=False)
+            for rec in post[1]['post']['recommendations']:
+                rec_post = api.post_get(rec)[1]
+                rec_post_id = rec_post['post']
+                rec_post_id['id'] = rec_post['id']
+                recommended.append(rec_post_id)
+
+            post[1]['post']['recommendations'] = recommended
+            return JsonResponse(post, safe=False)
         else:
             return JsonResponse(api.post_get(post_id), safe=False)
 

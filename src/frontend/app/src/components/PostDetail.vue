@@ -1,6 +1,6 @@
 <template>
   <v-container grid-list-md fill-height v-if="errors == null">
-    <v-layout align-start justify-center row fill-height>
+    <v-layout align-start justify-center column fill-height>
       <v-flex sm8 lg11>
         <v-card>
           <v-card-title class="display-2">
@@ -80,9 +80,13 @@
                 </div>
               </v-layout>
             </v-flex>
-            <!--{{ post.details }}-->
           </v-card-text>
         </v-card>
+      </v-flex>
+
+      <h2>Recommended Posts</h2>
+      <v-flex>
+        <Category :category-list="post.recommendations"> </Category>
       </v-flex>
     </v-layout>
   </v-container>
@@ -101,9 +105,14 @@
 
 <script>
 import { getPost } from "../services/PostService";
+import Category from "./Category";
 
 export default {
   name: "PostDetail",
+  components: {
+    Category
+  },
+
   data: () => ({
     post: {},
     post_id: -1,
