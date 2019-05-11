@@ -17,10 +17,10 @@ class ShowPostDetails(View):
         if 'HTTP_AUTHORIZATION' in request.META:
             token = str(request.META['HTTP_AUTHORIZATION']).split()[1]
             profile = api.profile_get_with_token(token)
-            if 'id' not in profile[1]:
-                return JsonResponse(api.post_get(post_id), safe=False)
-
-            user_id = profile[1]['id']
+            if 'id' in profile[1]:
+                user_id = profile[1]['id']
+            else:
+                user_id = -1
             post = api.post_get_and_log(post_id, user_id)
         else:
             post = api.post_get_and_log(post_id, -1)
