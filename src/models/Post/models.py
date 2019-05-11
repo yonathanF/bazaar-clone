@@ -16,7 +16,10 @@ class Post(models.Model):
     deadline = models.DateField()
     zip_code = models.IntegerField()
     request_type = models.CharField(max_length=30, choices=Type)
-    user = models.ForeignKey(
-        'UserProfile.Profile',
-        on_delete=models.CASCADE,
-        related_name="creator")
+
+    recommendations = models.ManyToManyField('Post.Post',
+                                             blank=True,
+                                             related_name="related_posts")
+    user = models.ForeignKey('UserProfile.Profile',
+                             on_delete=models.CASCADE,
+                             related_name="creator")

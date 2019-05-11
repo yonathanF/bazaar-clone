@@ -9,6 +9,8 @@ database:
 models:
   image: tp33/django
   container_name: models
+  ports:
+    - "8001:8000"
   links:
     - database:db
   volumes:
@@ -37,13 +39,14 @@ exp:
   links:
     - models:models-api
     - kafka:kafka
+    - redis:redis
     - elasticsearch:elasticsearch
   ports:
     - "8002:8000"
   volumes:
     - ./src/experience:/app/experience
   environment:
-    PRODUCTION: "true"
+    PRODUCTION: "false"
   command: bash -c "chmod +x /app/experience/setup.sh && /app/experience/setup.sh"
 
 web:
@@ -64,6 +67,7 @@ kafka:
     ADVERTISED_PORT: 9092
   hostname: kafka
 
+
 elasticsearch:
   image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.0
   container_name: elasticsearch
@@ -73,10 +77,26 @@ elasticsearch:
     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
   ulimits:
     memlock:
-      soft: -1
-      hard: -1
+        soft: -1
+        hard: -1 
+    nofile:
+        soft: 65536
+        hard: 65536
+  ports:
+    - 9200:9200
+
+batch-log:
+  image: tp33/django
+  container_name: batch-log
+  links:
+    - kafka:kafka
   volumes:
-    - esdata1:/usr/share/elasticsearch/data
+    - ./src/batch-log/app:/app/
+  command:
+      - bash
+      - -c
+      - "chmod +x ./setup.sh && ./wait-for-it.sh kafka:9092 -s -t 25 -- ./setup.sh"
+
 
 batch:
   image: tp33/django
@@ -86,24 +106,73 @@ batch:
     - elasticsearch:elasticsearch
   volumes:
     - ./src/batch/app:/app/
-  restart: on-failure
-  command: bash -c "pip install elasticsearch -U && pip install kafka-python -U && curl -XDELETE elasticsearch:9200/_all && python ProducerConsumer.py"
+  command:
+      - bash
+      - -c
+      - "chmod +x ./setup.sh && ./wait-for-it.sh elasticsearch:9200 -s -t 25 -- ./setup.sh"
 
-selenium-chrome:
-  image: selenium/standalone-chrome
-  container_name: selenium-chrome
+spark-master:
+  image: gettyimages/spark
+  command: 
+      - bash
+      - -c
+      - "pip install requests && bin/spark-class org.apache.spark.deploy.master.Master -h spark-master"
+
+  container_name: spark-master
+  hostname: spark-master
   links:
-    - web:web
+      - models:models-api
+  environment:
+    MASTER: spark://spark-master:7077
+    SPARK_CONF_DIR: /conf
+  expose:
+    - 7001
+    - 7002
+    - 7003
+    - 7004
+    - 7005
+    - 7006
+    - 7077
+    - 6066
   ports:
-    - "4444:4444"
-
-selenium-test:
-  image: tp33/django
-  container_name: selenium-test
-  links:
-    - selenium-chrome:selenium-chrome
-    - web:web
+    - 4040:4040
+    - 6066:6066
+    - 7077:7077
+    - 8080:8080
   volumes:
-    - ./src/app/selenium:/app
-  restart: on-failure
-  command: bash -c "pip install selenium==2.53.5 && python /app/selenium_test.py"
+    - ./src/batch-log/app/data:/tmp/data
+
+spark-worker:
+  image: gettyimages/spark
+  command: 
+      - bash
+      - -c
+      - "pip install requests && bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077"
+  container_name: spark-worker
+  hostname: spark-worker
+  environment:
+    SPARK_CONF_DIR: /conf
+    SPARK_WORKER_CORES: 2
+    SPARK_WORKER_MEMORY: 512m
+    SPARK_WORKER_PORT: 8881
+    SPARK_WORKER_WEBUI_PORT: 8081
+  links:
+    - spark-master
+  expose:
+    - 7012
+    - 7013
+    - 7014
+    - 7015
+    - 7016
+    - 8881
+  ports:
+    - 8081:8081
+  volumes:
+    - ./src/batch-log/app/data:/tmp/data
+
+redis:
+    image: redis
+    container_name: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+        - 6379:6379

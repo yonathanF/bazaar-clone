@@ -1,0 +1,1 @@
+{'post': {'zip_code': 22033, 'title': 'uniques', 'request_type': 'Offering', 'user': 1, 'date_posted': '2019-04-04T02:39:35.299Z', 'details': 'This is testing the producer consumer', 'category': 'Events', 'preferred_contact': 'Phone', 'deadline': '2019-08-20'}, 'id': 7}
