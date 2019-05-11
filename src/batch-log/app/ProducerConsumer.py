@@ -2,7 +2,7 @@ import json
 
 from kafka import KafkaConsumer
 
-consumer = KafkaConsumer('post-log', bootstrap_servers=['kafka:9092'])
+consumer = KafkaConsumer('post-log', group_id='recommended-posts',bootstrap_servers=['kafka:9092'])
 
 log_file_name = "data/access_log.log"
 log_file = open(log_file_name, 'a')
