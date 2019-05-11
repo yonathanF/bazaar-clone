@@ -55,5 +55,9 @@ url = 'http://models-api:8000/api/v1/post/rec/'
 post_fields = {'recs': json.dumps(recs)}
 
 request = requests.post(url, data=post_fields)
-print(request.status_code)
+sample_output = open("/tmp/data/sample_output.txt", "w")
+sample_output.write(str(output))
+sample_output.write("--------------------")
+sample_output.write(str(post_fields))
+sample_output.close()
 sc.stop()
