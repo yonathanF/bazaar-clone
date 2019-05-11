@@ -57,7 +57,7 @@ post_fields = {'recs': json.dumps(recs)}
 request = requests.post(url, data=post_fields)
 sample_output = open("/tmp/data/sample_output.txt", "w")
 sample_output.write(str(output))
-sample_output.write("--------------------")
+sample_output.write("\n \n \n \n -------------------- \n \n \n \n")
 sample_output.write(str(post_fields))
 sample_output.close()
 sc.stop()
