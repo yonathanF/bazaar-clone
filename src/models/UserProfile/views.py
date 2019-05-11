@@ -18,16 +18,18 @@ def serialize_profile_auth(profile_id, auth):
         profile = Profile.objects.filter(pk=profile_id)
         profile_json = json.loads(serializers.serialize('json', profile))
         del profile_json[0]['fields']['password']
-        return JsonResponse({
-            'profile': profile_json[0]['fields'],
-            'id': profile_json[0]['pk'],
-            'token': auth.authenticator
-        },
-                            status=200)
+        return JsonResponse(
+            {
+                'profile': profile_json[0]['fields'],
+                'id': profile_json[0]['pk'],
+                'token': auth.authenticator
+            },
+            status=200)
     except:
         return JsonResponse(
             {"Status": "Couldn't find Profile ID %d." % (profile_id)},
             status=404)
+
 
 def serialize_profile(profile_id):
     """
@@ -37,11 +39,12 @@ def serialize_profile(profile_id):
         profile = Profile.objects.filter(pk=profile_id)
         profile_json = json.loads(serializers.serialize('json', profile))
         del profile_json[0]['fields']['password']
-        return JsonResponse({
-            'profile': profile_json[0]['fields'],
-            'id': profile_json[0]['pk'],
-        },
-                            status=200)
+        return JsonResponse(
+            {
+                'profile': profile_json[0]['fields'],
+                'id': profile_json[0]['pk'],
+            },
+            status=200)
     except:
         return JsonResponse(
             {"Status": "Couldn't find Profile ID %d." % (profile_id)},
@@ -60,7 +63,6 @@ class ProfileCreate(View):
         email = request.POST['email']
         password = request.POST['password']
 
-
         if profile_form.is_valid():
             new_profile = profile_form.save()
             userprof = Profile.objects.get(email=email)
@@ -70,7 +72,19 @@ class ProfileCreate(View):
 
         return JsonResponse({'Status': profile_form.errors}, status=400)
 
-    
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ProfileToTokenView(View):
+    """
+    Returns the profile related to the token
+    """
+
+    def get(self, request, token):
+        profile = Authenticator.objects.filter(authenticator=token)
+        if (profile.count() == 0):
+            return JsonResponse({"Error": "Couldn't find user"}, status=404)
+
+        return serialize_profile(profile[0].user.id)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

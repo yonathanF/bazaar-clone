@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
-from UserProfile.models import Authenticator, Profile
+from UserProfile.models import Authenticator
 
 from .forms import CreatePostForm
 from .models import Post
@@ -44,6 +44,29 @@ class PostPerCategory(View):
 
         except:
             return JsonResponse({"Status": "Couldn't process request."})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PostRec(View):
+    """
+    Gets and updates the recommendation list for the given post
+    """
+
+    def post(self, request):
+        try:
+            recs = json.loads(request.POST.get("recs", ""))
+            for rec_key in recs:
+                post = Post.objects.get(id=int(rec_key))
+
+                for post_id in recs[rec_key]:
+                    post_rec = Post.objects.get(id=int(post_id))
+                    post.recommendations.add(post_rec)
+
+            return JsonResponse({"Status": "Recommendations updated"},
+                                status=200)
+        except Post.DoesNotExist:
+            return JsonResponse({'Status': "Couldn't find Post ID."},
+                                status=404)
 
 
 @method_decorator(csrf_exempt, name='dispatch')
