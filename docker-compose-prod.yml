@@ -116,7 +116,7 @@ spark-master:
   command: 
       - bash
       - -c
-      - "bin/spark-class org.apache.spark.deploy.master.Master -h spark-master && pip install requests"
+      - "pip install requests && bin/spark-class org.apache.spark.deploy.master.Master -h spark-master"
 
   container_name: spark-master
   hostname: spark-master
@@ -147,7 +147,7 @@ spark-worker:
   command: 
       - bash
       - -c
-      - "bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077 && pip  install requests"
+      - "pip install requests && bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077"
   container_name: spark-worker
   hostname: spark-worker
   environment:
