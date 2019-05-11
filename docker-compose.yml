@@ -169,4 +169,4 @@ batch-log:
   command:
       - bash
       - -c
-      - "chmod +x ./setup.sh && ./wait-for-it.sh kafka:9092 -s -t 25 -- ./setup.sh"
+      - "chmod +x ./setup.sh && ./wait-for-it.sh kafka:9092 -s -t 35 -- ./setup.sh"
