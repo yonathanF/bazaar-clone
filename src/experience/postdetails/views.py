@@ -23,8 +23,7 @@ class ShowPostDetails(View):
             user_id = profile[1]['id']
             post = api.post_get_and_log(post_id, user_id)
         else:
-            recommended = []
-            post = api.post_get(post_id)
+            post = api.post_get_and_log(post_id, -1)
 
         recommended = []
 

@@ -1,1 +1,0 @@
-RecordMetadata(topic='post-log', partition=0, topic_partition=TopicPartition(topic='post-log', partition=0), offset=25, timestamp=1557532413591, checksum=1453611012, serialized_key_size=-1, serialized_value_size=7, serialized_header_size=-1)
