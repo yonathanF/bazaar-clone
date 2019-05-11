@@ -35,12 +35,8 @@ class API(object):
                               size=size)
 
     def post_kafka(self, topic, data):
-        kafka_response = self.kafka.send(topic, json.dumps(data).encode('utf-8'))
-        
-        f = open("tmp.txt", "a")
-        f.write(str(json.dumps(data).encode('utf-8')))
-        f.close()
-        
+        kafka_response = self.kafka.send(topic,
+                                         json.dumps(data).encode('utf-8'))
         return kafka_response.get()
 
     def post(self, endpoint, data):
@@ -170,9 +166,7 @@ class APIV1(object):
         Gets the post and also logs it for rec system
         """
         log_data = str(user_id) + " " + str(post_id) + "\n"
-        k_response = self.server.post_kafka("post-log", log_data)
-        #log_file = open("tmp.txt", "w")
-        #log_file.write(str(k_response))
+        self.server.post_kafka("post-log", log_data)
         return self.post_get(post_id)
 
     def post_get(self, post_id):
